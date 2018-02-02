@@ -1,0 +1,82 @@
+<!--
+  Copyright 2018 Google LLC
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Google Slides API Quickstart</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.4.2/mocha.min.css">
+    <meta charset='utf-8' />
+  </head>
+  <body>
+    <h2>Google Slides API</h2>
+    <h3>Snippets - Javascript</h3>
+
+    <!--Add buttons to initiate auth sequence and sign out-->
+    <button id="authorize-button" style="display: none;">Authorize</button>
+    <button id="signout-button" style="display: none;">Sign Out</button>
+
+    <div id="mocha"></div>
+
+    <pre id="content"></pre>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.4.2/mocha.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/4.0.2/chai.min.js"></script>
+    <script src="snippets.js"></script>
+    <script src="base_test.js"></script>
+    <script src="test_snippets.js"></script>
+    <script type="text/javascript">
+      // Mocha/Chai (Global)
+      var assert = chai.assert;
+      mocha.setup('bdd');
+
+      /**
+       *  Called when the signed in status changes, to update the UI
+       *  appropriately. After a sign-in, the API is called.
+       */
+      function updateSigninStatus(isSignedIn) {
+        if (isSignedIn) {
+          authorizeButton.style.display = 'none';
+          signoutButton.style.display = 'block';
+
+          describe('Google Slides API', function() {
+            this.timeout(10000);
+            it('should create a presentation', testCreatePresentation);
+            it('should copy a presentation', testCopyPresentation);
+            it('should create a slide', testCreateSlide);
+            it('should create a textbox with text', testCreateTextboxWithText);
+            it('should create an image', testCreateImage);
+            it('should merge text', testTextMerging);
+            it('should merge images', testImageMerging);
+            it('should text replace', testSimpleTextReplace);
+            it('should update text style', testTextStyleUpdate);
+            it('should create bulleted text', testCreateBulletedText);
+            it('should create sheets chart', testCreateSheetsChart);
+            it('should refresh sheets chart', testRefreshSheetsChart);
+          });
+          after(tearDown);
+
+          mocha.run();
+        } else {
+          authorizeButton.style.display = 'block';
+          signoutButton.style.display = 'none';
+        }
+      }
+    </script>
+    <script async defer src="https://apis.google.com/js/api.js"
+      onload="this.onload=function(){};handleClientLoad()"
+      onreadystatechange="if (this.readyState === 'complete') this.onload()">
+    </script>
+  </body>
+</html>
