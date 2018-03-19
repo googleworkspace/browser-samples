@@ -4,6 +4,12 @@ Javascript samples for [G Suite API](https://developers.google.com/gsuite/) docs
 
 ## APIs
 
+### [Admin SDK](https://developers.google.com/admin-sdk/)
+
+### [Apps Script API](https://developers.google.com/apps-script/api)
+
+- [Quickstart](apps-script/quickstart)
+
 ### [Calendar](https://developers.google.com/calendar)
 
 - [Quickstart](calendar/quickstart)
@@ -19,6 +25,10 @@ Javascript samples for [G Suite API](https://developers.google.com/gsuite/) docs
 ### [Gmail](https://developers.google.com/gmail/api/)
 
 - [Quickstart](gmail/quickstart)
+
+### [People](https://developers.google.com/people/)
+
+- [Quickstart](people/quickstart)
 
 ### [Sheets](https://developers.google.com/sheets/api/)
 

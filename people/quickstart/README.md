@@ -1,9 +1,8 @@
-# Google Classroom Browser Quickstart
+# Google People API Browser Quickstart
 
-Complete the steps described in the [quickstart instructions](
-https://developers.google.com/classroom/quickstart/js), and in about
+Complete the steps described in the [quickstart instructions](https://developers.google.com/people/quickstart/js), and in about
 five minutes you'll have a simple browser application that makes requests to the
-classroom API.
+People API.
 
 ## Run
 
