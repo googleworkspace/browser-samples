@@ -70,7 +70,7 @@
           presentation.slides.map((slide, i) => {
             appendPre(`- Slide #${(i + 1)} contains ${slide.pageElements.length} elements.`);
           });
-        }, (response) => {
+        }).catch((response) => {
           appendPre(`Error: ${response.result.error.message}`);
         });
       }
