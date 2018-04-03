@@ -1,6 +1,6 @@
-# G Suite Javascript Samples
+# G Suite Browser Samples
 
-Javascript samples for [G Suite API](https://developers.google.com/gsuite/) docs.
+Browser samples for [G Suite API](https://developers.google.com/gsuite/) docs.
 
 ## APIs
 
