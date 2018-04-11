@@ -5,6 +5,7 @@ branches:
   only:
     - master
 before_install:
-  - sudo npm install -g htmllint-cli
+  - npm install -g htmllint-cli
 script:
   - htmllint
+sudo: required
