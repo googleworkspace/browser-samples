@@ -45,6 +45,17 @@ Browser samples for [G Suite API](https://developers.google.com/gsuite/) docs.
 1. Clone this repository.
 1. Follow the README instructions in the API folder to run and test samples.
 
+### Lint
+
+This project uses [htmllint](https://github.com/htmllint/htmllint).
+
+Install & run:
+
+```sh
+sudo npm install -g htmllint-cli
+htmllint
+```
+
 ## Client Library
 
 G Suite APIs use the [Google API Javascript client library](https://github.com/google/google-api-javascript-client).

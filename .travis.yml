@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - "node"
+branches:
+  only:
+    - master
+before_install:
+  - sudo npm install -g htmllint-cli
+script:
+  - htmllint
