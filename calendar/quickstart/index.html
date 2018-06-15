@@ -18,14 +18,14 @@ limitations under the License.
 <html>
   <head>
     <title>Google Calendar API Quickstart</title>
-    <meta charset='utf-8' />
+    <meta charset="utf-8" />
   </head>
   <body>
     <p>Google Calendar API Quickstart</p>
 
     <!--Add buttons to initiate auth sequence and sign out-->
-    <button id="authorize-button" style="display: none;">Authorize</button>
-    <button id="signout-button" style="display: none;">Sign Out</button>
+    <button id="authorize_button" style="display: none;">Authorize</button>
+    <button id="signout_button" style="display: none;">Sign Out</button>
 
     <pre id="content"></pre>
 
@@ -41,8 +41,8 @@ limitations under the License.
       // included, separated by spaces.
       var SCOPES = "https://www.googleapis.com/auth/calendar.readonly";
 
-      var authorizeButton = document.getElementById('authorize-button');
-      var signoutButton = document.getElementById('signout-button');
+      var authorizeButton = document.getElementById('authorize_button');
+      var signoutButton = document.getElementById('signout_button');
 
       /**
        *  On load, called to load the auth2 library and API client library.

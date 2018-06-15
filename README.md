@@ -56,6 +56,8 @@ sudo npm install -g htmllint-cli
 htmllint
 ```
 
+Configure [options](https://github.com/htmllint/htmllint/wiki/Options) in the `.htmllintrc`.
+
 ## Client Library
 
 G Suite APIs use the [Google API Javascript client library](https://github.com/google/google-api-javascript-client).
