@@ -41,7 +41,7 @@ function copyPresentation(presentationId, copyTitle, callback) {
   // [END copy_presentation]
 }
 function createSlide(presentationId, pageId, callback) {
-  // [START create_slide]
+  // [START slides_create_slide]
   var requests = [{
     createSlide: {
       objectId: pageId,
@@ -65,7 +65,7 @@ function createSlide(presentationId, pageId, callback) {
     callback(createSlideResponse);
     // [END_EXCLUDE]
   });
-  // [END create_slide]
+  // [END slides_create_slide]
 }
 function createTextboxWithText(presentationId, pageId, callback) {
   // [START create_textbox_with_text]
