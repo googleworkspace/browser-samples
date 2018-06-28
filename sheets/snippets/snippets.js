@@ -13,7 +13,7 @@
 // limitations under the License.
 
 function create(title, callback) {
-  // [START create]
+  // [START sheets_create]
   gapi.client.sheets.spreadsheets.create({
     properties: {
       title: title
@@ -24,11 +24,11 @@ function create(title, callback) {
     console.log('Spreadsheet ID: ' + response.result.spreadsheetId);
     // [END_EXCLUDE]
   });
-  // [END create]
+  // [END sheets_create]
 }
 
 function batchUpdate(spreadsheetId, title, find, replacement, callback) {
-  // [START batchUpdate]
+  // [START sheets_batch_update]
   var requests = [];
   // Change the spreadsheet's title.
   requests.push({
@@ -61,11 +61,11 @@ function batchUpdate(spreadsheetId, title, find, replacement, callback) {
     callback(response);
     // [END_EXCLUDE]
   });
-  // [END batchUpdate]
+  // [END sheets_batch_update]
 }
 
 function getValues(spreadsheetId, range, callback) {
-  // [START getValues]
+  // [START sheets_getValues]
   gapi.client.sheets.spreadsheets.values.get({
     spreadsheetId: spreadsheetId,
     range: range
@@ -77,11 +77,11 @@ function getValues(spreadsheetId, range, callback) {
     callback(response);
     // [END_EXCLUDE]
   });
-  // [END getValues]
+  // [END sheets_getValues]
 }
 
 function batchGetValues(spreadsheetId, _ranges, callback) {
-  // [START batchGetValues]
+  // [START sheets_batch_get_values]
   var ranges = [
     // Range names ...
   ];
@@ -98,11 +98,11 @@ function batchGetValues(spreadsheetId, _ranges, callback) {
     callback(response);
     // [END_EXCLUDE]
   });
-  // [END batchGetValues]
+  // [END sheets_batch_get_values]
 }
 
 function updateValues(spreadsheetId, range, valueInputOption, _values, callback) {
-  // [START updateValues]
+  // [START sheets_update_values]
   var values = [
     [
       // Cell values ...
@@ -127,10 +127,11 @@ function updateValues(spreadsheetId, range, valueInputOption, _values, callback)
     callback(response);
     // [END_EXCLUDE]
   });
+  // [END sheets_update_values]
 }
 
 function batchUpdateValues(spreadsheetId, range, valueInputOption, _values, callback) {
-  // [START batchUpdateValues]
+  // [START sheets_batch_update_values]
   var values = [
     [
       // Cell values ...
@@ -161,11 +162,11 @@ function batchUpdateValues(spreadsheetId, range, valueInputOption, _values, call
     callback(response);
     // [END_EXCLUDE]
   });
-  // [END batchUpdateValues]
+  // [END sheets_batch_update_values]
 }
 
 function appendValues(spreadsheetId, range, valueInputOption, _values, callback) {
-  // [START appendValues]
+  // [START sheets_append_values]
   var values = [
     [
       // Cell values ...
@@ -190,7 +191,7 @@ function appendValues(spreadsheetId, range, valueInputOption, _values, callback)
     callback(response);
     // [END_EXCLUDE]
   });
-  // [END appendValues]
+  // [END sheets_append_values]
 }
 
 
@@ -208,7 +209,7 @@ function pivotTable(spreadsheetId, callback) {
   }).then((response) => {
     var sourceSheetId = response.result.replies[0].addSheet.properties.sheetId;
     var targetSheetId = response.result.replies[1].addSheet.properties.sheetId;
-    // [START pivotTable]
+    // [START sheets_pivot_table]
     var requests = [{
       updateCells: {
         rows: {
@@ -260,12 +261,12 @@ function pivotTable(spreadsheetId, callback) {
       callback(response);
       // [END_EXCLUDE]
     });
-    // [END pivotTable]
+    // [END sheets_pivot_table]
   });
 }
 
 function conditionalFormatting(spreadsheetId, callback) {
-  // [START conditionalFormatting]
+  // [START sheets_conditional_formatting]
   var myRange = {
     sheetId: 0,
     startRowIndex: 1,
@@ -320,5 +321,5 @@ function conditionalFormatting(spreadsheetId, callback) {
     callback(response);
     // [END_EXCLUDE]
   });
-  // [END conditionalFormatting]
+  // [END sheets_conditional_formatting]
 };
