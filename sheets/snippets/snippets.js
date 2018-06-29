@@ -209,7 +209,7 @@ function pivotTable(spreadsheetId, callback) {
   }).then((response) => {
     var sourceSheetId = response.result.replies[0].addSheet.properties.sheetId;
     var targetSheetId = response.result.replies[1].addSheet.properties.sheetId;
-    // [START sheets_pivot_table]
+    // [START sheets_pivot_tables]
     var requests = [{
       updateCells: {
         rows: {
@@ -261,7 +261,7 @@ function pivotTable(spreadsheetId, callback) {
       callback(response);
       // [END_EXCLUDE]
     });
-    // [END sheets_pivot_table]
+    // [END sheets_pivot_tables]
   });
 }
 
