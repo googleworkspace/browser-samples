@@ -65,7 +65,7 @@ function batchUpdate(spreadsheetId, title, find, replacement, callback) {
 }
 
 function getValues(spreadsheetId, range, callback) {
-  // [START sheets_getValues]
+  // [START sheets_get_values]
   gapi.client.sheets.spreadsheets.values.get({
     spreadsheetId: spreadsheetId,
     range: range
@@ -77,7 +77,7 @@ function getValues(spreadsheetId, range, callback) {
     callback(response);
     // [END_EXCLUDE]
   });
-  // [END sheets_getValues]
+  // [END sheets_get_values]
 }
 
 function batchGetValues(spreadsheetId, _ranges, callback) {
