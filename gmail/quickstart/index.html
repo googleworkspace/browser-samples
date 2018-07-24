@@ -32,6 +32,7 @@ limitations under the License.
     <script type="text/javascript">
       // Client ID and API key from the Developer Console
       var CLIENT_ID = '<YOUR_CLIENT_ID>';
+      var API_KEY = '<YOUR_API_KEY>';
 
       // Array of API discovery doc URLs for APIs used by the quickstart
       var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest"];
@@ -56,8 +57,9 @@ limitations under the License.
        */
       function initClient() {
         gapi.client.init({
-          discoveryDocs: DISCOVERY_DOCS,
+          apiKey: API_KEY,
           clientId: CLIENT_ID,
+          discoveryDocs: DISCOVERY_DOCS,
           scope: SCOPES
         }).then(function () {
           // Listen for sign-in state changes.
