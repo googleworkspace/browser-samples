@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// [START apps_script_execute]
+// [START apps_script_api_execute]
 /**
  * Load the API and make an API call.  Display the results on the screen.
  */
@@ -73,4 +73,4 @@ function callScriptFunction() {
     }
   });
 }
-// [END apps_script_execute]
+// [END apps_script_api_execute]
