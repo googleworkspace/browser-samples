@@ -45,7 +45,28 @@ Browser samples for [G Suite API](https://developers.google.com/gsuite/) docs.
 1. Clone this repository.
 1. Follow the README instructions in the API folder to run and test samples.
 
-### Lint
+## Troubleshooting
+
+Here are some tips for troubleshooting errors when running these samples:
+
+- Be sure to create a local HTTP server to server the HTML page in the quickstart example. Otherwise the `gapi` client may encounter errors.
+- Check your browser console for errors. In Chrome, this is under **View > Developer > JavaScript Console**
+
+Below are some possible errors you may encounter:
+
+### Error: origin_mismatch
+
+This error will occur during the authorization flow if the host and port used to serve the web page doesn't match an allowed JavaScript origin on your Google Developers Console project. Make sure to correctly specify **Authorized JavaScript origins** in the quickstart steps.
+
+### idpiframe_initialization_failed: Failed to read the 'localStorage' property from 'Window'
+
+The Google Sign-in library requires that 3rd party cookies and data storage is enabled in the web browser. For users that run into this error, prompt them to enable the feature or add an exception for accounts.google.com.
+
+### idpiframe_initialization_failed: Not a valid origin for the client
+
+The Google Sign-in library requires that the domain registered in the Google Developers Console matches the domain being used to host the web page. Make sure to correctly specify **Authorized JavaScript origins** in the quickstart steps.
+
+## Linting
 
 This project uses [htmllint](https://github.com/htmllint/htmllint).
 
