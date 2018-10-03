@@ -80,7 +80,7 @@ limitations under the License.
         if (isSignedIn) {
           authorizeButton.style.display = 'none';
           signoutButton.style.display = 'block';
-          callScriptFunction();
+          callAppsScript();
         } else {
           authorizeButton.style.display = 'block';
           signoutButton.style.display = 'none';
@@ -118,10 +118,8 @@ limitations under the License.
        *
        * Call the Apps Script API to create a new script project, upload files
        * to the project, and log the script's URL to the user.
-       *
-       * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
        */
-      function callAppsScript(auth) {
+      function callAppsScript() {
         gapi.client.script.projects.create({
           resource: {
             title: 'My Script'
