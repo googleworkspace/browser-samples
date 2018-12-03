@@ -105,8 +105,7 @@
       function listDriveActivity() {
         gapi.client.driveactivity.activity
             .query({
-              'pageSize': 10,
-              'consolidationStrategy': { 'legacy': {} }
+              'pageSize': 10
             })
             .then(function(response) {
               appendPre('Recent activity:');
@@ -119,9 +118,8 @@
                   var action = getActionInfo(activity['primaryActionDetail']);
                   var actors = activity.actors.map(getActorInfo);
                   var targets = activity.targets.map(getTargetInfo);
-                  appendPre(
-                      time + ': ' + truncated(actors) + ', ' + action + ', ' +
-                      truncated(targets));
+                  appendPre(`${time}: ${truncated(actors)}, ${action}, ` +
+                            `${truncated(targets)}`);
                 }
               } else {
                 appendPre('No activity.');
@@ -132,7 +130,14 @@
       function truncated(array, limit = 2) {
         var contents = array.slice(0, limit).join(', ');
         var more = array.length > limit ? ', ...' : '';
-        return '[' + contents + more + ']';
+        return `[${contents}${more}]`;
+      }
+
+      function getOneOf(object) {
+        for (var key in object) {
+          return key;
+        }
+        return 'unknown';
       }
 
       function getTimeInfo(activity) {
@@ -146,7 +151,7 @@
       }
 
       function getActionInfo(actionDetail) {
-        return Object.keys(actionDetail)[0];
+        return getOneOf(actionDetail);
       }
 
       function getUserInfo(user) {
@@ -155,28 +160,31 @@
           var isMe = knownUser['isCurrentUser'] || false;
           return isMe ? 'people/me' : knownUser['personName'];
         }
-        return Object.keys(user)[0];
+        return getOneOf(user);
       }
 
       function getActorInfo(actor) {
         if ('user' in actor) {
           return getUserInfo(actor['user'])
         }
-        return Object.keys(actor)
+        return getOneOf(actor);
       }
 
       function getTargetInfo(target) {
         if ('driveItem' in target) {
-          return 'driveItem:"' + (target.driveItem.title || 'unknown') + '"';
+          var title = target.driveItem.title || 'unknown';
+          return `driveItem:"${title}"`;
         }
         if ('teamDrive' in target) {
-          return 'teamDrive:"' + (target.teamDrive.title || 'unknown') + '"';
+          var title = target.teamDrive.title || 'unknown';
+          return `teamDrive:"${title}"`;
         }
         if ('fileComment' in target) {
           var parent = target.fileComment.parent || {};
-          return 'fileComment:"' + (parent.title || 'unknown') + '"';
+          var title = parent.title || 'unknown';
+          return `fileComment:"${title}"`;
         }
-        return Object.keys(target)[0];
+        return `${getOneOf(target)}:unknown`;
       }
 
     </script>
