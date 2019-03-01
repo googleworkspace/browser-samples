@@ -22,6 +22,10 @@ Browser samples for [G Suite API](https://developers.google.com/gsuite/) docs.
 
 - [Quickstart](drive/quickstart)
 
+### [Docs](https://developers.google.com/docs)
+
+- [Quickstart](docs/quickstart)
+
 ### [Gmail](https://developers.google.com/gmail/api/)
 
 - [Quickstart](gmail/quickstart)
