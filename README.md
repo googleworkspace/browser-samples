@@ -1,6 +1,6 @@
-# G Suite Browser Samples [![Build Status](https://travis-ci.org/gsuitedevs/browser-samples.svg?branch=master)](https://travis-ci.org/gsuitedevs/browser-samples)
+# G Suite Browser Samples [![Build Status](https://travis-ci.org/gsuitedevs/browser-samples.svg?branch=master)](https://travis-ci.org/gsuitedevs/browser-samples) 
 
-Browser samples for [G Suite API](https://developers.google.com/gsuite/) docs.
+Browser samples for [G Suite API](https://developers.google.com/gsuite/) docs. GitHub.io(GitHub pages) is set.
 
 ## APIs
 
