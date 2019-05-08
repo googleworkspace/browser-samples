@@ -11,6 +11,15 @@
     <pre id="content"></pre>
 
     <script>
+      // Client ID and API key from the Developer Console
+      const CLIENT_ID = '<YOUR_CLIENT_ID>';
+      const API_KEY = '<YOUR_API_KEY>';
+      // Array of API discovery doc URLs for APIs used by the quickstart
+      const DISCOVERY_DOCS = ["https://slides.googleapis.com/$discovery/rest?version=v1"];
+      // Authorization scopes required by the API; multiple scopes can be
+      // included, separated by spaces.
+      const SCOPES = "https://www.googleapis.com/auth/presentations.readonly";
+
       const AUTHORIZE_BUTTON = document.getElementById('authorize-button');
       const SIGNOUT_BUTTON = document.getElementById('signout-button');
 
