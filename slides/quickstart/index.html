@@ -11,8 +11,8 @@
     <pre id="content"></pre>
 
     <script>
-      const authorizeButton = document.getElementById('authorize-button');
-      const signoutButton = document.getElementById('signout-button');
+      const AUTHORIZE_BUTTON = document.getElementById('authorize-button');
+      const SIGNOUT_BUTTON = document.getElementById('signout-button');
 
       /**
        *  On load, called to load the auth2 library and API client library.
@@ -31,8 +31,8 @@
 
             // Handle the initial sign-in state.
             updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-            authorizeButton.onclick = () => gapi.auth2.getAuthInstance().signIn();
-            signoutButton.onclick = () => gapi.auth2.getAuthInstance().signOut();
+            AUTHORIZE_BUTTON.onclick = () => gapi.auth2.getAuthInstance().signIn();
+            SIGNOUT_BUTTON.onclick = () => gapi.auth2.getAuthInstance().signOut();
           });
         });
       }
@@ -43,8 +43,8 @@
        */
       function updateSigninStatus(isSignedIn) {
         if (isSignedIn) listSlides();
-        authorizeButton.style.display = (isSignedIn ? 'none' : 'block');
-        signoutButton.style.display = (isSignedIn ? 'block' : 'none');
+        AUTHORIZE_BUTTON.style.display = (isSignedIn ? 'none' : 'block');
+        SIGNOUT_BUTTON.style.display = (isSignedIn ? 'block' : 'none');
       }
 
       /**
@@ -75,6 +75,8 @@
         });
       }
     </script>
-    <script async defer src="https://apis.google.com/js/api.js" onload="handleClientLoad()"></script>
+    <script async defer src="https://apis.google.com/js/api.js"
+      onload="this.onload=function(){};loadClient()"
+      onreadystatechange="if (this.readyState === 'complete') this.onload()"></script>
   </body>
 </html>
