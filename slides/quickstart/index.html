@@ -1,11 +1,29 @@
+<!--
+Copyright 2018 Google LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<!-- [START slides_quickstart] -->
 <!DOCTYPE html>
 <html>
   <head>
     <title>Google Slides API Quickstart</title>
-    <meta charset='utf-8' />
+    <meta charset="utf-8" />
   </head>
   <body>
     <p>Google Slides API Quickstart</p>
+
+    <!--Add buttons to initiate auth sequence and sign out-->
     <button id="authorize-button" style="display: none;">Authorize</button>
     <button id="signout-button" style="display: none;">Sign Out</button>
     <pre id="content"></pre>
@@ -22,7 +40,7 @@
 
       const AUTHORIZE_BUTTON = document.getElementById('authorize-button');
       const SIGNOUT_BUTTON = document.getElementById('signout-button');
-
+      
       /**
        *  On load, called to load the auth2 library and API client library.
        */
@@ -89,3 +107,4 @@
       onreadystatechange="if (this.readyState === 'complete') this.onload()"></script>
   </body>
 </html>
+<!-- [END slides_quickstart] -->

@@ -13,7 +13,7 @@
 // limitations under the License.
 
 function createPresentation(title, callback) {
-  // [START create_presentation]
+  // [START slides_create_presentation]
   gapi.client.slides.presentations.create({
     title: title
   }).then((response) => {
@@ -22,10 +22,10 @@ function createPresentation(title, callback) {
     callback(response);
     // [END_EXCLUDE]
   });
-  // [END create_presentation]
+  // [END slides_create_presentation]
 }
 function copyPresentation(presentationId, copyTitle, callback) {
-  // [START copy_presentation]
+  // [START slides_copy_presentation]
   var request = {
     name: copyTitle
   };
@@ -38,10 +38,10 @@ function copyPresentation(presentationId, copyTitle, callback) {
     callback(presentationCopyId);
     // [END_EXCLUDE]
   });
-  // [END copy_presentation]
+  // [END slides_copy_presentation]
 }
 function createSlide(presentationId, pageId, callback) {
-  // [START create_slide]
+  // [START slides_create_slide]
   var requests = [{
     createSlide: {
       objectId: pageId,
@@ -65,10 +65,10 @@ function createSlide(presentationId, pageId, callback) {
     callback(createSlideResponse);
     // [END_EXCLUDE]
   });
-  // [END create_slide]
+  // [END slides_create_slide]
 }
 function createTextboxWithText(presentationId, pageId, callback) {
-  // [START create_textbox_with_text]
+  // [START slides_create_textbox_with_text]
   // Create a new square textbox, using the supplied element ID.
   var elementId = 'MyTextBox_01';
   var pt350 = {
@@ -116,12 +116,12 @@ function createTextboxWithText(presentationId, pageId, callback) {
     callback(createTextboxWithTextResponse.result);
     // [END_EXCLUDE]
   });
-  // [END create_textbox_with_text]
+  // [END slides_create_textbox_with_text]
 }
 
 function createImage(presentationId, pageId, imageFilePath, imageMimetype, callback) {
   var imageUrl = IMAGE_URL;
-  // [START create_image]
+  // [START slides_create_image]
   // Temporarily upload a local image file to Drive, in order to obtain a URL
   // for the image. Alternatively, you can provide the Slides service a URL of
   // an already hosted image.
@@ -167,10 +167,10 @@ function createImage(presentationId, pageId, imageFilePath, imageMimetype, callb
     callback(createImageResponse);
     // [END_EXCLUDE]
   });
-  // [END create_image]
+  // [END slides_create_image]
 }
 function textMerging(templatePresentationId, dataSpreadsheetId, callback) {
-  // [START text_merging]
+  // [START slides_text_merging]
   // Use the Sheets API to load data, one record per row.
   var responses = [];
   var dataRangeNotation = 'Customers!A2:M6';
@@ -250,13 +250,13 @@ function textMerging(templatePresentationId, dataSpreadsheetId, callback) {
       });
     }
   });
-  // [END text_merging]
+  // [END slides_text_merging]
 }
 function imageMerging(templatePresentationId, imageUrl, customerName, callback) {
   var logoUrl = imageUrl;
   var customerGraphicUrl = imageUrl;
 
-  // [START image_merging]
+  // [START slides_image_merging]
   // Duplicate the template presentation using the Drive API.
   var copyTitle = customerName + ' presentation';
   gapi.client.drive.files.copy({
@@ -304,10 +304,10 @@ function imageMerging(templatePresentationId, imageUrl, customerName, callback) 
       // [END_EXCLUDE]
     });
   });
-  // [END image_merging]
+  // [END slides_image_merging]
 }
 function simpleTextReplace(presentationId, shapeId, replacementText, callback) {
-  // [START simple_text_replace]
+  // [START slides_simple_text_replace]
   // Remove existing text in the shape, then insert new text.
   var requests = [{
     deleteText: {
@@ -334,10 +334,10 @@ function simpleTextReplace(presentationId, shapeId, replacementText, callback) {
     callback(batchUpdateResponse.result);
     // [END_EXCLUDE]
   });
-  // [END simple_text_replace]
+  // [END slides_simple_text_replace]
 }
 function textStyleUpdate(presentationId, shapeId, callback) {
-  // [START text_style_update]
+  // [START slides_text_style_update]
   // Update the text style so that the first 5 characters are bolded
   // and italicized, the next 5 are displayed in blue 14 pt Times
   // New Roman font, and the next 5 are hyperlinked.
@@ -408,10 +408,10 @@ function textStyleUpdate(presentationId, shapeId, callback) {
     callback(batchUpdateResponse.result);
     // [END_EXCLUDE]
   });
-  // [END text_style_update]
+  // [END slides_text_style_update]
 }
 function createBulletedText(presentationId, shapeId, callback) {
-  // [START create_bulleted_text]
+  // [START slides_create_bulleted_text]
   // Add arrow-diamond-disc bullets to all text in the shape.
   var requests = [{
     createParagraphBullets: {
@@ -433,11 +433,11 @@ function createBulletedText(presentationId, shapeId, callback) {
     callback(batchUpdateResponse.result);
     // [END_EXCLUDE]
   });
-  // [END create_bulleted_text]
+  // [END slides_create_bulleted_text]
 
 }
 function createSheetsChart(presentationId, pageId, shapeId, sheetChartId, callback) {
-  // [START create_sheets_chart]
+  // [START slides_create_sheets_chart]
   // Embed a Sheets chart (indicated by the spreadsheetId and sheetChartId) onto
   // a page in the presentation. Setting the linking mode as "LINKED" allows the
   // chart to be refreshed if the Sheets version is updated.
@@ -475,12 +475,12 @@ function createSheetsChart(presentationId, pageId, shapeId, sheetChartId, callba
     requests: requests
   }).then((batchUpdateResponse) => {
     console.log(`Added a linked Sheets chart with ID: ${presentationChartId}`);
-    // [END create_sheets_chart]
+    // [END slides_create_sheets_chart]
     callback(batchUpdateResponse.result);
   });
 }
 function refreshSheetsChart(presentationId, presentationChartId, callback) {
-  // [START refresh_sheets_chart]
+  // [START slides_refresh_sheets_chart]
   var requests = [{
     refreshSheetsChart: {
       objectId: presentationChartId
@@ -497,5 +497,5 @@ function refreshSheetsChart(presentationId, presentationChartId, callback) {
     callback(batchUpdateResponse.result);
     // [END_EXCLUDE]
   });
-  // [END refresh_sheets_chart]
+  // [END slides_refresh_sheets_chart]
 }
