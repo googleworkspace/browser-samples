@@ -13,33 +13,34 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<!-- [START drive_quickstart] -->
+<!-- [START docs_quickstart] -->
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Drive API Quickstart</title>
+    <title>Google Docs API Quickstart</title>
     <meta charset="utf-8" />
   </head>
   <body>
-    <p>Drive API Quickstart</p>
-
+    <p>
+      Google Docs API Quickstart
+    </p>
     <!--Add buttons to initiate auth sequence and sign out-->
     <button id="authorize_button" style="display: none;">Authorize</button>
     <button id="signout_button" style="display: none;">Sign Out</button>
-
-    <pre id="content" style="white-space: pre-wrap;"></pre>
+    <pre id="content"></pre>
 
     <script type="text/javascript">
       // Client ID and API key from the Developer Console
-      var CLIENT_ID = '<YOUR_CLIENT_ID>';
+      var CLIENT_ID = '<YOUR_CLIENT_ID>'
       var API_KEY = '<YOUR_API_KEY>';
 
       // Array of API discovery doc URLs for APIs used by the quickstart
-      var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
+      var DISCOVERY_DOCS = [
+        'https://docs.googleapis.com/$discovery/rest?version=v1&key=<YOUR_API_KEY>'];
 
       // Authorization scopes required by the API; multiple scopes can be
       // included, separated by spaces.
-      var SCOPES = 'https://www.googleapis.com/auth/drive.metadata.readonly';
+      var SCOPES = "https://www.googleapis.com/auth/documents.readonly";
 
       var authorizeButton = document.getElementById('authorize_button');
       var signoutButton = document.getElementById('signout_button');
@@ -57,20 +58,18 @@ limitations under the License.
        */
       function initClient() {
         gapi.client.init({
-          apiKey: API_KEY,
-          clientId: CLIENT_ID,
-          discoveryDocs: DISCOVERY_DOCS,
-          scope: SCOPES
-        }).then(function () {
-          // Listen for sign-in state changes.
-          gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+        apiKey: API_KEY,
+        clientId: CLIENT_ID,
+        discoveryDocs: DISCOVERY_DOCS,
+        scope: SCOPES
+      }).then(function () {
+        // Listen for sign-in state changes.
+        gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
 
-          // Handle the initial sign-in state.
-          updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-          authorizeButton.onclick = handleAuthClick;
-          signoutButton.onclick = handleSignoutClick;
-        }, function(error) {
-          appendPre(JSON.stringify(error, null, 2));
+      // Handle the initial sign-in state.
+        updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+        authorizeButton.onclick = handleAuthClick;
+        signoutButton.onclick = handleSignoutClick;
         });
       }
 
@@ -80,12 +79,12 @@ limitations under the License.
        */
       function updateSigninStatus(isSignedIn) {
         if (isSignedIn) {
-          authorizeButton.style.display = 'none';
-          signoutButton.style.display = 'block';
-          listFiles();
+        authorizeButton.style.display = 'none';
+        signoutButton.style.display = 'block';
+        printDocTitle();
         } else {
-          authorizeButton.style.display = 'block';
-          signoutButton.style.display = 'none';
+        authorizeButton.style.display = 'block';
+        signoutButton.style.display = 'none';
         }
       }
 
@@ -116,32 +115,22 @@ limitations under the License.
       }
 
       /**
-       * Print files.
+       * Prints the title of a sample doc:
+       * https://docs.google.com/document/d/195j9eDD3ccgjQRttHhJPymLJUCOUjs-jmwTrekvdjFE/edit
        */
-      function listFiles() {
-        gapi.client.drive.files.list({
-          'pageSize': 10,
-          'fields': "nextPageToken, files(id, name)"
-        }).then(function(response) {
-          appendPre('Files:');
-          var files = response.result.files;
-          if (files && files.length > 0) {
-            for (var i = 0; i < files.length; i++) {
-              var file = files[i];
-              appendPre(file.name + ' (' + file.id + ')');
-            }
-          } else {
-            appendPre('No files found.');
-          }
+      function printDocTitle() {
+        gapi.client.docs.documents.get({
+        documentId: '195j9eDD3ccgjQRttHhJPymLJUCOUjs-jmwTrekvdjFE'
+      }).then(function(response) {
+        var doc = response.result;
+        var title = doc.title;
+        appendPre('Document "' + title + '" successfully found.\n');
+      },function(response) {
+        appendPre('Error: ' + response.result.error.message);
         });
       }
-
     </script>
-
-    <script async defer src="https://apis.google.com/js/api.js"
-      onload="this.onload=function(){};handleClientLoad()"
-      onreadystatechange="if (this.readyState === 'complete') this.onload()">
-    </script>
+    <script async="" defer="" onload="this.onload=function(){};handleClientLoad()" onreadystatechange="if (this.readyState === 'complete') this.onload()" src="https://apis.google.com/js/api.js"></script>
   </body>
 </html>
-<!-- [END drive_quickstart] -->
+<!-- [END docs_quickstart] -->

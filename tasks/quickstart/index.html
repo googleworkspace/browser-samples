@@ -1,31 +1,48 @@
+<!--
+Copyright 2018 Google LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<!-- [START tasks_quickstart] -->
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Google Admin SDK Data Transfer API Quickstart</title>
-    <meta charset='utf-8' />
+    <title>Google Tasks API Quickstart</title>
+    <meta charset="utf-8" />
   </head>
   <body>
-    <p>Google Admin SDK Data Transfer API Quickstart</p>
+    <p>Google Tasks API Quickstart</p>
 
     <!--Add buttons to initiate auth sequence and sign out-->
-    <button id="authorize-button" style="display: none;">Authorize</button>
-    <button id="signout-button" style="display: none;">Sign Out</button>
+    <button id="authorize_button" style="display: none;">Authorize</button>
+    <button id="signout_button" style="display: none;">Sign Out</button>
 
-    <pre id="content"></pre>
+    <pre id="content" style="white-space: pre-wrap;"></pre>
 
     <script type="text/javascript">
       // Client ID and API key from the Developer Console
       var CLIENT_ID = '<YOUR_CLIENT_ID>';
+      var API_KEY = '<YOUR_API_KEY>';
 
       // Array of API discovery doc URLs for APIs used by the quickstart
-      var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/admin/datatransfer_v1/rest"];
+      var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/tasks/v1/rest"];
 
       // Authorization scopes required by the API; multiple scopes can be
       // included, separated by spaces.
-      var SCOPES = 'https://www.googleapis.com/auth/admin.datatransfer.readonly';
+      var SCOPES = "https://www.googleapis.com/auth/tasks.readonly";
 
-      var authorizeButton = document.getElementById('authorize-button');
-      var signoutButton = document.getElementById('signout-button');
+      var authorizeButton = document.getElementById('authorize_button');
+      var signoutButton = document.getElementById('signout_button');
 
       /**
        *  On load, called to load the auth2 library and API client library.
@@ -40,8 +57,9 @@
        */
       function initClient() {
         gapi.client.init({
-          discoveryDocs: DISCOVERY_DOCS,
+          apiKey: API_KEY,
           clientId: CLIENT_ID,
+          discoveryDocs: DISCOVERY_DOCS,
           scope: SCOPES
         }).then(function () {
           // Listen for sign-in state changes.
@@ -51,6 +69,8 @@
           updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
           authorizeButton.onclick = handleAuthClick;
           signoutButton.onclick = handleSignoutClick;
+        }, function(error) {
+          appendPre(JSON.stringify(error, null, 2));
         });
       }
 
@@ -62,7 +82,7 @@
         if (isSignedIn) {
           authorizeButton.style.display = 'none';
           signoutButton.style.display = 'block';
-          listApplications();
+          listTaskLists();
         } else {
           authorizeButton.style.display = 'block';
           signoutButton.style.display = 'none';
@@ -96,26 +116,24 @@
       }
 
       /**
-       * Lists the first 10 applications available for transfer.
+       * Print task lists.
        */
-      function listApplications() {
-        gapi.client.datatransfer.applications.list({
-            maxResults: 10
+      function listTaskLists() {
+        gapi.client.tasks.tasklists.list({
+            'maxResults': 10
         }).then(function(response) {
-          var applications = response.result.applications;
-          appendPre('Applications:');
-
-          if (applications && applications.length > 0) {
-            for (i = 0; i < applications.length; i++) {
-              var application = applications[i];
-              appendPre(application.name + ' (' + application.id + ')');
+          appendPre('Task Lists:');
+          var taskLists = response.result.items;
+          if (taskLists && taskLists.length > 0) {
+            for (var i = 0; i < taskLists.length; i++) {
+              var taskList = taskLists[i];
+              appendPre(taskList.title + ' (' + taskList.id + ')');
             }
           } else {
-            appendPre('No applications found.');
+            appendPre('No task lists found.');
           }
         });
       }
-
     </script>
 
     <script async defer src="https://apis.google.com/js/api.js"
@@ -124,3 +142,4 @@
     </script>
   </body>
 </html>
+<!-- [END tasks_quickstart] -->
