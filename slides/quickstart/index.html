@@ -6,8 +6,8 @@
   </head>
   <body>
     <p>Google Slides API Quickstart</p>
-    <button id="authorize-button" style="display: none;">Authorize</button>
-    <button id="signout-button" style="display: none;">Sign Out</button>
+    <button id="authorize_button" style="display: none;">Authorize</button>
+    <button id="signout_button" style="display: none;">Sign Out</button>
     <pre id="content"></pre>
 
     <script>
@@ -15,13 +15,13 @@
       const CLIENT_ID = '<YOUR_CLIENT_ID>';
       const API_KEY = '<YOUR_API_KEY>';
       // Array of API discovery doc URLs for APIs used by the quickstart
-      const DISCOVERY_DOCS = ["https://slides.googleapis.com/$discovery/rest?version=v1"];
+      const DISCOVERY_DOCS = ['https://slides.googleapis.com/$discovery/rest?version=v1'];
       // Authorization scopes required by the API; multiple scopes can be
       // included, separated by spaces.
-      const SCOPES = "https://www.googleapis.com/auth/presentations.readonly";
+      const SCOPES = 'https://www.googleapis.com/auth/presentations.readonly';
 
-      const AUTHORIZE_BUTTON = document.getElementById('authorize-button');
-      const SIGNOUT_BUTTON = document.getElementById('signout-button');
+      const authorizeButton = document.getElementById('authorize_button');
+      const signoutButton = document.getElementById('signout_button');
 
       /**
        *  On load, called to load the auth2 library and API client library.
@@ -29,19 +29,18 @@
       function handleClientLoad() {
         gapi.load('client:auth2', () => {
           gapi.client.init({
-            clientId: '<YOUR CLIENT ID>', 
-            // Array of API discovery doc URLs for APIs used by the quickstart
-            discoveryDocs: ["https://slides.googleapis.com/$discovery/rest?version=v1"],
-            // API authorization scopes; multiple scopes are separated by spaces.
-            scope: "https://www.googleapis.com/auth/presentations.readonly"
+            clientId: CLIENT_ID,
+            apiKey: API_KEY,
+            discoveryDocs: DISCOVERY_DOCS,
+            scope: SCOPES
           }).then(() => {
             // Listen for sign-in state changes.
             gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
 
             // Handle the initial sign-in state.
             updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-            AUTHORIZE_BUTTON.onclick = () => gapi.auth2.getAuthInstance().signIn();
-            SIGNOUT_BUTTON.onclick = () => gapi.auth2.getAuthInstance().signOut();
+            authorizeButton.onclick = () => gapi.auth2.getAuthInstance().signIn();
+            signoutButton.onclick = () => gapi.auth2.getAuthInstance().signOut();
           });
         });
       }
@@ -52,8 +51,8 @@
        */
       function updateSigninStatus(isSignedIn) {
         if (isSignedIn) listSlides();
-        AUTHORIZE_BUTTON.style.display = (isSignedIn ? 'none' : 'block');
-        SIGNOUT_BUTTON.style.display = (isSignedIn ? 'block' : 'none');
+        authorizeButton.style.display = (isSignedIn ? 'none' : 'block');
+        signoutButton.style.display = (isSignedIn ? 'block' : 'none');
       }
 
       /**
