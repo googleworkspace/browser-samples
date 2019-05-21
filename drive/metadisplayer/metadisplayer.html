@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<!--
+Copyright 2018 Google LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>Google Picker Example</title>
+  </head>
+  <body>
+	<p>Google Picker Example</p>
+
+	<!--Button allowing user to display the file picker-->
+	<button id="pick_file_button" style="display: none;">Pick file</button>
+
+	<pre id="content" style="white-space: pre-wrap;"></pre>
+
+    <script type="text/javascript">
+      // The API key obtained from the Google API Console.
+      // Replace with your own API key, or your own key.
+      var API_KEY = 'AIzaSyBlqvvuKKz1qbZqikcx5isggN5aAoe91xs';
+
+      // The Client ID obtained from the Google API Console. Replace with your own Client ID.
+      var CLIENT_ID = "267150550762-ekhb0f8hv50pooms3p4g7lsr8cqdevlc.apps.googleusercontent.com";
+
+      // Project number
+      var APP_ID = 'drivequickstartj-1543427098350';
+
+      // API discovery doc URL for APIs used by this example
+      var DISCOVERY_DOCS = "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest";
+
+      // Authorization scopes required by the API; multiple scopes can be
+      // included, separated by spaces.
+      var SCOPES = 'https://www.googleapis.com/auth/drive.file';
+
+      var GoogleAuth;
+      var GoogleUser;
+      var pickFileButton = document.getElementById('pick_file_button');
+ 
+      pickFileButton.onclick = handlePickFile;
+
+      /**
+       *  On load, called to load the API client library, the auth2 library, and the picker library.
+       */
+      function handleClientLoad() {
+        gapi.load('client:auth2:picker', initClient);
+      }
+
+      /**
+       *  Initializes the API client library and sets the authorization and current user.
+       */
+      function initClient() {
+        gapi.client.init({
+          client_id: CLIENT_ID,
+          discoveryDocs: [DISCOVERY_DOCS],
+          scope: SCOPES
+        }).then(function () {
+          GoogleAuth = gapi.auth2.getAuthInstance();
+          GoogleUser = GoogleAuth.currentUser.get();
+          pickFileButton.style.display = 'block';
+        }, function(error) {
+          appendPre(JSON.stringify(error, null, 2));
+        });
+      }
+
+      /**
+       * Ensures the user has the correct scopes prior to displaying the picker.
+       */
+      function handlePickFile() {
+        if (!GoogleUser.hasGrantedScopes(SCOPES)) {
+          GoogleUser.grant({
+            scope: SCOPES
+          }).then(displayPicker, function(err) {
+            // Handle error/declined auth...
+          });
+        } else {
+          displayPicker();
+        }
+      }
+ 
+      /**
+       * Create and render a Picker for selecting any file on My Drive.
+       */
+      function displayPicker() {
+        // Fetch current token
+        let authResponse = GoogleUser.getAuthResponse(true);
+
+        var view = new google.picker.View(google.picker.ViewId.DOCS);
+        var picker = new google.picker.PickerBuilder()
+          .setAppId(APP_ID)
+          .setOAuthToken(authResponse.access_token)
+          .addView(view)
+          .setDeveloperKey(API_KEY)
+          .setCallback(pickerCallback)
+          .build();
+        picker.setVisible(true);
+        }
+
+      /**
+       * Called when a file is picked. This function gathers metadata from
+       * the picked documents and from calling get on the fileId.
+       */ 
+      function pickerCallback(data) {
+        var document = data[google.picker.Response.DOCUMENTS][0];
+        // The following information is passed to the callback, while other has to be
+        // retrieved by calling files.get() on a file (below)
+        var fileName = document[google.picker.Document.NAME];
+        var URL = document[google.picker.Document.URL];
+        var lastModifiedDate = document[google.picker.Document.LAST_EDITED_UTC];
+        var date = new Date(lastModifiedDate);
+        var fileId = document[google.picker.Document.ID];
+
+        appendPre('Filename: ' + fileName);
+        appendPre('URL: ' + URL);
+        appendPre('Last Modified Date: ' + date);
+
+        // Called to get the lastModifyingUser
+        gapi.client.drive.files.get({
+          'fileId': fileId,
+          'fields': 'lastModifyingUser'
+        }).then(function(response) {
+          appendPre('Last Modified User: '  + response.result.lastModifyingUser.displayName);
+        }, function(err) {
+          // Handle error...
+        });
+      }
+ 
+      /**
+       * Helper method to display content to the screen.
+       */
+      function appendPre(message) {
+        var pre = document.getElementById('content');
+        var textContent = document.createTextNode(message + '\n');
+        pre.appendChild(textContent);
+      }
+
+    </script>
+
+    <!-- The Google API Loader script. -->
+    <script async defer src="https://apis.google.com/js/api.js"
+      onload="this.onload=function(){};handleClientLoad()"
+      onreadystatechange="if (this.readyState === 'complete') this.onload()">
+    </script>
+  </body>
+</html>
