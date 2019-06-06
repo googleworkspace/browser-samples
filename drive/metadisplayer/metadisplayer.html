@@ -17,26 +17,27 @@ limitations under the License.
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-    <title>Google Picker Example</title>
+    <title>Metadata Displayer Example</title>
   </head>
   <body>
-	<p>Google Picker Example</p>
+    <p>Metadata Displayer Example</p>
 
-	<!--Button allowing user to display the file picker-->
-	<button id="pick_file_button" style="display: none;">Pick file</button>
+    <!--Button allowing user to display the file picker-->
+    <button id="pick_file_button" style="display: none;">Pick file</button>
 
-	<pre id="content" style="white-space: pre-wrap;"></pre>
+    <pre id="content" style="white-space: pre-wrap;"></pre>
 
     <script type="text/javascript">
       // The API key obtained from the Google API Console.
       // Replace with your own API key, or your own key.
-      var API_KEY = 'AIzaSyBlqvvuKKz1qbZqikcx5isggN5aAoe91xs';
+      var API_KEY = "<YOUR_API_KEY>";
 
       // The Client ID obtained from the Google API Console. Replace with your own Client ID.
-      var CLIENT_ID = "267150550762-ekhb0f8hv50pooms3p4g7lsr8cqdevlc.apps.googleusercontent.com";
+      var CLIENT_ID = "<YOUR_CLIENT_ID>";
 
-      // Project number
-      var APP_ID = 'drivequickstartj-1543427098350';
+      // The APP ID obtained from the Google API Console. Replace with your own APP ID and
+      // keep in sync with API_KEY and CLIENT_ID.
+      var APP_ID = "<YOUR_APP_ID>";
 
       // API discovery doc URL for APIs used by this example
       var DISCOVERY_DOCS = "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest";
@@ -49,7 +50,7 @@ limitations under the License.
       var GoogleUser;
       var pickFileButton = document.getElementById('pick_file_button');
  
-      pickFileButton.onclick = handlePickFile;
+      pickFileButton.onclick = handlePickFileButtonClick;
 
       /**
        *  On load, called to load the API client library, the auth2 library, and the picker library.
@@ -78,7 +79,7 @@ limitations under the License.
       /**
        * Ensures the user has the correct scopes prior to displaying the picker.
        */
-      function handlePickFile() {
+      function handlePickFileButtonClick() {
         if (!GoogleUser.hasGrantedScopes(SCOPES)) {
           GoogleUser.grant({
             scope: SCOPES

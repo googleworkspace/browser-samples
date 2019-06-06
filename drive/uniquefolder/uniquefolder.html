@@ -30,13 +30,10 @@ limitations under the License.
     <script type="text/javascript">
       // The API key obtained from the Google API Console.
       // Replace with your own API key, or your own key.
-      var API_KEY = 'AIzaSyBlqvvuKKz1qbZqikcx5isggN5aAoe91xs';
+      var API_KEY = '<YOUR_API_KEY>';
 
       // The Client ID obtained from the Google API Console. Replace with your own Client ID.
-      var CLIENT_ID = "267150550762-ekhb0f8hv50pooms3p4g7lsr8cqdevlc.apps.googleusercontent.com";
-
-      // Project number
-      var APP_ID = 'drivequickstartj-1543427098350';
+      var CLIENT_ID = "<YOUR_CLIENT_ID>";
 
       // API discovery doc URL for APIs used by this example
       var DISCOVERY_DOCS = "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest";
@@ -47,12 +44,10 @@ limitations under the License.
 
       var GoogleAuth;
       var GoogleUser;
-      var files;
       var fileId;
-      var filesCounter;
 
-      var checkStatusButton = document.getElementById('check_folder_status_button');
-      checkStatusButton.onclick = handleCheckStatus;
+      var checkFolderStatusButton = document.getElementById('check_folder_status_button');
+      checkFolderStatusButton.onclick = handleCheckFolderStatusButtonClick;
 
       /**
        *  On load, called to load the API client library, the auth2 library, and the picker library.
@@ -67,12 +62,12 @@ limitations under the License.
       function initClient() {
         gapi.client.init({
           client_id: CLIENT_ID,
-			discoveryDocs: [DISCOVERY_DOCS],
+          discoveryDocs: [DISCOVERY_DOCS],
           scope: SCOPES
         }).then(function () {
           GoogleAuth = gapi.auth2.getAuthInstance();
           GoogleUser = GoogleAuth.currentUser.get();
-          checkStatusButton.style.display = 'block';
+          checkFolderStatusButton.style.display = 'block';
         }, function(error) {
           appendPre(JSON.stringify(error, null, 2));
        });
@@ -81,7 +76,7 @@ limitations under the License.
       /**
        * Ensures the user has the correct scopes prior to displaying the picker.
        */
-      function handleCheckStatus() {
+      function handleCheckFolderStatusButtonClick() {
         if (!GoogleUser.hasGrantedScopes(SCOPES)) {
           GoogleUser.grant({
             scope: SCOPES
@@ -89,7 +84,7 @@ limitations under the License.
             // Handle error/declined auth...
           });
         } else {
-          verifyFolder();
+          getOrCreateFolder();
         }
       }
 
@@ -98,10 +93,8 @@ limitations under the License.
        * folder. If it doesn't exist, check trash. If it isn't trashed, create it.
        * Note that even though the folder has a unique key and name, its not impossible
        * to have two folderes with that key and name.
-       *
-       * 
        */
-      function verifyFolder() {
+      function getOrCreateFolder() {
         // Notice we use the query string parameter (q) to identify the criteria for folders to return. One criteria is that
         // the folder must have appProperties with a specific key of "myfolderkey" and value of "1234" set.  
         //
@@ -109,19 +102,17 @@ limitations under the License.
         // you must request them using the fields parameter. In the following example, we ask for the trashed field to be returned.
         // By defining the fields parameter, only the fields defined by that parameter are returned (file id would no longer be
         // returned).
-        //
-        // Note that you have to ask for specific fields to be returned and those fields are within the context of the container
-        // field's name which is "files," such as files/trashed, files/id.
         gapi.client.drive.files.list({
           'q': '"me" in owners and mimeType="application/vnd.google-apps.folder" and appProperties has {key="myfolderkey" and value="1234"} and visibility="limited"',
           'fields': 'files/trashed, files/id'
         }).then(function(response) {
-          files = response.result.files;
+          var files = response.result.files;
           if (files && files.length > 0) {
             appendPre(files.length + ' folder(s) found. Checking trashed status');
+            var filesCounter;
             // Cycle through all files and check if they are trashed.
             for (filesCounter=0; filesCounter < files.length; filesCounter++){
-              checkTrashed();
+              checkTrashed(files,filesCounter);
             }
           } else {
             appendPre('Folder not found. Creating folder');
@@ -133,10 +124,10 @@ limitations under the License.
       /**
        * Identify whether a folder is trashed. If the folder is trashed, call untrash().
        */
-      function checkTrashed() {
+      function checkTrashed(files, filesCounter) {
         if (files[filesCounter].trashed == true) {
           appendPre('Folder ' + (filesCounter+1) + ' is trashed. Untrash.');
-          untrash();
+          untrash(filesCounter);
         } else {
           appendPre('Folder ' + (filesCounter+1) + ' is not trashed.');
         }	
@@ -145,7 +136,7 @@ limitations under the License.
       /**
        * Untrash a folder.
        */
-      function untrash() {
+      function untrash(files, filesCounter) {
         fileId = files[filesCounter].id;
         appendPre(filesCounter);
         // We set the trashed parameter to false to untrash the folder.
