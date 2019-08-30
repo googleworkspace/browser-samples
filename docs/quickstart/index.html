@@ -58,18 +58,18 @@ limitations under the License.
        */
       function initClient() {
         gapi.client.init({
-        apiKey: API_KEY,
-        clientId: CLIENT_ID,
-        discoveryDocs: DISCOVERY_DOCS,
-        scope: SCOPES
-      }).then(function () {
-        // Listen for sign-in state changes.
-        gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+          apiKey: API_KEY,
+          clientId: CLIENT_ID,
+          discoveryDocs: DISCOVERY_DOCS,
+          scope: SCOPES
+        }).then(function() {
+          // Listen for sign-in state changes.
+          gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
 
-      // Handle the initial sign-in state.
-        updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-        authorizeButton.onclick = handleAuthClick;
-        signoutButton.onclick = handleSignoutClick;
+          // Handle the initial sign-in state.
+          updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+          authorizeButton.onclick = handleAuthClick;
+          signoutButton.onclick = handleSignoutClick;
         });
       }
 
@@ -79,12 +79,12 @@ limitations under the License.
        */
       function updateSigninStatus(isSignedIn) {
         if (isSignedIn) {
-        authorizeButton.style.display = 'none';
-        signoutButton.style.display = 'block';
-        printDocTitle();
+          authorizeButton.style.display = 'none';
+          signoutButton.style.display = 'block';
+          printDocTitle();
         } else {
-        authorizeButton.style.display = 'block';
-        signoutButton.style.display = 'none';
+          authorizeButton.style.display = 'block';
+          signoutButton.style.display = 'none';
         }
       }
 
@@ -125,10 +125,10 @@ limitations under the License.
         var doc = response.result;
         var title = doc.title;
         appendPre('Document "' + title + '" successfully found.\n');
-      },function(response) {
+      }, function(response) {
         appendPre('Error: ' + response.result.error.message);
-        });
-      }
+      });
+    }
     </script>
     <script async="" defer="" onload="this.onload=function(){};handleClientLoad()" onreadystatechange="if (this.readyState === 'complete') this.onload()" src="https://apis.google.com/js/api.js"></script>
   </body>
