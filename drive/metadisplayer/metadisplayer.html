@@ -14,6 +14,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+<!--
+[START driveapi_metadisplayer_all]
+-->
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
@@ -27,7 +30,7 @@ limitations under the License.
 
     <pre id="content" style="white-space: pre-wrap;"></pre>
 
-    <script type="text/javascript">
+    <script>
       // The API key obtained from the Google API Console.
       // Replace with your own API key, or your own key.
       var API_KEY = "<YOUR_API_KEY>";
@@ -49,7 +52,7 @@ limitations under the License.
       var GoogleAuth;
       var GoogleUser;
       var pickFileButton = document.getElementById('pick_file_button');
- 
+
       pickFileButton.onclick = handlePickFileButtonClick;
 
       /**
@@ -90,7 +93,7 @@ limitations under the License.
           displayPicker();
         }
       }
- 
+
       /**
        * Create and render a Picker for selecting any file on My Drive.
        */
@@ -107,12 +110,12 @@ limitations under the License.
           .setCallback(pickerCallback)
           .build();
         picker.setVisible(true);
-        }
+      }
 
       /**
        * Called when a file is picked. This function gathers metadata from
        * the picked documents and from calling get on the fileId.
-       */ 
+       */
       function pickerCallback(data) {
         var document = data[google.picker.Response.DOCUMENTS][0];
         // The following information is passed to the callback, while other has to be
@@ -137,7 +140,7 @@ limitations under the License.
           // Handle error...
         });
       }
- 
+
       /**
        * Helper method to display content to the screen.
        */
@@ -156,3 +159,6 @@ limitations under the License.
     </script>
   </body>
 </html>
+<!--
+[END driveapi_metadisplayer_all]
+-->
