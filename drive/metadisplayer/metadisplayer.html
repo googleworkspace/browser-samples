@@ -96,6 +96,8 @@ limitations under the License.
 
       /**
        * Create and render a Picker for selecting any file on My Drive.
+       * We use .enableFeature(google.picker.Feature.SUPPORT_DRIVES)
+       * to ensure files in shared drives are included.
        */
       function displayPicker() {
         // Fetch current token
@@ -103,6 +105,7 @@ limitations under the License.
 
         var view = new google.picker.View(google.picker.ViewId.DOCS);
         var picker = new google.picker.PickerBuilder()
+          .enableFeature(google.picker.Feature.SUPPORT_DRIVES)
           .setAppId(APP_ID)
           .setOAuthToken(authResponse.access_token)
           .addView(view)
