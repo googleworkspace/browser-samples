@@ -14,9 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<!--
-[START driveapi_metadisplayer_all]
--->
+<!-- [START driveapi_metadisplayer_all] -->
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
@@ -96,6 +94,8 @@ limitations under the License.
 
       /**
        * Create and render a Picker for selecting any file on My Drive.
+       * We use .enableFeature(google.picker.Feature.SUPPORT_DRIVES)
+       * to ensure files in shared drives are included.
        */
       function displayPicker() {
         // Fetch current token
@@ -103,6 +103,7 @@ limitations under the License.
 
         var view = new google.picker.View(google.picker.ViewId.DOCS);
         var picker = new google.picker.PickerBuilder()
+          .enableFeature(google.picker.Feature.SUPPORT_DRIVES)
           .setAppId(APP_ID)
           .setOAuthToken(authResponse.access_token)
           .addView(view)
@@ -159,6 +160,4 @@ limitations under the License.
     </script>
   </body>
 </html>
-<!--
-[END driveapi_metadisplayer_all]
--->
+<!-- [END driveapi_metadisplayer_all] -->
