@@ -119,15 +119,9 @@ function createTextboxWithText(presentationId, pageId, callback) {
   // [END slides_create_textbox_with_text]
 }
 
-function createImage(presentationId, pageId, imageFilePath, imageMimetype, callback) {
+function createImage(presentationId, pageId, callback) {
   var imageUrl = IMAGE_URL;
   // [START slides_create_image]
-  // Temporarily upload a local image file to Drive, in order to obtain a URL
-  // for the image. Alternatively, you can provide the Slides service a URL of
-  // an already hosted image.
-  //
-  // We will use an existing image under the variable: imageUrl.
-  //
   // Create a new image, using the supplied object ID, with content downloaded from imageUrl.
   var requests = [];
   var imageId = 'MyImage_01';

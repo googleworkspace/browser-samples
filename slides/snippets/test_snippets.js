@@ -24,9 +24,7 @@ var SCOPES = [
 ];
 
 // Constants
-var IMAGE_FILE_PATH = 'images/googlelogo_color_272x92dp.png';
 var IMAGE_URL = 'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png';
-var IMAGE_MIMETYPE = 'image/png';
 var TEMPLATE_PRESENTATION_ID = '1E7tKQyX8H7zI7F8_v7mNDY5VyHZ3NNcjUQhkGXoITnw';
 var DATA_SPREADSHEET_ID = '14KaZMq2aCAGt5acV77zaA_Ps8aDt04G7T0ei4KiXLX8';
 var CHART_ID = 1107320627;
@@ -121,7 +119,7 @@ function testCreateImage(done) {
   createTestPresentation(function(presentationId) {
     addSlides(presentationId, 1, 'BLANK', function(ids) {
       var pageId = ids[0];
-      createImage(presentationId, pageId, IMAGE_FILE_PATH, IMAGE_MIMETYPE, function(response) {
+      createImage(presentationId, pageId, function(response) {
         assert.equal(1, response.length);
         var imageId = response[0].createImage.objectId;
         assert.isNotNull(imageId);
