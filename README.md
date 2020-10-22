@@ -1,6 +1,6 @@
-# G Suite Browser Samples [![Build Status](https://travis-ci.org/gsuitedevs/browser-samples.svg?branch=master)](https://travis-ci.org/gsuitedevs/browser-samples)
+# Google Workspace Browser Samples [![Build Status](https://travis-ci.org/gsuitedevs/browser-samples.svg?branch=master)](https://travis-ci.org/gsuitedevs/browser-samples)
 
-Browser samples for [G Suite API](https://developers.google.com/gsuite/) docs.
+Browser samples for [Google Workspace APIs](https://developers.google.com/gsuite/) docs.
 
 ## APIs
 
@@ -85,7 +85,7 @@ Configure [options](https://github.com/htmllint/htmllint/wiki/Options) in the `.
 
 ## Client Library
 
-G Suite APIs use the [Google API Javascript client library](https://github.com/google/google-api-javascript-client).
+Google Workspace APIs use the [Google API Javascript client library](https://github.com/google/google-api-javascript-client).
 
 ## Contributing
 
