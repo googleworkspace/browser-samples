@@ -1,4 +1,4 @@
-# Google Workspace Browser Samples [![Build Status](https://travis-ci.org/googleworkspace/browser-samples.svg?branch=master)](https://travis-ci.org/googleworkspace/browser-samples)
+#Medical Home Workspace [![Build Status](https://travis-ci.org/gsuitedevs/browser-samples.svg?branch=master)](https://travis-ci.org/gsuitedevs/browser-samples)
 
 Browser samples for [Google Workspace APIs](https://developers.google.com/gsuite/) docs.
 
