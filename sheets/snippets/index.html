@@ -1,5 +1,5 @@
 <!--
-Copyright 2022 Google LLC
+Copyright 2018 Google LLC
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -41,6 +41,8 @@ limitations under the License.
     <script src="sheets_update_values.js"></script>
     <script src="sheets_batch_update_values.js"></script>
     <script src="sheets_append_values.js"></script>
+    <script src="sheets_pivot_tables.js"></script>
+    <script src="sheets_conditional_formatting.js"></script>
     <pre id="content" style="white-space: pre-wrap;"></pre>
 
     <script type="text/javascript">
@@ -48,8 +50,8 @@ limitations under the License.
       var assert = chai.assert;
       mocha.setup('bdd');
       // Client ID and API key from the Developer Console
-      var CLIENT_ID = '716200104187-dr1d9gdp0es2m3r4pqflobis6bik5qki.apps.googleusercontent.com';
-      var API_KEY = 'AIzaSyAiCirEGguR6HWVVpUQRNDGCVELzro2Vt8';
+      var CLIENT_ID = '<YOUR_CLIENT_ID>';
+      var API_KEY = '<YOUR_API_KEY>';
 
       // Array of API discovery doc URLs for APIs used by the quickstart
       var DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
@@ -124,6 +126,11 @@ limitations under the License.
           /*Pass spreadsheetId, range, valueInputOption, values parameter for processing
           appendValues function*/
           appendValues("1eaI4xAqR2SpC3Ysf7ExOE0JBtXUkZ5YMIYUZ3sPx9_w", 'Sheet1', 'USER_ENTERED', [['A', 'B'],['C', 'D']])
+
+          /*Pass spreadsheetId*/
+          pivotTable("1eaI4xAqR2SpC3Ysf7ExOE0JBtXUkZ5YMIYUZ3sPx9_w");
+
+          conditionalFormatting("1eaI4xAqR2SpC3Ysf7ExOE0JBtXUkZ5YMIYUZ3sPx9_w")
 
           mocha.run();
         } else {
