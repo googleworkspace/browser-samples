@@ -59,10 +59,10 @@ limitations under the License.
       // Authorization scopes required by the API; multiple scopes can be
       // included, separated by spaces.
       var SCOPES = [
-    "https://www.googleapis.com/auth/drive",
-    "https://www.googleapis.com/auth/presentations",
-    "https://www.googleapis.com/auth/spreadsheets"
-];
+                  "https://www.googleapis.com/auth/drive",
+                  "https://www.googleapis.com/auth/presentations",
+                  "https://www.googleapis.com/auth/spreadsheets"
+                    ];
 
       var authorizeButton = document.getElementById('authorize_button');
       var signoutButton = document.getElementById('signout_button');
@@ -110,7 +110,7 @@ limitations under the License.
 
           /*Pass parameters presentationId and copytitle */
           copyPresentation("1QWwsf1GRQnXjoI6a5-sYoF4YrQGcPVzC4MqYZH4dzIU", "Duplicatejsslides");
-          /*listSlides();*/
+
 
           /*pass parameter presentationId and pageid*/
           /*createSlide("1QWwsf1GRQnXjoI6a5-sYoF4YrQGcPVzC4MqYZH4dzIU", "my_page_id1");*/
@@ -174,26 +174,7 @@ limitations under the License.
         pre.appendChild(textContent);
       }
 
-      /**
-       * Prints the number of slides and elements in a sample presentation:
-       * https://docs.google.com/presentation/d/1EAYk18WDjIG-zp_0vLm3CsfQh_i8eXc67Jo2O9C6Vuc/edit
-       */
-      function listSlides() {
-        gapi.client.slides.presentations.get({
-          presentationId: '1EAYk18WDjIG-zp_0vLm3CsfQh_i8eXc67Jo2O9C6Vuc'
-        }).then(function(response) {
-          var presentation = response.result;
-          var length = presentation.slides.length;
-          appendPre('The presentation contains ' + length + ' slides:');
-          for (i = 0; i < length; i++) {
-            var slide = presentation.slides[i];
-            appendPre('- Slide #' + (i + 1) + ' contains ' +
-                slide.pageElements.length + ' elements.')
-          }
-        }, function(response) {
-          appendPre('Error: ' + response.result.error.message);
-        });
-      }
+
 
     </script>
 

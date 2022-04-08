@@ -49,9 +49,10 @@ function createSheetsChart(presentationId, pageId, shapeId, sheetChartId, callba
   gapi.client.slides.presentations.batchUpdate({
     presentationId: presentationId,
     requests: requests
-  }).then((batchUpdateResponse) => {
+  }).then((batchUpdateResponse) => { try{
     console.log(`Added a linked Sheets chart with ID: ${presentationChartId}`);
     // [END slides_create_sheets_chart]
-    callback(batchUpdateResponse.result);
+    if(callback) callback(batchUpdateResponse.result);
+    } catch(ex){console.log(ex.message)}
   });
 }
