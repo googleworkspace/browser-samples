@@ -31,15 +31,15 @@ limitations under the License.
 
     <script type="text/javascript">
       // Client ID and API key from the Developer Console
-      var CLIENT_ID = '<YOUR_CLIENT_ID>';
-      var API_KEY = '<YOUR_API_KEY>';
+        var CLIENT_ID = '<YOUR_CLIENT_ID>';
+        var API_KEY = '<YOUR_API_KEY>';
 
       // Array of API discovery doc URLs for APIs used by the quickstart
       var DISCOVERY_DOCS = ["https://slides.googleapis.com/$discovery/rest?version=v1"];
 
       // Authorization scopes required by the API; multiple scopes can be
       // included, separated by spaces.
-      var SCOPES = "https://www.googleapis.com/auth/presentations.readonly";
+      var SCOPES = "https://www.googleapis.com/auth/presentations";
 
       var authorizeButton = document.getElementById('authorize_button');
       var signoutButton = document.getElementById('signout_button');
@@ -61,7 +61,7 @@ limitations under the License.
           clientId: CLIENT_ID,
           discoveryDocs: DISCOVERY_DOCS,
           scope: SCOPES
-        }).then(function () {
+        }).then(function () { try{
           // Listen for sign-in state changes.
           gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
 
@@ -69,6 +69,7 @@ limitations under the License.
           updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
           authorizeButton.onclick = handleAuthClick;
           signoutButton.onclick = handleSignoutClick;
+          } catch(ex){console.log(ex.message)}
         }, function(error) {
           appendPre(JSON.stringify(error, null, 2));
         });
@@ -131,6 +132,7 @@ limitations under the License.
             appendPre('- Slide #' + (i + 1) + ' contains ' +
                 slide.pageElements.length + ' elements.')
           }
+
         }, function(response) {
           appendPre('Error: ' + response.result.error.message);
         });
