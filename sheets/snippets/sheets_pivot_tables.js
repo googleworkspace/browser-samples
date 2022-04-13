@@ -11,6 +11,8 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
+// [START sheets_pivot_tables]
 function pivotTable(spreadsheetId, callback) {
   // Create two sheets for our pivot table
   var requests = [{
@@ -25,7 +27,7 @@ function pivotTable(spreadsheetId, callback) {
   }).then((response) => { try{
     var sourceSheetId = response.result.replies[0].addSheet.properties.sheetId;
     var targetSheetId = response.result.replies[1].addSheet.properties.sheetId;
-    // [START sheets_pivot_tables]
+
     var requests = [{
       updateCells: {
         rows: {
@@ -73,13 +75,22 @@ function pivotTable(spreadsheetId, callback) {
       spreadsheetId: spreadsheetId,
       resource: body
     }).then((response) => {
-    try{
-      // [START_EXCLUDE silent]
+    try
+    {
+
       if(callback) callback(response);
-      // [END_EXCLUDE]
-      } catch(ex){console.log(ex.message)}
+
+    }
+     catch(ex)
+    {
+    console.log(ex.message)
+    }
     });
     // [END sheets_pivot_tables]
-    } catch(ex){console.log(ex.message)}
+    }
+    catch(ex)
+    {
+    console.log(ex.message)
+    }
   });
 }

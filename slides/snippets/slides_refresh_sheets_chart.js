@@ -11,8 +11,10 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
+// [START slides_refresh_sheets_chart]
 function refreshSheetsChart(presentationId, presentationChartId, callback) {
-  // [START slides_refresh_sheets_chart]
+
   var requests = [{
     refreshSheetsChart: {
       objectId: presentationChartId
@@ -23,12 +25,18 @@ function refreshSheetsChart(presentationId, presentationChartId, callback) {
   gapi.client.slides.presentations.batchUpdate({
     presentationId: presentationId,
     requests: requests
-  }).then((batchUpdateResponse) => { try{
+  }).then((batchUpdateResponse) => {
+  try
+  {
     console.log(`Refreshed a linked Sheets chart with ID: ${presentationChartId}`);
-    // [START_EXCLUDE silent]
+
     if (callback) callback(batchUpdateResponse.result);
-    } catch(ex){console.log(ex.message)}
-    // [END_EXCLUDE]
+  }
+   catch(ex)
+   {
+   console.log(ex.message)
+   }
+
   });
   // [END slides_refresh_sheets_chart]
 }

@@ -11,8 +11,10 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
+// [START slides_create_bulleted_text]
 function createBulletedText(presentationId, shapeId, callback) {
-  // [START slides_create_bulleted_text]
+
   // Add arrow-diamond-disc bullets to all text in the shape.
   var requests = [{
     createParagraphBullets: {
@@ -28,12 +30,18 @@ function createBulletedText(presentationId, shapeId, callback) {
   gapi.client.slides.presentations.batchUpdate({
     presentationId: presentationId,
     requests: requests
-  }).then((batchUpdateResponse) => { try{
+  }).then((batchUpdateResponse) => {
+  try
+  {
     console.log(`Added bullets to text in shape with ID: ${shapeId}`);
-    // [START_EXCLUDE silent]
+
     if(callback) callback(batchUpdateResponse.result);
-    } catch(ex){console.log(ex.message)}
-    // [END_EXCLUDE]
+  }
+   catch(ex)
+   {
+   console.log(ex.message)
+   }
+
   });
   // [END slides_create_bulleted_text]
 

@@ -11,8 +11,10 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
+// [START slides_text_style_update]
 function textStyleUpdate(presentationId, shapeId, callback) {
-  // [START slides_text_style_update]
+
   // Update the text style so that the first 5 characters are bolded
   // and italicized, the next 5 are displayed in blue 14 pt Times
   // New Roman font, and the next 5 are hyperlinked.
@@ -77,12 +79,18 @@ function textStyleUpdate(presentationId, shapeId, callback) {
   gapi.client.slides.presentations.batchUpdate({
     presentationId: presentationId,
     requests: requests
-  }).then((batchUpdateResponse) => { try{
+  }).then((batchUpdateResponse) => {
+  try
+  {
     console.log(`Updated the text style for shape with ID: ${shapeId}`);
-    // [START_EXCLUDE silent]
+
     if(callback) callback(batchUpdateResponse.result);
-    } catch(ex){console.log(ex.message)}
-    // [END_EXCLUDE]
+  }
+   catch(ex)
+   {
+   console.log(ex.message)
+   }
+
   });
   // [END slides_text_style_update]
 }
