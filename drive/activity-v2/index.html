@@ -28,7 +28,7 @@ limitations under the License.
 
     <script type="text/javascript">
       // Client ID and API key from the Developer Console
-      var CLIENT_ID = '<YOUR_CLIENT_ID>';
+      var CLIENT_ID = '<YOUR_CLIENT_ID>'
       var API_KEY = '<YOUR_API_KEY>';
 
       // Array of API discovery doc URLs for APIs used by the quickstart
@@ -59,13 +59,20 @@ limitations under the License.
           discoveryDocs: DISCOVERY_DOCS,
           scope: SCOPES
         }).then(function () {
-          // Listen for sign-in state changes.
-          gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+        try
+          {
+            // Listen for sign-in state changes.
+            gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
 
-          // Handle the initial sign-in state.
-          updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-          authorizeButton.onclick = handleAuthClick;
-          signoutButton.onclick = handleSignoutClick;
+            // Handle the initial sign-in state.
+            updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+            authorizeButton.onclick = handleAuthClick;
+            signoutButton.onclick = handleSignoutClick;
+          }
+          catch(ex)
+          {
+          console.log(ex.message)
+          }
         }, function(error) {
           appendPre(JSON.stringify(error, null, 2));
         });
@@ -121,6 +128,8 @@ limitations under the License.
               'pageSize': 10
             })
             .then(function(response) {
+            try
+            {
               appendPre('Recent activity:');
               var activities = response.result.activities;
 
@@ -134,10 +143,15 @@ limitations under the License.
                   appendPre(`${time}: ${truncated(actors)}, ${action}, ` +
                             `${truncated(targets)}`);
                 }
-              } else {
+            } else {
                 appendPre('No activity.');
               }
-            });
+            }
+          catch(ex)
+          {
+          console.log(ex.message)
+          }
+         });
       }
 
       /** Returns a string representation of the first elements in a list. */
