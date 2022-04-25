@@ -27,7 +27,7 @@ limitations under the License.
     var developerKey = 'xxxxxxxYYYYYYYY-12345678';
 
     // The Client ID obtained from the Google API Console. Replace with your own Client ID.
-    var clientId = "1234567890-abcdefghijklmnopqrstuvwxyz.apps.googleusercontent.com"
+    var clientId = "1234567890-abcdefghijklmnopqrstuvwxyz.apps.googleusercontent.com";
 
     // Replace with your own project number from console.developers.google.com.
     // See "Project number" under "IAM & Admin" > "Settings"
@@ -70,6 +70,8 @@ limitations under the License.
     // Create and render a Picker object for searching images.
     function createPicker() {
       if (pickerApiLoaded && oauthToken) {
+      try
+      {
         var view = new google.picker.View(google.picker.ViewId.DOCS);
         view.setMimeTypes("image/png,image/jpeg,image/jpg");
         var picker = new google.picker.PickerBuilder()
@@ -83,6 +85,11 @@ limitations under the License.
             .setCallback(pickerCallback)
             .build();
          picker.setVisible(true);
+      }
+      }
+      catch(ex)
+      {
+      console.log(ex.message)
       }
     }
 
