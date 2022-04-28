@@ -31,7 +31,7 @@ limitations under the License.
 
     <script type="text/javascript">
       // Client ID and API key from the Developer Console
-      var CLIENT_ID = '<YOUR_CLIENT_ID>'
+     var CLIENT_ID = '<YOUR_CLIENT_ID>'
       var API_KEY = '<YOUR_API_KEY>';
 
       // Array of API discovery doc URLs for APIs used by the quickstart
@@ -120,6 +120,7 @@ limitations under the License.
        * Print the first 10 users in the domain.
        */
       function listUsers() {
+
         gapi.client.directory.users.list({
           'customer': 'my_customer',
           'maxResults': 10,
@@ -141,7 +142,7 @@ limitations under the License.
           }
           catch(ex)
           {
-          console.log(ex.message)
+          return console.log('The API returned an error:',ex.message);
           }
         });
       }
