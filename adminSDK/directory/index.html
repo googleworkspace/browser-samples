@@ -145,7 +145,7 @@ limitations under the License.
           };
           response = await gapi.client.directory.users.list(request);
         } catch (err) {
-          document.getElementById('content').innerText = err.toString();
+          document.getElementById('content').innerText = err.message;
           return;
         }
 

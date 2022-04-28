@@ -135,7 +135,7 @@ limitations under the License.
       /**
        * Creates a new 'Hello world' script.
        */
-      async function createScript() {
+      async function createSript() {
         let response;
         try {
           const createRequest = {
@@ -164,7 +164,7 @@ limitations under the License.
           const output = `Script URL: https://script.google.com/d/${response.result.scriptId}/edit`;
           document.getElementById('content').innerText = output;
         } catch (err) {
-          document.getElementById('content').innerText = err.toString();
+          document.getElementById('content').innerText = err.message;
           return;
         }
       }

@@ -145,7 +145,7 @@ limitations under the License.
           const output = `Document ${doc.title} successfully found.\n`;
           document.getElementById('content').innerText = output;
         } catch (err) {
-          document.getElementById('content').innerText = err.toString();
+          document.getElementById('content').innerText = err.message;
           return;
         }
       }

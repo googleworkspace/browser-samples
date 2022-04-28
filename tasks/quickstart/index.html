@@ -142,7 +142,7 @@ limitations under the License.
             'maxResults': 10,
           });
         } catch (err) {
-          document.getElementById('content').innerText = err.toString();
+          document.getElementById('content').innerText = err.message;
           return;
         }
         const taskLists = response.result.items;

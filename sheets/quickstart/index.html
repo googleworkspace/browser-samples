@@ -145,7 +145,7 @@ limitations under the License.
             range: 'Class Data!A2:E',
           });
         } catch (err) {
-          document.getElementById('content').innerText = err.toString();
+          document.getElementById('content').innerText = err.message;
           return;
         }
         const range = response.result;

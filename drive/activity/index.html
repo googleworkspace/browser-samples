@@ -145,7 +145,7 @@ limitations under the License.
           };
           response = await gapi.client.appsactivity.activities.list(request);
         } catch (err) {
-          document.getElementById('content').innerText = err.toString();
+          document.getElementById('content').innerText = err.message;
           return;
         }
         const activities = response.result.activities;

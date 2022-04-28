@@ -143,7 +143,7 @@ limitations under the License.
             'fields': 'files(id, name)',
           });
         } catch (err) {
-          document.getElementById('content').innerText = err.toString();
+          document.getElementById('content').innerText = err.message;
           return;
         }
         const files = response.result.files;
