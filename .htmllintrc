@@ -1,6 +1,0 @@
-{
-    "attr-bans": ["align", "background", "bgcolor", "border", "frameborder", "longdesc", "marginwidth", "marginheight", "scrolling", "width"],
-    "indent-width": 2,
-    "indent-width-cont": true,
-    "spec-char-escape": false
-}

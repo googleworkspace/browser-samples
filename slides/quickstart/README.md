@@ -9,13 +9,14 @@ Google Slides API.
 
 After following the quickstart instructions, run the sample:
 
-```
-python -m SimpleHTTPServer 8000
+```shell
+python3 -m http.server 8000
 ```
 
 And opening the web page:
 
-```
+```shell
 open http://localhost:8000
 ```
+
 
