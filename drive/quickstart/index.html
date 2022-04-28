@@ -133,15 +133,14 @@ limitations under the License.
       }
 
       /**
-       * Print files.
+       * Print metadata for first 10 files.
        */
       async function listFiles() {
         let response;
         try {
-          // Fetch first 10 files
           response = await gapi.client.drive.files.list({
             'pageSize': 10,
-            'fields': 'nextPageToken, files(id, name)',
+            'fields': 'files(id, name)',
           });
         } catch (err) {
           document.getElementById('content').innerText = err.toString();

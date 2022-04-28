@@ -139,7 +139,7 @@ limitations under the License.
       async function listSlides() {
         let response;
         try {
-          response = gapi.client.slides.presentations.get({
+          response = await gapi.client.slides.presentations.get({
             presentationId: '1EAYk18WDjIG-zp_0vLm3CsfQh_i8eXc67Jo2O9C6Vuc',
           });
         } catch (err) {

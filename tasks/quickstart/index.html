@@ -105,7 +105,7 @@ limitations under the License.
           }
           document.getElementById('signout_button').style.visibility = 'visible';
           document.getElementById('authorize_button').innerText = 'Refresh';
-          await listTaskLists();
+          await fetchTaskLists();
         };
 
         if (gapi.client.getToken() === null) {
@@ -135,7 +135,7 @@ limitations under the License.
       /**
        * Print task lists.
        */
-      async function listTaskLists() {
+      async function fetchTaskLists() {
         let response;
         try {
           response = await gapi.client.tasks.tasklists.list({
