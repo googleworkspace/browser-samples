@@ -152,7 +152,7 @@ limitations under the License.
           return;
         }
         // Flatten to string to display
-        const output = range.values.reduce(
+        const output = presentation.slides.reduce(
             (str, slide, index) => {
               const numElements = slide.pageElements.length;
               return `${str}- Slide #${index} contains ${numElements} elements\n`;
