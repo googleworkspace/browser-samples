@@ -31,7 +31,7 @@ limitations under the License.
 
     <script type="text/javascript">
       // Client ID and API key from the Developer Console
-      var CLIENT_ID = '<YOUR_CLIENT_ID>';
+      var CLIENT_ID = '<YOUR_CLIENT_ID>'
       var API_KEY = '<YOUR_API_KEY>';
 
       // Array of API discovery doc URLs for APIs used by the quickstart
@@ -124,6 +124,8 @@ limitations under the License.
           'applicationName': 'login',
           'maxResults': 10
         }).then(function(response) {
+        try
+        {
           var activities = response.result.items;
           appendPre('Logins:');
 
@@ -135,6 +137,11 @@ limitations under the License.
             }
           } else {
             appendPre('No activity found.');
+          }
+          }
+          catch(ex)
+          {
+          return console.log('The API returned an error:',ex.message)
           }
         });
       }

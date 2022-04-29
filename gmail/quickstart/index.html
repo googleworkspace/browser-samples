@@ -31,7 +31,7 @@ limitations under the License.
 
     <script type="text/javascript">
       // Client ID and API key from the Developer Console
-      var CLIENT_ID = '<YOUR_CLIENT_ID>';
+       var CLIENT_ID = '<YOUR_CLIENT_ID>'
       var API_KEY = '<YOUR_API_KEY>';
 
       // Array of API discovery doc URLs for APIs used by the quickstart
@@ -62,6 +62,8 @@ limitations under the License.
           discoveryDocs: DISCOVERY_DOCS,
           scope: SCOPES
         }).then(function () {
+        try
+        {
           // Listen for sign-in state changes.
           gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
 
@@ -69,6 +71,11 @@ limitations under the License.
           updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
           authorizeButton.onclick = handleAuthClick;
           signoutButton.onclick = handleSignoutClick;
+          }
+          catch(ex)
+          {
+          console.log(ex.message)
+          }
         }, function(error) {
           appendPre(JSON.stringify(error, null, 2));
         });
@@ -123,6 +130,8 @@ limitations under the License.
         gapi.client.gmail.users.labels.list({
           'userId': 'me'
         }).then(function(response) {
+        try
+        {
           var labels = response.result.labels;
           appendPre('Labels:');
 
@@ -133,6 +142,11 @@ limitations under the License.
             }
           } else {
             appendPre('No Labels found.');
+          }
+        }
+          catch(ex)
+          {
+          console.log(ex.message)
           }
         });
       }
