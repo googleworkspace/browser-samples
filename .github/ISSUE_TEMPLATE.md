@@ -1,14 +1,17 @@
+# Summary
+
+TODO
+
 ## Expected Behavior
 
-(Include the sample name)
+Sample URL:
+Description:
 
 ## Actual Behavior
 
-## JavaScript Console Output
 
-(View your JavaScript Console to see if there are any errors)
+## Steps to Reproduce the Problem
 
-## Specifications
-
-- Browser (Chrome/Internet Explorer/Firefox):
-- OS (Mac/Linux/Windows): 
+1.
+1.
+1.

@@ -1,9 +1,12 @@
 <!--
-Copyright 2019 Google LLC
+Copyright 2018 Google LLC
+
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
+
     https://www.apache.org/licenses/LICENSE-2.0
+
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,148 +17,185 @@ limitations under the License.
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Google Drive Activity API v2 Quickstart</title>
+    <title>Drive Activity API Quickstart</title>
     <meta charset="utf-8" />
   </head>
   <body>
-    <p>Google Drive Activity API v2 Quickstart</p>
+    <p>Drive Activity API Quickstart</p>
 
     <!--Add buttons to initiate auth sequence and sign out-->
-    <button id="authorize_button" style="display: none;">Authorize</button>
-    <button id="signout_button" style="display: none;">Sign Out</button>
+    <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
+    <button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
 
     <pre id="content" style="white-space: pre-wrap;"></pre>
 
     <script type="text/javascript">
-      // Client ID and API key from the Developer Console
-      var CLIENT_ID = '<YOUR_CLIENT_ID>';
-      var API_KEY = '<YOUR_API_KEY>';
+      /* exported gapiLoaded */
+      /* exported gisLoaded */
+      /* exported handleAuthClick */
+      /* exported handleSignoutClick */
+      
+      // TODO(developer): Set to client ID and API key from the Developer Console
+      const CLIENT_ID = '<YOUR_CLIENT_ID>';
+      const API_KEY = '<YOUR_API_KEY>';
 
-      // Array of API discovery doc URLs for APIs used by the quickstart
-      var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/driveactivity/v2/rest"];
+      // Discovery doc URL for APIs used by the quickstart
+      const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/driveactivity/v2/rest';
 
       // Authorization scopes required by the API; multiple scopes can be
       // included, separated by spaces.
-      var SCOPES = 'https://www.googleapis.com/auth/drive.activity.readonly';
+      const SCOPES = 'https://www.googleapis.com/auth/drive.activity.readonly';
 
-      var authorizeButton = document.getElementById('authorize_button');
-      var signoutButton = document.getElementById('signout_button');
+      let tokenClient;
+      let gapiInited = false;
+      let gisInited = false;
+
+      document.getElementById('authorize_button').style.visibility = 'hidden';
+      document.getElementById('signout_button').style.visibility = 'hidden';
 
       /**
-       *  On load, called to load the auth2 library and API client library.
+       * Callback after api.js is loaded.
        */
-      function handleClientLoad() {
-        gapi.load('client:auth2', initClient);
+      function gapiLoaded() {
+        gapi.load('client', intializeGapiClient);
       }
 
       /**
-       *  Initializes the API client library and sets up sign-in state
-       *  listeners.
+       * Callback after the API client is loaded. Loads the
+       * discovery doc to initialize the API.
        */
-      function initClient() {
-        gapi.client.init({
+      async function intializeGapiClient() {
+        await gapi.client.init({
           apiKey: API_KEY,
-          clientId: CLIENT_ID,
-          discoveryDocs: DISCOVERY_DOCS,
-          scope: SCOPES
-        }).then(function () {
-          // Listen for sign-in state changes.
-          gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
-
-          // Handle the initial sign-in state.
-          updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-          authorizeButton.onclick = handleAuthClick;
-          signoutButton.onclick = handleSignoutClick;
-        }, function(error) {
-          appendPre(JSON.stringify(error, null, 2));
+          discoveryDocs: [DISCOVERY_DOC],
         });
+        gapiInited = true;
+        maybeEnableButtons();
       }
 
       /**
-       *  Called when the signed in status changes, to update the UI
-       *  appropriately. After a sign-in, the API is called.
+       * Callback after Google Identity Services are loaded.
        */
-      function updateSigninStatus(isSignedIn) {
-        if (isSignedIn) {
-          authorizeButton.style.display = 'none';
-          signoutButton.style.display = 'block';
-          listDriveActivity();
-        } else {
-          authorizeButton.style.display = 'block';
-          signoutButton.style.display = 'none';
+      function gisLoaded() {
+        tokenClient = google.accounts.oauth2.initTokenClient({
+          client_id: CLIENT_ID,
+          scope: SCOPES,
+          callback: '', // defined later
+        });
+        gisInited = true;
+        maybeEnableButtons();
+      }
+
+      /**
+       * Enables user interaction after all libraries are loaded.
+       */
+      function maybeEnableButtons() {
+        if (gapiInited && gisInited) {
+          document.getElementById('authorize_button').style.visibility = 'visible';
         }
       }
 
       /**
        *  Sign in the user upon button click.
        */
-      function handleAuthClick(event) {
-        gapi.auth2.getAuthInstance().signIn();
+      function handleAuthClick() {
+        tokenClient.callback = async (resp) => {
+          if (resp.error !== undefined) {
+            throw (resp);
+          }
+          document.getElementById('signout_button').style.visibility = 'visible';
+          document.getElementById('authorize_button').innerText = 'Refresh';
+          await listActivities();
+        };
+
+        if (gapi.client.getToken() === null) {
+          // Prompt the user to select an Google Account and asked for consent to share their data
+          // when establishing a new session.
+          tokenClient.requestAccessToken({prompt: 'consent'});
+        } else {
+          // Skip display of account chooser and consent dialog for an existing session.
+          tokenClient.requestAccessToken({prompt: ''});
+        }
       }
 
       /**
        *  Sign out the user upon button click.
        */
-      function handleSignoutClick(event) {
-        gapi.auth2.getAuthInstance().signOut();
-      }
-
-      /**
-       * Append a pre element to the body containing the given message
-       * as its text node. Used to display the results of the API call.
-       *
-       * @param {string} message Text to be placed in pre element.
-       */
-      function appendPre(message) {
-        var pre = document.getElementById('content');
-        var textContent = document.createTextNode(message + '\n');
-        pre.appendChild(textContent);
+      function handleSignoutClick() {
+        const token = gapi.client.getToken();
+        if (token !== null) {
+          google.accounts.oauth2.revoke(token.access_token);
+          gapi.client.setToken('');
+          document.getElementById('content').innerText = '';
+          document.getElementById('authorize_button').innerText = 'Authorize';
+          document.getElementById('signout_button').style.visibility = 'hidden';
+        }
       }
 
       /**
        * Print recent activity.
        */
-      function listDriveActivity() {
-        gapi.client.driveactivity.activity
-            .query({
-              'pageSize': 10
-            })
-            .then(function(response) {
-              appendPre('Recent activity:');
-              var activities = response.result.activities;
+      async function listActivities() {
+        let response;
+        try {
+          response = await gapi.client.driveactivity.activity.query({
+            'pageSize': 10,
+          });
+        } catch (err) {
+          document.getElementById('content').innerText = err.message;
+          return;
+        }
 
-              if (activities && activities.length > 0) {
-                for (var i = 0; i < activities.length; i++) {
-                  var activity = activities[i];
-                  var time = getTimeInfo(activity);
-                  var action = getActionInfo(activity['primaryActionDetail']);
-                  var actors = activity.actors.map(getActorInfo);
-                  var targets = activity.targets.map(getTargetInfo);
-                  appendPre(`${time}: ${truncated(actors)}, ${action}, ` +
-                            `${truncated(targets)}`);
-                }
-              } else {
-                appendPre('No activity.');
-              }
-            });
+        const activities = response.result.activities;
+        if (!activities || activities.length == 0) {
+          document.getElementById('content').innerText = 'No activities found.';
+          return;
+        }
+        // Flatten to string to display
+        const output = activities.reduce(
+            (str, activity) => {
+              const time = getTimeInfo(activity);
+              const action = getActionInfo(activity['primaryActionDetail']);
+              const actors = activity.actors.map(getActorInfo);
+              const targets = activity.targets.map(getTargetInfo);
+              return `${str}${time}: ${truncated(actors)}, ${action}, ${truncated(targets)}\n`;
+            },
+            'Activities:\n');
+        document.getElementById('content').innerText = output;
       }
 
-      /** Returns a string representation of the first elements in a list. */
+      // Utility methods for formatting activity records
+      
+      /**
+       * Returns a string representation of the first N elements in a list.
+       * @param {string[]} array - Values to join
+       * @param {number} limit - # of elements to show
+       * @return {string} formatted string
+       */
       function truncated(array, limit = 2) {
-        var contents = array.slice(0, limit).join(', ');
-        var more = array.length > limit ? ', ...' : '';
+        const contents = array.slice(0, limit).join(', ');
+        const more = array.length > limit ? ', ...' : '';
         return `[${contents}${more}]`;
       }
 
-      /** Returns the name of a set property in an object, or else "unknown". */
+      /**
+       * Returns the first found property name in an object.
+       * @param {object} object - Object to search
+       * @return {string} key name or 'unknown'
+       */
       function getOneOf(object) {
-        for (var key in object) {
-          return key;
+        const props = Object.getOwnPropertyNames(object);
+        if (props.length === 0) {
+          return 'unknown';
         }
-        return 'unknown';
+        return props[0];
       }
 
-      /** Returns a time associated with an activity. */
+      /**
+       * Returns a time associated with an activity.
+       * @param {object} activity - Activity record
+       * @return {string} Formatted timestamp
+       */
       function getTimeInfo(activity) {
         if ('timestamp' in activity) {
           return activity.timestamp;
@@ -166,53 +206,65 @@ limitations under the License.
         return 'unknown';
       }
 
-      /** Returns the type of action. */
+      /**
+       * Returns the type of action.
+       * @param {object} actionDetail
+       * @return {string} Action type as string
+       */
       function getActionInfo(actionDetail) {
         return getOneOf(actionDetail);
       }
 
-      /** Returns user information, or the type of user if not a known user. */
+      /**
+       * Returns user information, or the type of user if not a known user.
+       * @param {object} user - User record
+       * @return {string} user type as string
+       */
       function getUserInfo(user) {
         if ('knownUser' in user) {
-          var knownUser = user['knownUser'];
-          var isMe = knownUser['isCurrentUser'] || false;
+          const knownUser = user['knownUser'];
+          const isMe = knownUser['isCurrentUser'] || false;
           return isMe ? 'people/me' : knownUser['personName'];
         }
         return getOneOf(user);
       }
 
-      /** Returns actor information, or the type of actor if not a user. */
+      /**
+       * Returns actor information, or the type of actor if not a user.
+       * @param {object} actor - Actor record
+       * @return {string} actor type as string
+       */
       function getActorInfo(actor) {
         if ('user' in actor) {
-          return getUserInfo(actor['user'])
+          return getUserInfo(actor['user']);
         }
         return getOneOf(actor);
       }
 
-      /** Returns the type of a target and an associated title. */
+      /**
+       * Returns the type of a target and an associated title.
+       * @param {object} target - Activity target record
+       * @return {string} target type as string
+       */
       function getTargetInfo(target) {
         if ('driveItem' in target) {
-          var title = target.driveItem.title || 'unknown';
+          const title = target.driveItem.title || 'unknown';
           return `driveItem:"${title}"`;
         }
         if ('drive' in target) {
-          var title = target.drive.title || 'unknown';
+          const title = target.drive.title || 'unknown';
           return `drive:"${title}"`;
         }
         if ('fileComment' in target) {
-          var parent = target.fileComment.parent || {};
-          var title = parent.title || 'unknown';
+          const parent = target.fileComment.parent || {};
+          const title = parent.title || 'unknown';
           return `fileComment:"${title}"`;
         }
         return `${getOneOf(target)}:unknown`;
       }
-
     </script>
-
-    <script async defer src="https://apis.google.com/js/api.js"
-      onload="this.onload=function(){};handleClientLoad()"
-      onreadystatechange="if (this.readyState === 'complete') this.onload()">
-    </script>
+    <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
+    <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
   </body>
 </html>
 <!-- [END drive_activity_v2_quickstart] -->

@@ -24,130 +24,150 @@ limitations under the License.
     <p>People API Quickstart</p>
 
     <!--Add buttons to initiate auth sequence and sign out-->
-    <button id="authorize_button" style="display: none;">Authorize</button>
-    <button id="signout_button" style="display: none;">Sign Out</button>
+    <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
+    <button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
 
     <pre id="content" style="white-space: pre-wrap;"></pre>
 
     <script type="text/javascript">
-      // Client ID and API key from the Developer Console
-      var CLIENT_ID = '<YOUR_CLIENT_ID>';
-      var API_KEY = '<YOUR_API_KEY>';
+      /* exported gapiLoaded */
+      /* exported gisLoaded */
+      /* exported handleAuthClick */
+      /* exported handleSignoutClick */
+      
+      // TODO(developer): Set to client ID and API key from the Developer Console
+      const CLIENT_ID = '<YOUR_CLIENT_ID>';
+      const API_KEY = '<YOUR_API_KEY>';
 
-      // Array of API discovery doc URLs for APIs used by the quickstart
-      var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/people/v1/rest"];
+
+      // Discovery doc URL for APIs used by the quickstart
+      const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/people/v1/rest';
 
       // Authorization scopes required by the API; multiple scopes can be
       // included, separated by spaces.
-      var SCOPES = "https://www.googleapis.com/auth/contacts.readonly";
+      const SCOPES = 'https://www.googleapis.com/auth/contacts.readonly';
 
-      var authorizeButton = document.getElementById('authorize_button');
-      var signoutButton = document.getElementById('signout_button');
+      let tokenClient;
+      let gapiInited = false;
+      let gisInited = false;
+
+      document.getElementById('authorize_button').style.visibility = 'hidden';
+      document.getElementById('signout_button').style.visibility = 'hidden';
 
       /**
-       *  On load, called to load the auth2 library and API client library.
+       * Callback after api.js is loaded.
        */
-      function handleClientLoad() {
-        gapi.load('client:auth2', initClient);
+      function gapiLoaded() {
+        gapi.load('client', intializeGapiClient);
       }
 
       /**
-       *  Initializes the API client library and sets up sign-in state
-       *  listeners.
+       * Callback after the API client is loaded. Loads the
+       * discovery doc to initialize the API.
        */
-      function initClient() {
-        gapi.client.init({
+      async function intializeGapiClient() {
+        await gapi.client.init({
           apiKey: API_KEY,
-          clientId: CLIENT_ID,
-          discoveryDocs: DISCOVERY_DOCS,
-          scope: SCOPES
-        }).then(function () {
-          // Listen for sign-in state changes.
-          gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
-
-          // Handle the initial sign-in state.
-          updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-          authorizeButton.onclick = handleAuthClick;
-          signoutButton.onclick = handleSignoutClick;
-        }, function(error) {
-          appendPre(JSON.stringify(error, null, 2));
+          discoveryDocs: [DISCOVERY_DOC],
         });
+        gapiInited = true;
+        maybeEnableButtons();
       }
 
       /**
-       *  Called when the signed in status changes, to update the UI
-       *  appropriately. After a sign-in, the API is called.
+       * Callback after Google Identity Services are loaded.
        */
-      function updateSigninStatus(isSignedIn) {
-        if (isSignedIn) {
-          authorizeButton.style.display = 'none';
-          signoutButton.style.display = 'block';
-          listConnectionNames();
-        } else {
-          authorizeButton.style.display = 'block';
-          signoutButton.style.display = 'none';
+      function gisLoaded() {
+        tokenClient = google.accounts.oauth2.initTokenClient({
+          client_id: CLIENT_ID,
+          scope: SCOPES,
+          callback: '', // defined later
+        });
+        gisInited = true;
+        maybeEnableButtons();
+      }
+
+      /**
+       * Enables user interaction after all libraries are loaded.
+       */
+      function maybeEnableButtons() {
+        if (gapiInited && gisInited) {
+          document.getElementById('authorize_button').style.visibility = 'visible';
         }
       }
 
       /**
        *  Sign in the user upon button click.
        */
-      function handleAuthClick(event) {
-        gapi.auth2.getAuthInstance().signIn();
+      function handleAuthClick() {
+        tokenClient.callback = async (resp) => {
+          if (resp.error !== undefined) {
+            throw (resp);
+          }
+          document.getElementById('signout_button').style.visibility = 'visible';
+          document.getElementById('authorize_button').innerText = 'Refresh';
+          await listConnectionNames();
+        };
+
+        if (gapi.client.getToken() === null) {
+          // Prompt the user to select an Google Account and asked for consent to share their data
+          // when establishing a new session.
+          tokenClient.requestAccessToken({prompt: 'consent'});
+        } else {
+          // Skip display of account chooser and consent dialog for an existing session.
+          tokenClient.requestAccessToken({prompt: ''});
+        }
       }
 
       /**
        *  Sign out the user upon button click.
        */
-      function handleSignoutClick(event) {
-        gapi.auth2.getAuthInstance().signOut();
-      }
-
-      /**
-       * Append a pre element to the body containing the given message
-       * as its text node. Used to display the results of the API call.
-       *
-       * @param {string} message Text to be placed in pre element.
-       */
-      function appendPre(message) {
-        var pre = document.getElementById('content');
-        var textContent = document.createTextNode(message + '\n');
-        pre.appendChild(textContent);
+      function handleSignoutClick() {
+        const token = gapi.client.getToken();
+        if (token !== null) {
+          google.accounts.oauth2.revoke(token.access_token);
+          gapi.client.setToken('');
+          document.getElementById('content').innerText = '';
+          document.getElementById('authorize_button').innerText = 'Authorize';
+          document.getElementById('signout_button').style.visibility = 'hidden';
+        }
       }
 
       /**
        * Print the display name if available for 10 connections.
        */
-      function listConnectionNames() {
-        gapi.client.people.people.connections.list({
-           'resourceName': 'people/me',
-           'pageSize': 10,
-           'personFields': 'names,emailAddresses',
-         }).then(function(response) {
-           var connections = response.result.connections;
-           appendPre('Connections:');
-
-           if (connections.length > 0) {
-             for (i = 0; i < connections.length; i++) {
-               var person = connections[i];
-               if (person.names && person.names.length > 0) {
-                 appendPre(person.names[0].displayName)
-               } else {
-                 appendPre("No display name found for connection.");
-               }
-             }
-           } else {
-             appendPre('No connections found.');
-           }
-         });
+      async function listConnectionNames() {
+        let response;
+        try {
+          // Fetch first 10 files
+          response = await gapi.client.people.people.connections.list({
+            'resourceName': 'people/me',
+            'pageSize': 10,
+            'personFields': 'names,emailAddresses',
+          });
+        } catch (err) {
+          document.getElementById('content').innerText = err.message;
+          return;
+        }
+        const connections = response.result.connections;
+        if (!connections || connections.length == 0) {
+          document.getElementById('content').innerText = 'No connections found.';
+          return;
+        }
+        // Flatten to string to display
+        const output = connections.reduce(
+            (str, person) => {
+              if (!person.names || person.names.length === 0) {
+                return `${str}Missing display name\n`;
+              }
+              return `${str}${person.names[0].displayName}\n`;
+            },
+            'Connections:\n');
+        document.getElementById('content').innerText = output;
       }
-
     </script>
-
-    <script async defer src="https://apis.google.com/js/api.js"
-      onload="this.onload=function(){};handleClientLoad()"
-      onreadystatechange="if (this.readyState === 'complete') this.onload()">
-    </script>
+    <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
+    <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
   </body>
 </html>
 <!-- [END people_quickstart] -->

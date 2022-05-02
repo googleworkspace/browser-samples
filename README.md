@@ -64,7 +64,7 @@ This error will occur during the authorization flow if the host and port used to
 
 ### idpiframe_initialization_failed: Failed to read the 'localStorage' property from 'Window'
 
-The Google Sign-in library requires that 3rd party cookies and data storage is enabled in the web browser. For users that run into this error, prompt them to enable the feature or add an exception for accounts.google.com.
+The Google Sign-in library requires that third-party cookies and data storage is enabled in the web browser. For users that run into this error, prompt them to enable the feature or add an exception for accounts.google.com.
 
 ### idpiframe_initialization_failed: Not a valid origin for the client
 
@@ -85,7 +85,7 @@ Configure [options](https://github.com/htmllint/htmllint/wiki/Options) in the `.
 
 ## Client Library
 
-Google Workspace APIs use the [Google API Javascript client library](https://github.com/google/google-api-javascript-client).
+Google Workspace APIs use the [Google API JavaScript client library](https://github.com/google/google-api-javascript-client).
 
 ## Contributing
 

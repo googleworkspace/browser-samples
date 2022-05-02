@@ -1,0 +1,29 @@
+{
+  "name": "@gsuite/samples",
+  "version": "1.0.0",
+  "description": "Node.js samples for [G Suite API](https://developers.google.com/gsuite/) docs.",
+  "license": "MIT",
+  "author": "Grant Timmerman",
+  "keywords": [
+    "G Suite",
+    "Apps Script",
+    "Calendar",
+    "Drive",
+    "Sheets",
+    "Slides",
+    "API"
+  ],
+  "devDependencies": {
+    "eslint": "^8.14.0",
+    "eslint-config-google": "^0.14",
+    "eslint-plugin-html": "^6.2.0"
+  },
+  "scripts": {
+    "lint": "eslint **/*.js **/*.html",
+    "lint:fix": "eslint --fix **/*.js **/*.html"
+  },
+  "eslintIgnore": [
+    "getFoldersUnderRoot.js",
+    "**/node_modules/**"
+  ]
+}
