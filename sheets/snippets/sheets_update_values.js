@@ -11,9 +11,10 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+// [START sheets_update_values]
 function updateValues(spreadsheetId, range, valueInputOption, _values, callback) {
-  // [START sheets_update_values]
-  var values = [
+
+  let values = [
     [
       // Cell values ...
     ],
@@ -22,7 +23,7 @@ function updateValues(spreadsheetId, range, valueInputOption, _values, callback)
   // [START_EXCLUDE silent]
   values = _values;
   // [END_EXCLUDE]
-  var body = {
+  let body = {
     values: values
   };
   gapi.client.sheets.spreadsheets.values.update({
@@ -31,13 +32,19 @@ function updateValues(spreadsheetId, range, valueInputOption, _values, callback)
      valueInputOption: valueInputOption,
      resource: body
   }).then((response) => {
-  try{
-    var result = response.result;
+  try
+  {
+    let result = response.result;
     console.log(`${result.updatedCells} cells updated.`);
     // [START_EXCLUDE silent]
     if(callback) callback(response);
     // [END_EXCLUDE]
-    } catch(ex){console.log(ex.message)}
+  }
+  catch(ex)
+  {
+  console.log("API returned an error",ex.message)
+   return;
+  }
   });
   // [END sheets_update_values]
 }
