@@ -28,7 +28,7 @@ limitations under the License.
     <button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
 
     <pre id="content" style="white-space: pre-wrap;"></pre>
-    <script src="sheets_append_values.js"></script>
+
     <script src="sheets_update_values.js"></script>
 
     <script type="text/javascript">
@@ -38,8 +38,8 @@ limitations under the License.
       /* exported handleSignoutClick */
       
       // TODO(developer): Set to client ID and API key from the Developer Console
-        var CLIENT_ID = '716200104187-dr1d9gdp0es2m3r4pqflobis6bik5qki.apps.googleusercontent.com';
-      var API_KEY = 'AIzaSyAiCirEGguR6HWVVpUQRNDGCVELzro2Vt8';
+        const CLIENT_ID = '<YOUR_CLIENT_ID>';
+        const API_KEY = '<YOUR_API_KEY>';
 
       // Discovery doc URL for APIs used by the quickstart
       const DISCOVERY_DOC = 'https://sheets.googleapis.com/$discovery/rest?version=v4';
@@ -127,7 +127,7 @@ limitations under the License.
           document.getElementById('signout_button').style.visibility = 'visible';
           document.getElementById('authorize_button').innerText = 'Refresh';
 
-
+          // TODO(developer): call the function
           await updateValues("1eaI4xAqR2SpC3Ysf7ExOE0JBtXUkZ5YMIYUZ3sPx9_w", "A1:B2", "USER_ENTERED",
           [['HCL', 'Google'],['C', 'D']]);
         };
