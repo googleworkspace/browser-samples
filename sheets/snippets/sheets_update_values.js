@@ -42,7 +42,7 @@ function updateValues(spreadsheetId, range, valueInputOption, _values, callback)
   }
   catch(ex)
   {
-  console.log("API returned an error",ex.message)
+  console.log("API returned an error in sheets_update_values",ex.message)
    return;
   }
   });

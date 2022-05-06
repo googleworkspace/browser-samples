@@ -29,14 +29,14 @@ try
     }
      catch(ex)
      {
-     console.log("API returned an error",ex.message);
+     console.log("API returned an error in sheets_create",ex.message);
      return;
      }
   });
   }
   catch(ex)
   {
-  console.log("API returned an error",ex.message);
+  console.log("API returned an error in sheets_create",ex.message);
   return;
   }
   // [END sheets_create]

@@ -53,14 +53,14 @@ function batchUpdate(spreadsheetId, title, find, replacement, callback) {
           }
           catch(ex)
           {
-          console.log("API returned an error",ex.message);
+          console.log("API returned an error in sheets_batch_update",ex.message);
           return;
           }
         });
      }
      catch(err)
      {
-     console.log("API returned an error",ex.message);
+     console.log("API returned an error in sheets_batch_update",ex.message);
      return;
      }
         // [END sheets_batch_update]

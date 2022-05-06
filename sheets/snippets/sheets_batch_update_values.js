@@ -49,7 +49,7 @@ try
   }
   catch(ex)
     {
-    console.log("API returned an error",ex.message)
+    console.log("API returned an error in sheets_batch_update_values",ex.message)
     return;
     }
     // [END_EXCLUDE]
@@ -57,7 +57,7 @@ try
  }
  catch(err)
  {
-  console.log("API returned an error",ex.message)
+  console.log("API returned an error in sheets_batch_update_values",ex.message)
    return;
  }
   // [END sheets_batch_update_values]

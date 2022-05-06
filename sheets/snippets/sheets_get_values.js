@@ -28,7 +28,7 @@ function getValues(spreadsheetId, range, callback) {
    }
      catch(ex)
         {
-        console.log("API returned an error",ex.message)
+        console.log("API returned an error in sheets_get_values",ex.message)
        return;
         }
     // [END_EXCLUDE]

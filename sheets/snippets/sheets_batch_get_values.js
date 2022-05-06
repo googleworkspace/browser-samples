@@ -34,7 +34,7 @@ function batchGetValues(spreadsheetId, _ranges, callback) {
   }
   catch(ex)
   {
-   console.log("API returned an error",ex.message);
+   console.log("API returned an error in sheets_batch_get_values",ex.message);
    return;
    }
   });

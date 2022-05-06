@@ -43,7 +43,7 @@ function appendValues(spreadsheetId, range, valueInputOption, _values, callback)
   }
    catch(ex)
    {
-   console.log("API returned an error",ex.message)
+   console.log("API returned an error in sheets_append_values",ex.message)
    return;
    }
   });
