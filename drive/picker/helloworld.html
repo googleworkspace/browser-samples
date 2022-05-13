@@ -35,6 +35,10 @@ limitations under the License.
   /* exported handleAuthClick */
   /* exported handleSignoutClick */
 
+  // Authorization scopes required by the API; multiple scopes can be
+  // included, separated by spaces.
+  const SCOPES = 'https://www.googleapis.com/auth/drive.metadata.readonly';
+
   // TODO(developer): Set to client ID and API key from the Developer Console
   const CLIENT_ID = '<YOUR_CLIENT_ID>';
   const API_KEY = '<YOUR_API_KEY>';
@@ -46,6 +50,7 @@ limitations under the License.
   let accessToken = null;
   let pickerInited = false;
   let gisInited = false;
+
 
   document.getElementById('authorize_button').style.visibility = 'hidden';
   document.getElementById('signout_button').style.visibility = 'hidden';
@@ -146,7 +151,8 @@ limitations under the License.
 
   /**
    * Displays the file details of the user's selection.
-  */
+   * @param {object} data - Containers the user selection from the picker
+   */
   function pickerCallback(data) {
     if (data.action === google.picker.Action.PICKED) {
       document.getElementById('content').innerText = JSON.stringify(data, null, 2);
