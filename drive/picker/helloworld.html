@@ -42,16 +42,9 @@ limitations under the License.
   // TODO(developer): Replace with your own project number from console.developers.google.com.
   const APP_ID = '<YOUR_APP_ID>';
 
-  // Discovery doc URL for APIs used by the quickstart
-  const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
-
-  // Authorization scopes required by the API; multiple scopes can be
-  // included, separated by spaces.
-  const SCOPES = 'https://www.googleapis.com/auth/drive.metadata.readonly';
-
   let tokenClient;
   let accessToken = null;
-  let gapiInited = false;
+  let pickerInited = false;
   let gisInited = false;
 
   document.getElementById('authorize_button').style.visibility = 'hidden';
@@ -69,7 +62,7 @@ limitations under the License.
    * discovery doc to initialize the API.
    */
   function intializePicker() {
-    gapiInited = true;
+    pickerInited = true;
     maybeEnableButtons();
   }
 
@@ -90,7 +83,7 @@ limitations under the License.
    * Enables user interaction after all libraries are loaded.
    */
   function maybeEnableButtons() {
-    if (gapiInited && gisInited) {
+    if (pickerInited && gisInited) {
       document.getElementById('authorize_button').style.visibility = 'visible';
     }
   }
