@@ -36,11 +36,11 @@ limitations under the License.
   /* exported handleSignoutClick */
 
   // TODO(developer): Set to client ID and API key from the Developer Console
-  const CLIENT_ID = '972459319367-enjed34s6d4avgkgbstdnuqsialu7gus.apps.googleusercontent.com'; // '<YOUR_CLIENT_ID>';
-  const API_KEY = 'AIzaSyAkgzAObPA4po2c_RuuXJbd0oGUozxoG6A';  //'<YOUR_API_KEY>';
+  const CLIENT_ID = '<YOUR_CLIENT_ID>';
+  const API_KEY = '<YOUR_API_KEY>';
 
   // TODO(developer): Replace with your own project number from console.developers.google.com.
-  const APP_ID = '972459319367'; //  '<YOUR_APP_ID>';
+  const APP_ID = '<YOUR_APP_ID>';
 
   // Discovery doc URL for APIs used by the quickstart
   const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
@@ -157,7 +157,6 @@ limitations under the License.
   function pickerCallback(data) {
     if (data.action === google.picker.Action.PICKED) {
       document.getElementById('content').innerText = JSON.stringify(data, null, 2);
-
     }
   }
 </script>
