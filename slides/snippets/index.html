@@ -63,6 +63,7 @@
       const CLIENT_ID = '<YOUR_CLIENT_ID>';
       const API_KEY = '<YOUR_API_KEY>';
 
+
       // Discovery doc URL for APIs used by the quickstart
       const  DISCOVERY_DOCS = [
           "https://slides.googleapis.com/$discovery/rest?version=v1",
@@ -216,34 +217,6 @@
        }
       }
 
-      /**
-       * Prints the number of slides and elements in a sample presentation:
-       * https://docs.google.com/presentation/d/1EAYk18WDjIG-zp_0vLm3CsfQh_i8eXc67Jo2O9C6Vuc/edit
-       */
-      async function listSlides() {
-        let response;
-        try {
-          response = await gapi.client.slides.presentations.get({
-            presentationId: '1EAYk18WDjIG-zp_0vLm3CsfQh_i8eXc67Jo2O9C6Vuc',
-          });
-        } catch (err) {
-          document.getElementById('content').innerText = err.message;
-          return;
-        }
-        const presentation = response.result;
-        if (!presentation || !presentation.slides || presentation.slides.length == 0) {
-          document.getElementById('content').innerText = 'No slides found.';
-          return;
-        }
-        // Flatten to string to display
-        const output = presentation.slides.reduce(
-            (str, slide, index) => {
-              const numElements = slide.pageElements.length;
-              return `${str}- Slide #${index} contains ${numElements} elements\n`;
-            },
-            'Slides:\n');
-        document.getElementById('content').innerText = output;
-      }
     </script>
     <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
     <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
