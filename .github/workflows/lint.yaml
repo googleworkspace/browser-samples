@@ -36,7 +36,7 @@ jobs:
           node-version: '14'
       - run: npm install
       - run: npm run lint
-      - uses: github/super-linter/slim@v4.9.0
+      - uses: github/super-linter/slim@v4.9.4
         if: always()
         env:
           ERROR_ON_MISSING_EXEC_BIT: true
