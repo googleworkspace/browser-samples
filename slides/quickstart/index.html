@@ -58,16 +58,9 @@ limitations under the License.
        * Callback after api.js is loaded.
        */
       function gapiLoaded() {
-      try
-      {
         gapi.load('client', intializeGapiClient);
       }
-      catch(ex)
-      {
-      console.log("API returned an error in gapiLoaded ",ex.message)
-       return;
-      }
-      }
+
 
       /**
        * Callback after the API client is loaded. Loads the
@@ -93,12 +86,12 @@ limitations under the License.
           scope: SCOPES,
           callback: '', // defined later
         });
-        }
-        catch(ex)
-         {
-         console.log("API returned an error in gisLoaded ",ex.message)
-         return;
-         }
+      }
+      catch(ex)
+      {
+        console.log("API returned an error in gisLoaded ",ex.message)
+        return;
+      }
         gisInited = true;
         maybeEnableButtons();
       }
@@ -128,7 +121,7 @@ limitations under the License.
         };
 
         if (gapi.client.getToken() === null) {
-          // Prompt the user to select an Google Account and asked for consent to share their data
+          // Prompt the user to select a Google Account and ask for consent to share their data
           // when establishing a new session.
           tokenClient.requestAccessToken({prompt: 'consent'});
         } else {
@@ -136,11 +129,11 @@ limitations under the License.
           tokenClient.requestAccessToken({prompt: ''});
         }
         }
-       catch(ex)
-       {
+      catch(ex)
+      {
        console.log("API returned an error in handleAuthClick",ex.message)
        return;
-       }
+      }
       }
 
       /**
@@ -157,12 +150,12 @@ limitations under the License.
           document.getElementById('authorize_button').innerText = 'Authorize';
           document.getElementById('signout_button').style.visibility = 'hidden';
         }
-        }
-       catch(ex)
-       {
+      }
+      catch(ex)
+      {
        console.log("API returned an error in handleSignoutClick",ex.message)
        return;
-       }
+      }
       }
 
       /**

@@ -58,16 +58,8 @@ limitations under the License.
        * Callback after api.js is loaded.
        */
       function gapiLoaded() {
-      try
-      {
-        gapi.load('client', intializeGapiClient);
-        }
-      catch(ex)
-      {
-      console.log("API returned an error in gapiLoaded ",ex.message)
-       return;
+             gapi.load('client', intializeGapiClient);
        }
-      }
 
       /**
        * Callback after the API client is loaded. Loads the
@@ -93,12 +85,12 @@ limitations under the License.
           scope: SCOPES,
           callback: '', // defined later
         });
-        }
-        catch(ex)
-         {
-         console.log("API returned an error in gisLoaded ",ex.message)
-         return;
-         }
+      }
+      catch(ex)
+      {
+        console.log("API returned an error in gisLoaded ",ex.message)
+        return;
+      }
         gisInited = true;
         maybeEnableButtons();
       }
@@ -134,13 +126,13 @@ limitations under the License.
         } else {
           // Skip display of account chooser and consent dialog for an existing session.
           tokenClient.requestAccessToken({prompt: ''});
-        }
-         }
-       catch(ex)
-       {
+      }
+      }
+      catch(ex)
+      {
        console.log("API returned an error in handleAuthClick",ex.message)
        return;
-       }
+      }
       }
 
       /**
@@ -157,9 +149,9 @@ limitations under the License.
           document.getElementById('authorize_button').innerText = 'Authorize';
           document.getElementById('signout_button').style.visibility = 'hidden';
         }
-        }
-       catch(ex)
-       {
+      }
+      catch(ex)
+      {
        console.log("API returned an error in handleSignoutClick",ex.message)
        return;
        }
