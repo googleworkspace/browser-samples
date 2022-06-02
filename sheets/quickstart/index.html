@@ -36,8 +36,8 @@ limitations under the License.
       /* exported handleSignoutClick */
       
       // TODO(developer): Set to client ID and API key from the Developer Console
-      const CLIENT_ID = '<YOUR_CLIENT_ID>';
-      const API_KEY = '<YOUR_API_KEY>';
+      //const CLIENT_ID = '<YOUR_CLIENT_ID>';
+      //const API_KEY = '<YOUR_API_KEY>';
 
       // Discovery doc URL for APIs used by the quickstart
       const DISCOVERY_DOC = 'https://sheets.googleapis.com/$discovery/rest?version=v4';
@@ -57,15 +57,7 @@ limitations under the License.
        * Callback after api.js is loaded.
        */
       function gapiLoaded() {
-      try
-      {
-        gapi.load('client', intializeGapiClient);
-      }
-      catch(ex)
-      {
-      console.log("API returned an error in gapiLoaded ",ex.message)
-      return;
-      }
+       gapi.load('client', intializeGapiClient);
       }
 
       /**
@@ -92,14 +84,14 @@ limitations under the License.
           scope: SCOPES,
           callback: '', // defined later
         });
-        }
-        catch(ex)
-         {
-         console.log("API returned an error in gisLoaded ",ex.message)
-         return;
-         }
-        gisInited = true;
-        maybeEnableButtons();
+      }
+      catch(ex)
+      {
+       console.log("API returned an error in gisLoaded ",ex.message)
+       return;
+      }
+       gisInited = true;
+       maybeEnableButtons();
       }
 
       /**
@@ -134,12 +126,12 @@ limitations under the License.
           // Skip display of account chooser and consent dialog for an existing session.
           tokenClient.requestAccessToken({prompt: ''});
         }
-         }
-       catch(ex)
-       {
+      }
+      catch(ex)
+      {
        console.log("API returned an error in handleAuthClick",ex.message)
        return;
-       }
+      }
       }
 
       /**
@@ -156,12 +148,12 @@ limitations under the License.
           document.getElementById('authorize_button').innerText = 'Authorize';
           document.getElementById('signout_button').style.visibility = 'hidden';
         }
-          }
-       catch(ex)
-       {
+      }
+      catch(ex)
+      {
        console.log("API returned an error in handleSignoutClick",ex.message)
        return;
-       }
+      }
       }
 
       /**

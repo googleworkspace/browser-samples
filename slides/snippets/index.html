@@ -92,16 +92,9 @@
        * Callback after api.js is loaded.
        */
       function gapiLoaded() {
-      try
-      {
-        gapi.load('client', intializeGapiClient);
-      }
-      catch(ex)
-      {
-      console.log("API returned an error in gapiLoaded ",ex.message)
-       return;
-      }
-      }
+              gapi.load('client', intializeGapiClient);
+       }
+
 
       /**
        * Callback after the API client is loaded. Loads the
@@ -127,12 +120,12 @@
           scope: SCOPES.join(' '),
           callback: '', // defined later
         });
-        }
-        catch(ex)
-         {
-         console.log("API returned an error in gisLoaded ",ex.message)
-         return;
-         }
+      }
+      catch(ex)
+      {
+       console.log("API returned an error in gisLoaded ",ex.message)
+       return;
+      }
         gisInited = true;
         maybeEnableButtons();
       }
@@ -171,11 +164,8 @@
               it('should text replace', testSimpleTextReplace);
               it('should update text style', testTextStyleUpdate);
               it('should create bulleted text', testCreateBulletedText);
-
-
-          });
+           });
           after(tearDown);
-
           mocha.run();
         };
 
@@ -187,13 +177,13 @@
           // Skip display of account chooser and consent dialog for an existing session.
           tokenClient.requestAccessToken({prompt: ''});
         }
-        }
-       catch(ex)
-       {
-       console.log("API returned an error in handleAuthClick",ex.message)
-       return;
-       }
-      }
+     }
+     catch(ex)
+     {
+      console.log("API returned an error in handleAuthClick",ex.message)
+      return;
+     }
+    }
 
       /**
        *  Sign out the user upon button click.
@@ -209,12 +199,12 @@
           document.getElementById('authorize_button').innerText = 'Authorize';
           document.getElementById('signout_button').style.visibility = 'hidden';
         }
-        }
-       catch(ex)
-       {
+      }
+      catch(ex)
+      {
        console.log("API returned an error in handleSignoutClick",ex.message)
        return;
-       }
+      }
       }
 
     </script>
