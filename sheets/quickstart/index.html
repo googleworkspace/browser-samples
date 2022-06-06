@@ -36,8 +36,8 @@ limitations under the License.
       /* exported handleSignoutClick */
       
       // TODO(developer): Set to client ID and API key from the Developer Console
-      //const CLIENT_ID = '<YOUR_CLIENT_ID>';
-      //const API_KEY = '<YOUR_API_KEY>';
+      const CLIENT_ID = '<YOUR_CLIENT_ID>';
+      const API_KEY = '<YOUR_API_KEY>';
 
       // Discovery doc URL for APIs used by the quickstart
       const DISCOVERY_DOC = 'https://sheets.googleapis.com/$discovery/rest?version=v4';
@@ -119,7 +119,7 @@ limitations under the License.
         };
 
         if (gapi.client.getToken() === null) {
-          // Prompt the user to select an Google Account and asked for consent to share their data
+          // Prompt the user to select a Google Account and ask for consent to share their data
           // when establishing a new session.
           tokenClient.requestAccessToken({prompt: 'consent'});
         } else {
