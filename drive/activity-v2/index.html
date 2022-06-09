@@ -34,7 +34,7 @@ limitations under the License.
       /* exported gisLoaded */
       /* exported handleAuthClick */
       /* exported handleSignoutClick */
-      
+
       // TODO(developer): Set to client ID and API key from the Developer Console
       const CLIENT_ID = '<YOUR_CLIENT_ID>';
       const API_KEY = '<YOUR_API_KEY>';
@@ -109,7 +109,7 @@ limitations under the License.
         };
 
         if (gapi.client.getToken() === null) {
-          // Prompt the user to select an Google Account and asked for consent to share their data
+          // Prompt the user to select a Google Account and ask for consent to share their data
           // when establishing a new session.
           tokenClient.requestAccessToken({prompt: 'consent'});
         } else {
@@ -165,7 +165,7 @@ limitations under the License.
       }
 
       // Utility methods for formatting activity records
-      
+
       /**
        * Returns a string representation of the first N elements in a list.
        * @param {string[]} array - Values to join
