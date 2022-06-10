@@ -11,20 +11,17 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-function getValues(spreadsheetId, range, callback) {
-  // [START sheets_get_values]
-  gapi.client.sheets.spreadsheets.values.get({
-    spreadsheetId: spreadsheetId,
-    range: range
-  }).then((response) => {
-  try{
-    var result = response.result;
-    var numRows = result.values ? result.values.length : 0;
-    console.log(`${numRows} rows retrieved.`);
-    // [START_EXCLUDE silent]
-    if (callback) callback(response);
-     } catch(ex){console.log(ex.message)}
-    // [END_EXCLUDE]
+function testUpdateSpreadsheetValues(done) {
+  createTestSpreadsheet(function(spreadsheetId) {
+    updateValues(spreadsheetId, 'A1:B2', 'USER_ENTERED', [
+     ['A', 'B'],
+     ['C', 'D']
+    ], function(response) {
+      let result = response.result;
+      assert.equal(result.updatedRows, 2);
+      assert.equal(result.updatedColumns, 2);
+      assert.equal(result.updatedCells, 4);
+      done();
+    });
   });
-  // [END sheets_get_values]
 }

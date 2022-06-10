@@ -11,22 +11,20 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-function create(title, callback) {
-try{
-
-  // [START sheets_create]
-  gapi.client.sheets.spreadsheets.create({
-    properties: {
-      title: title
-    }
-  }).then((response) => {
-  try{
-    // [START_EXCLUDE silent]
-    if (callback) callback(response);
-    console.log('Spreadsheet ID: ' + response.result.spreadsheetId);
-    // [END_EXCLUDE]
-    } catch(ex){console.log(ex.message)}
+function testAppendSpreadsheetValues(done) {
+  createTestSpreadsheet(function(spreadsheetId) {
+    populateValues(spreadsheetId, function(spreadsheetId) {
+      appendValues(spreadsheetId, 'Sheet1', 'USER_ENTERED', [
+        ['A', 'B'],
+        ['C', 'D']
+      ], function(response) {
+        assert.equal(response.result.tableRange, 'Sheet1!A1:J10');
+        let updates = response.result.updates;
+        assert.equal(updates.updatedRows, 2);
+        assert.equal(updates.updatedColumns, 2);
+        assert.equal(updates.updatedCells, 4);
+        done();
+      });
+    });
   });
-  } catch(ex){console.log(ex.message)}
-  // [END sheets_create]
 }
