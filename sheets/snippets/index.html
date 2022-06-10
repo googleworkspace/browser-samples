@@ -1,0 +1,208 @@
+<!--
+  Copyright 2018 Google LLC
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+       http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Google Sheets API Quickstart</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.4.2/mocha.min.css">
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <h2>Google Sheets API</h2>
+    <h3>Snippets - Javascript</h3>
+
+    <div id="mocha"></div>
+
+    <!--Add buttons to initiate auth sequence and sign out-->
+    <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
+    <button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.4.2/mocha.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/4.0.2/chai.min.js"></script>
+    <pre id="content" style="white-space: pre-wrap;"></pre>
+    <script src="sheets_append_values.js"></script>
+    <script src="sheets_batch_get_values.js"></script>
+    <script src="sheets_batch_update.js"></script>
+    <script src="sheets_batch_update_values.js"></script>
+    <script src="sheets_conditional_formatting.js"></script>
+    <script src="sheets_create.js"></script>
+    <script src="sheets_get_values.js"></script>
+    <script src="sheets_pivot_tables.js"></script>
+    <script src="sheets_update_values.js"></script>
+
+    <script src="base_test.js"></script>
+    <script src="test_append_spreadsheet_values.js"></script>
+    <script src="test_batch_get_spreadsheet_values.js"></script>
+    <script src="test_batch_update_spreadsheet.js"></script>
+    <script src="test_batch_update_spreadsheet_values.js"></script>
+    <script src="test_conditionally_format.js"></script>
+    <script src="test_create_pivot_tables.js"></script>
+    <script src="test_create_spreadsheet.js"></script>
+    <script src="test_get_spreadsheet_values.js"></script>
+    <script src="test_update_spreadsheet_values.js"></script>
+
+    <script type="text/javascript">
+      /* exported gapiLoaded */
+      /* exported gisLoaded */
+      /* exported handleAuthClick */
+      /* exported handleSignoutClick */
+      
+      // TODO(developer): Set to client ID and API key from the Developer Console
+      const CLIENT_ID = '<YOUR_CLIENT_ID>';
+      const API_KEY = '<YOUR_API_KEY>';
+
+      // Discovery doc URL for APIs used by the quickstart
+      const  DISCOVERY_DOCS = [
+          "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest",
+          "https://sheets.googleapis.com/$discovery/rest?version=v4",
+      ];
+
+      // Authorization scopes required by the API; multiple scopes can be
+      // included, separated by spaces.
+      const SCOPES = [
+        "https://www.googleapis.com/auth/drive",
+        "https://www.googleapis.com/auth/spreadsheets"
+      ];
+
+      let tokenClient;
+      let gapiInited = false;
+      let gisInited = false;
+
+      document.getElementById('authorize_button').style.visibility = 'hidden';
+      document.getElementById('signout_button').style.visibility = 'hidden';
+      let assert = chai.assert;
+      mocha.setup('bdd');
+
+      /**
+       * Callback after api.js is loaded.
+       */
+      function gapiLoaded() {
+        gapi.load('client', intializeGapiClient);
+       }
+
+      /**
+       * Callback after the API client is loaded. Loads the
+       * discovery doc to initialize the API.
+       */
+      async function intializeGapiClient() {
+        await gapi.client.init({
+          apiKey: API_KEY,
+          discoveryDocs: DISCOVERY_DOCS,
+        });
+        gapiInited = true;
+        maybeEnableButtons();
+      }
+
+      /**
+       * Callback after Google Identity Services are loaded.
+       */
+      function gisLoaded() {
+      try
+      {
+        tokenClient = google.accounts.oauth2.initTokenClient({
+          client_id: CLIENT_ID,
+          scope: SCOPES.join(' '),
+          callback: '', // defined later
+        });
+      }
+      catch(ex)
+      {
+       console.log("API returned an error in gisLoaded ",ex.message)
+       return;
+      }
+       gisInited = true;
+       maybeEnableButtons();
+      }
+
+      /**
+       * Enables user interaction after all libraries are loaded.
+       */
+      function maybeEnableButtons() {
+        if (gapiInited && gisInited) {
+          document.getElementById('authorize_button').style.visibility = 'visible';
+        }
+      }
+
+      /**
+       *  Sign in the user upon button click.
+       */
+      function handleAuthClick() {
+      try
+      {
+        tokenClient.callback = async (resp) => {
+          if (resp.error !== undefined) {
+            throw (resp);
+          }
+          document.getElementById('signout_button').style.visibility = 'visible';
+          document.getElementById('authorize_button').innerText = 'Refresh';
+
+         describe('Google Sheets API', function() {
+            this.timeout(10000);
+            it('should create a spreadsheet', testCreateSpreadsheet);
+            it('should batch update a spreadsheet', testBatchUpdateSpreadsheet);
+            it('should get spreadsheet values', testGetSpreadsheetValues);
+            it('should batch get spreadsheet values', testBatchGetSpreadsheetValues);
+            it('should update spreadsheet values', testUpdateSpreadsheetValues);
+            it('should batch update spreadsheet values', testBatchUpdateSpreadsheetValues);
+            it('should append values to a spreadsheet', testAppendSpreadsheetValues);
+            it('should create pivot tables', testCreatePivotTables);
+            it('should conditionally format', testConditionallyFormat);
+          });
+          after(tearDown);
+          mocha.run();
+        };
+
+        if (gapi.client.getToken() === null) {
+          // Prompt the user to select a Google Account and ask for consent to share their data
+          // when establishing a new session.
+          tokenClient.requestAccessToken({prompt: 'consent'});
+        } else {
+          // Skip display of account chooser and consent dialog for an existing session.
+          tokenClient.requestAccessToken({prompt: ''});
+        }
+      }
+      catch(ex)
+      {
+       console.log("API returned an error in handleAuthClick",ex.message)
+       return;
+      }
+     }
+
+      /**
+       *  Sign out the user upon button click.
+       */
+      function handleSignoutClick() {
+      try
+      {
+        const token = gapi.client.getToken();
+        if (token !== null) {
+          google.accounts.oauth2.revoke(token.access_token);
+          gapi.client.setToken('');
+          document.getElementById('content').innerText = '';
+          document.getElementById('authorize_button').innerText = 'Authorize';
+          document.getElementById('signout_button').style.visibility = 'hidden';
+        }
+      }
+      catch(ex)
+      {
+       console.log("API returned an error in handleSignoutClick",ex.message)
+       return;
+      }
+     }
+
+    </script>
+    <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
+    <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
+  </body>
+</html>
+
