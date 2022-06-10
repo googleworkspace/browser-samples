@@ -34,10 +34,11 @@ limitations under the License.
       /* exported gisLoaded */
       /* exported handleAuthClick */
       /* exported handleSignoutClick */
-
+      
       // TODO(developer): Set to client ID and API key from the Developer Console
-      const CLIENT_ID = '<YOUR_CLIENT_ID>';
-      const API_KEY = '<YOUR_API_KEY>';
+      //const CLIENT_ID = '<YOUR_CLIENT_ID>';
+      //const API_KEY = '<YOUR_API_KEY>';
+
 
       // Discovery doc URL for APIs used by the quickstart
       const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/driveactivity/v2/rest';
@@ -77,11 +78,19 @@ limitations under the License.
        * Callback after Google Identity Services are loaded.
        */
       function gisLoaded() {
+      try
+      {
         tokenClient = google.accounts.oauth2.initTokenClient({
           client_id: CLIENT_ID,
           scope: SCOPES,
           callback: '', // defined later
         });
+      }
+      catch(ex)
+      {
+       console.log("API returned an error in gisLoaded ",ex.message)
+       return;
+      }
         gisInited = true;
         maybeEnableButtons();
       }
@@ -99,6 +108,8 @@ limitations under the License.
        *  Sign in the user upon button click.
        */
       function handleAuthClick() {
+      try
+      {
         tokenClient.callback = async (resp) => {
           if (resp.error !== undefined) {
             throw (resp);
@@ -117,11 +128,19 @@ limitations under the License.
           tokenClient.requestAccessToken({prompt: ''});
         }
       }
+      catch(ex)
+      {
+       console.log("API returned an error in handleAuthClick",ex.message)
+       return;
+      }
+     }
 
       /**
        *  Sign out the user upon button click.
        */
       function handleSignoutClick() {
+      try
+      {
         const token = gapi.client.getToken();
         if (token !== null) {
           google.accounts.oauth2.revoke(token.access_token);
@@ -131,6 +150,12 @@ limitations under the License.
           document.getElementById('signout_button').style.visibility = 'hidden';
         }
       }
+      catch(ex)
+      {
+       console.log("API returned an error in handleSignoutClick",ex.message)
+       return;
+      }
+    }
 
       /**
        * Print recent activity.
@@ -165,7 +190,7 @@ limitations under the License.
       }
 
       // Utility methods for formatting activity records
-
+      
       /**
        * Returns a string representation of the first N elements in a list.
        * @param {string[]} array - Values to join
@@ -228,7 +253,7 @@ limitations under the License.
         }
         return getOneOf(user);
       }
-
+g
       /**
        * Returns actor information, or the type of actor if not a user.
        * @param {object} actor - Actor record
