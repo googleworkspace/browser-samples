@@ -11,19 +11,26 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+// [START sheets_get_values]
 function getValues(spreadsheetId, range, callback) {
-  // [START sheets_get_values]
+
   gapi.client.sheets.spreadsheets.values.get({
     spreadsheetId: spreadsheetId,
     range: range
   }).then((response) => {
-  try{
-    var result = response.result;
-    var numRows = result.values ? result.values.length : 0;
+  try
+  {
+    let result = response.result;
+    let numRows = result.values ? result.values.length : 0;
     console.log(`${numRows} rows retrieved.`);
     // [START_EXCLUDE silent]
     if (callback) callback(response);
-     } catch(ex){console.log(ex.message)}
+   }
+     catch(ex)
+        {
+        console.log("API returned an error in sheets_get_values",ex.message)
+       return;
+        }
     // [END_EXCLUDE]
   });
   // [END sheets_get_values]

@@ -11,9 +11,11 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
+// [START sheets_append_values]
 function appendValues(spreadsheetId, range, valueInputOption, _values, callback) {
-  // [START sheets_append_values]
-  var values = [
+
+  let values = [
     [
       // Cell values ...
     ],
@@ -22,7 +24,7 @@ function appendValues(spreadsheetId, range, valueInputOption, _values, callback)
   // [START_EXCLUDE silent]
   values = _values;
   // [END_EXCLUDE]
-  var body = {
+  const body = {
     values: values
   };
   gapi.client.sheets.spreadsheets.values.append({
@@ -31,13 +33,19 @@ function appendValues(spreadsheetId, range, valueInputOption, _values, callback)
      valueInputOption: valueInputOption,
      resource: body
   }).then((response) => {
-  try{
-    var result = response.result;
+  try
+  {
+    const result = response.result;
     console.log(`${result.updates.updatedCells} cells appended.`)
     // [START_EXCLUDE silent]
     if (callback) callback(response);
     // [END_EXCLUDE]
-    } catch(ex){console.log(ex.message)}
+  }
+   catch(ex)
+   {
+   console.log("API returned an error in sheets_append_values",ex.message)
+   return;
+   }
   });
   // [END sheets_append_values]
 }

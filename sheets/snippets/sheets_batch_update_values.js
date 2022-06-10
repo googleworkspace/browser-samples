@@ -11,10 +11,12 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+// [START sheets_batch_update_values]
 function batchUpdateValues(spreadsheetId, range, valueInputOption, _values, callback) {
-try{
-  // [START sheets_batch_update_values]
-  var values = [
+try
+{
+
+  let values = [
     [
       // Cell values ...
     ],
@@ -23,14 +25,14 @@ try{
   // [START_EXCLUDE silent]
   values = _values;
   // [END_EXCLUDE]
-  var data = [];
+  let data = [];
   data.push({
     range: range,
     values: values
   });
   // Additional ranges to update.
 
-  var body = {
+  let body = {
     data: data,
     valueInputOption: valueInputOption
   };
@@ -38,17 +40,25 @@ try{
      spreadsheetId: spreadsheetId,
      resource: body
   }).then((response) => {
-  try{
-    var result = response.result;
+  try
+  {
+    let result = response.result;
     console.log(`${result.totalUpdatedCells} cells updated.`);
     // [START_EXCLUDE silent]
     if(callback) callback(response);
-    }catch(ex)
-    {console.log(ex.message)}
+  }
+  catch(ex)
+    {
+    console.log("API returned an error in sheets_batch_update_values",ex.message)
+    return;
+    }
     // [END_EXCLUDE]
   });
  }
  catch(err)
- { console.log(err.message)}
+ {
+  console.log("API returned an error in sheets_batch_update_values",ex.message)
+   return;
+ }
   // [END sheets_batch_update_values]
 }

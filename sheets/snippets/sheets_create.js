@@ -11,22 +11,33 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+// [START sheets_create]
 function create(title, callback) {
-try{
-
-  // [START sheets_create]
+try
+{
   gapi.client.sheets.spreadsheets.create({
     properties: {
       title: title
     }
   }).then((response) => {
-  try{
+  try
+  {
     // [START_EXCLUDE silent]
     if (callback) callback(response);
     console.log('Spreadsheet ID: ' + response.result.spreadsheetId);
     // [END_EXCLUDE]
-    } catch(ex){console.log(ex.message)}
+    }
+     catch(ex)
+     {
+     console.log("API returned an error in sheets_create",ex.message);
+     return;
+     }
   });
-  } catch(ex){console.log(ex.message)}
+  }
+  catch(ex)
+  {
+  console.log("API returned an error in sheets_create",ex.message);
+  return;
+  }
   // [END sheets_create]
 }
