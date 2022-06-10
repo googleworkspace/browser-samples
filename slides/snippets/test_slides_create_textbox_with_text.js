@@ -11,22 +11,16 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-function create(title, callback) {
-try{
-
-  // [START sheets_create]
-  gapi.client.sheets.spreadsheets.create({
-    properties: {
-      title: title
-    }
-  }).then((response) => {
-  try{
-    // [START_EXCLUDE silent]
-    if (callback) callback(response);
-    console.log('Spreadsheet ID: ' + response.result.spreadsheetId);
-    // [END_EXCLUDE]
-    } catch(ex){console.log(ex.message)}
+function testCreateTextboxWithText(done) {
+  createTestPresentation(function(presentationId) {
+    addSlides(presentationId, 1, 'BLANK', function(ids) {
+      const pageId = ids[0];
+      createTextboxWithText(presentationId, pageId, function(response) {
+        assert.equal(2, response.replies.length);
+        let boxId = response.replies[0].createShape.objectId;
+        assert.isNotNull(boxId);
+        done();
+      });
+    })
   });
-  } catch(ex){console.log(ex.message)}
-  // [END sheets_create]
 }

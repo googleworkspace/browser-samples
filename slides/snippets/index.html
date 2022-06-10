@@ -1,18 +1,16 @@
 <!--
   Copyright 2018 Google LLC
-
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-
        http://www.apache.org/licenses/LICENSE-2.0
-
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -24,59 +22,194 @@
     <h2>Google Slides API</h2>
     <h3>Snippets - Javascript</h3>
 
-    <!--Add buttons to initiate auth sequence and sign out-->
-    <button id="authorize_button" style="display: none;">Authorize</button>
-    <button id="signout_button" style="display: none;">Sign Out</button>
-
     <div id="mocha"></div>
 
-    <pre id="content"></pre>
+    <!--Add buttons to initiate auth sequence and sign out-->
+    <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
+    <button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.4.2/mocha.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/4.0.2/chai.min.js"></script>
-    <script src="snippets.js"></script>
+    <pre id="content" style="white-space: pre-wrap;"></pre>
+    <script src="slides_create_presentation.js"></script>
+    <script src="slides_copy_presentation.js"></script>
+    <script src="slides_create_slide.js"></script>
+    <script src="slides_create_textbox_with_text.js"></script>
+    <script src="slides_create_image.js"></script>
+    <script src="slides_text_merging.js"></script>
+    <script src="slides_image_merging.js"></script>
+    <script src="slides_simple_text_replace.js"></script>
+    <script src="slides_text_style_update.js"></script>
+    <script src="slides_create_bulleted_text.js"></script>
+    <script src="slides_create_sheets_chart.js"></script>
+    <script src="slides_refresh_sheets_chart.js"></script>
     <script src="base_test.js"></script>
-    <script src="test_snippets.js"></script>
+    <script src="test_slides_create_presentation.js"></script>
+    <script src="test_slides_copy_presentation.js"></script>
+    <script src="test_slides_create_slide.js"></script>
+    <script src="test_slides_create_textbox_with_text.js"></script>
+    <script src="test_slides_create_image.js"></script>
+    <script src="test_slides_text_merging.js"></script>
+    <script src="test_slides_image_merging.js"></script>
+    <script src="test_slides_simple_text_replace.js"></script>
+    <script src="test_slides_text_style_update.js"></script>
+    <script src="test_slides_create_bulleted_text.js"></script>
     <script type="text/javascript">
-      // Mocha/Chai (Global)
-      var assert = chai.assert;
+      /* exported gapiLoaded */
+      /* exported gisLoaded */
+      /* exported handleAuthClick */
+      /* exported handleSignoutClick */
+      
+      // TODO(developer): Set to client ID and API key from the Developer Console
+      const CLIENT_ID = '<YOUR_CLIENT_ID>';
+      const API_KEY = '<YOUR_API_KEY>';
+
+
+      // Discovery doc URL for APIs used by the quickstart
+      const  DISCOVERY_DOCS = [
+          "https://slides.googleapis.com/$discovery/rest?version=v1",
+          "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest",
+          "https://sheets.googleapis.com/$discovery/rest?version=v4",
+      ];
+
+      // Authorization scopes required by the API; multiple scopes can be
+      // included, separated by spaces.
+      const SCOPES = [
+        "https://www.googleapis.com/auth/drive",
+        "https://www.googleapis.com/auth/presentations",
+        "https://www.googleapis.com/auth/spreadsheets"
+      ];
+
+      let tokenClient;
+      let gapiInited = false;
+      let gisInited = false;
+
+      document.getElementById('authorize_button').style.visibility = 'hidden';
+      document.getElementById('signout_button').style.visibility = 'hidden';
+      let assert = chai.assert;
       mocha.setup('bdd');
 
       /**
-       *  Called when the signed in status changes, to update the UI
-       *  appropriately. After a sign-in, the API is called.
+       * Callback after api.js is loaded.
        */
-      function updateSigninStatus(isSignedIn) {
-        if (isSignedIn) {
-          authorizeButton.style.display = 'none';
-          signoutButton.style.display = 'block';
+      function gapiLoaded() {
+              gapi.load('client', intializeGapiClient);
+       }
+
+
+      /**
+       * Callback after the API client is loaded. Loads the
+       * discovery doc to initialize the API.
+       */
+      async function intializeGapiClient() {
+        await gapi.client.init({
+          apiKey: API_KEY,
+          discoveryDocs: DISCOVERY_DOCS,
+        });
+        gapiInited = true;
+        maybeEnableButtons();
+      }
+
+      /**
+       * Callback after Google Identity Services are loaded.
+       */
+      function gisLoaded() {
+      try
+      {
+        tokenClient = google.accounts.oauth2.initTokenClient({
+          client_id: CLIENT_ID,
+          scope: SCOPES.join(' '),
+          callback: '', // defined later
+        });
+      }
+      catch(ex)
+      {
+       console.log("API returned an error in gisLoaded ",ex.message)
+       return;
+      }
+        gisInited = true;
+        maybeEnableButtons();
+      }
+
+      /**
+       * Enables user interaction after all libraries are loaded.
+       */
+      function maybeEnableButtons() {
+        if (gapiInited && gisInited) {
+          document.getElementById('authorize_button').style.visibility = 'visible';
+        }
+      }
+
+      /**
+       *  Sign in the user upon button click.
+       */
+      function handleAuthClick() {
+      try
+      {
+        tokenClient.callback = async (resp) => {
+          if (resp.error !== undefined) {
+            throw (resp);
+          }
+          document.getElementById('signout_button').style.visibility = 'visible';
+          document.getElementById('authorize_button').innerText = 'Refresh';
 
           describe('Google Slides API', function() {
             this.timeout(10000);
-            it('should create a presentation', testCreatePresentation);
-            it('should copy a presentation', testCopyPresentation);
-            it('should create a slide', testCreateSlide);
-            it('should create a textbox with text', testCreateTextboxWithText);
-            it('should create an image', testCreateImage);
-            it('should merge text', testTextMerging);
-            it('should merge images', testImageMerging);
-            it('should text replace', testSimpleTextReplace);
-            it('should update text style', testTextStyleUpdate);
-            it('should create bulleted text', testCreateBulletedText);
-            it('should create sheets chart', testCreateSheetsChart);
-            it('should refresh sheets chart', testRefreshSheetsChart);
-          });
+              it('should create a presentation', testCreatePresentation);
+              it('should copy a presentation', testCopyPresentation);
+              it('should create a slide', testCreateSlide);
+              it('should create a textbox with text', testCreateTextboxWithText);
+              it('should create an image', testCreateImage);
+              it('should merge text', testTextMerging);
+              it('should merge images', testImageMerging);
+              it('should text replace', testSimpleTextReplace);
+              it('should update text style', testTextStyleUpdate);
+              it('should create bulleted text', testCreateBulletedText);
+           });
           after(tearDown);
-
           mocha.run();
+        };
+
+        if (gapi.client.getToken() === null) {
+          // Prompt the user to select a Google Account and ask for consent to share their data
+          // when establishing a new session.
+          tokenClient.requestAccessToken({prompt: 'consent'});
         } else {
-          authorizeButton.style.display = 'block';
-          signoutButton.style.display = 'none';
+          // Skip display of account chooser and consent dialog for an existing session.
+          tokenClient.requestAccessToken({prompt: ''});
+        }
+     }
+     catch(ex)
+     {
+      console.log("API returned an error in handleAuthClick",ex.message)
+      return;
+     }
+    }
+
+      /**
+       *  Sign out the user upon button click.
+       */
+      function handleSignoutClick() {
+      try
+      {
+        const token = gapi.client.getToken();
+        if (token !== null) {
+          google.accounts.oauth2.revoke(token.access_token);
+          gapi.client.setToken('');
+          document.getElementById('content').innerText = '';
+          document.getElementById('authorize_button').innerText = 'Authorize';
+          document.getElementById('signout_button').style.visibility = 'hidden';
         }
       }
+      catch(ex)
+      {
+       console.log("API returned an error in handleSignoutClick",ex.message)
+       return;
+      }
+      }
+
     </script>
-    <script async defer src="https://apis.google.com/js/api.js"
-      onload="this.onload=function(){};handleClientLoad()"
-      onreadystatechange="if (this.readyState === 'complete') this.onload()">
-    </script>
+    <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
+    <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
   </body>
 </html>
+
