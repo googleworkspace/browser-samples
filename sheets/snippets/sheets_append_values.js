@@ -14,7 +14,6 @@
 
 // [START sheets_append_values]
 function appendValues(spreadsheetId, range, valueInputOption, _values, callback) {
-
   let values = [
     [
       // Cell values ...
@@ -25,23 +24,20 @@ function appendValues(spreadsheetId, range, valueInputOption, _values, callback)
   const body = {
     values: values
   };
+  try {
   gapi.client.sheets.spreadsheets.values.append({
      spreadsheetId: spreadsheetId,
      range: range,
      valueInputOption: valueInputOption,
      resource: body
   }).then((response) => {
-  try
-  {
     const result = response.result;
     console.log(`${result.updates.updatedCells} cells appended.`)
     if (callback) callback(response);
-  }
-  catch(err)
-  {
+  });
+  } catch(err) {
     document.getElementById('content').innerText = err.message;
     return;
   }
-  });
   // [END sheets_append_values]
 }

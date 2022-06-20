@@ -57,21 +57,18 @@ function conditionalFormatting(spreadsheetId, callback) {
   let body = {
     requests
   };
+  try {
   gapi.client.sheets.spreadsheets.batchUpdate({
     spreadsheetId: spreadsheetId,
     resource: body
   }).then((response) => {
-   try
-   {
     let result = response.result;
     console.log(`${result.replies.length} cells updated.`);
     if(callback) callback(response);
-   }
-   catch(err)
-   {
-       document.getElementById('content').innerText = err.message;
-       return;
-   }
   });
+  } catch(err) {
+    document.getElementById('content').innerText = err.message;
+    return;
+  }
   // [END sheets_conditional_formatting]
 }

@@ -31,23 +31,20 @@ function batchUpdate(spreadsheetId, title, find, replacement, callback) {
             allSheets: true
           }
         });
+        try {
         // Add additional requests (operations) ...
         let batchUpdateRequest = {requests: requests}
         gapi.client.sheets.spreadsheets.batchUpdate({
           spreadsheetId: spreadsheetId,
           resource: batchUpdateRequest
         }).then((response) => {
-        try
-        {
           let findReplaceResponse = response.result.replies[1].findReplace;
           console.log(`${findReplaceResponse.occurrencesChanged} replacements made.`);
           if (callback) callback(response);
-        }
-        catch(err)
-        {
-        document.getElementById('content').innerText = err.message;
-        return;
-        }
        });
+       } catch(err) {
+         document.getElementById('content').innerText = err.message;
+         return;
+       }
         // [END sheets_batch_update]
     }

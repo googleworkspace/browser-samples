@@ -13,21 +13,18 @@
 // limitations under the License.
 // [START sheets_create]
 function create(title, callback) {
+  try {
   gapi.client.sheets.spreadsheets.create({
     properties: {
       title: title
     }
   }).then((response) => {
-  try
-  {
     if (callback) callback(response);
     console.log('Spreadsheet ID: ' + response.result.spreadsheetId);
-  }
-  catch(err)
-  {
-   document.getElementById('content').innerText = err.message;
-   return;
-  }
   });
+  } catch(err) {
+    document.getElementById('content').innerText = err.message;
+    return;
+  }
   // [END sheets_create]
 }

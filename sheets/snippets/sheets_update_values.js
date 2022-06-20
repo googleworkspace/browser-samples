@@ -23,23 +23,20 @@ function updateValues(spreadsheetId, range, valueInputOption, _values, callback)
   let body = {
     values: values
   };
+  try {
   gapi.client.sheets.spreadsheets.values.update({
      spreadsheetId: spreadsheetId,
      range: range,
      valueInputOption: valueInputOption,
      resource: body
   }).then((response) => {
-  try
-  {
     let result = response.result;
     console.log(`${result.updatedCells} cells updated.`);
     if(callback) callback(response);
-  }
-  catch(err)
-  {
-  document.getElementById('content').innerText = err.message;
-  return;
-  }
   });
+  } catch(err) {
+    document.getElementById('content').innerText = err.message;
+    return;
+  }
   // [END sheets_update_values]
 }

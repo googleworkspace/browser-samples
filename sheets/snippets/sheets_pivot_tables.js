@@ -21,12 +21,11 @@ function pivotTable(spreadsheetId, callback) {
     addSheet: {}
   }];
   let batchUpdateRequest = {requests: requests};
+  try {
   gapi.client.sheets.spreadsheets.batchUpdate({
     spreadsheetId: spreadsheetId,
     resource: batchUpdateRequest
   }).then((response) => {
-  try
-  {
     const sourceSheetId = response.result.replies[0].addSheet.properties.sheetId;
     const targetSheetId = response.result.replies[1].addSheet.properties.sheetId;
 
@@ -79,11 +78,9 @@ function pivotTable(spreadsheetId, callback) {
     }).then((response) => {
       if(callback) callback(response);
     });
-    }
-    catch(err)
-    {
+  });
+  } catch(err) {
     document.getElementById('content').innerText = err.message;
     return;
-    }
-  });
+  }
 }
