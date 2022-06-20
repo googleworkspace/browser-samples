@@ -1,175 +1,191 @@
 <!--
-Copyright 2022 Google LLC
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    https://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+  Copyright 2018 Google LLC
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+       http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
 -->
 
 <!DOCTYPE html>
 <html>
   <head>
     <title>Google Sheets API Quickstart</title>
-    <link rel="stylesheet" type="text/css"
-           href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.4.2/mocha.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.4.2/mocha.min.css">
     <meta charset="utf-8" />
   </head>
   <body>
     <h2>Google Sheets API</h2>
     <h3>Snippets - Javascript</h3>
 
-    <!--Add buttons to initiate auth sequence and sign out-->
-    <button id="authorize_button" style="display: none;">Authorize</button>
-    <button id="signout_button" style="display: none;">Sign Out</button>
     <div id="mocha"></div>
 
+    <!--Add buttons to initiate auth sequence and sign out-->
+    <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
+    <button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.4.2/mocha.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/4.0.2/chai.min.js"></script>
-
-    <script src="sheets_create.js"></script>
-    <script src="sheets_batch_update.js"></script>
-    <script src="sheets_get_values.js"></script>
-    <script src="sheets_batch_get_values.js"></script>
-    <script src="sheets_update_values.js"></script>
-    <script src="sheets_batch_update_values.js"></script>
-    <script src="sheets_append_values.js"></script>
     <pre id="content" style="white-space: pre-wrap;"></pre>
+    <script src="sheets_append_values.js"></script>
+    <script src="sheets_batch_get_values.js"></script>
+    <script src="sheets_batch_update.js"></script>
+    <script src="sheets_batch_update_values.js"></script>
+    <script src="sheets_conditional_formatting.js"></script>
+    <script src="sheets_create.js"></script>
+    <script src="sheets_get_values.js"></script>
+    <script src="sheets_pivot_tables.js"></script>
+    <script src="sheets_update_values.js"></script>
+
+    <script src="base_test.js"></script>
+    <script src="test_append_spreadsheet_values.js"></script>
+    <script src="test_batch_get_spreadsheet_values.js"></script>
+    <script src="test_batch_update_spreadsheet.js"></script>
+    <script src="test_batch_update_spreadsheet_values.js"></script>
+    <script src="test_conditionally_format.js"></script>
+    <script src="test_create_pivot_tables.js"></script>
+    <script src="test_create_spreadsheet.js"></script>
+    <script src="test_get_spreadsheet_values.js"></script>
+    <script src="test_update_spreadsheet_values.js"></script>
 
     <script type="text/javascript">
-    // Mocha/Chai (Global)
-      var assert = chai.assert;
-      mocha.setup('bdd');
-      // Client ID and API key from the Developer Console
-      var CLIENT_ID = '716200104187-dr1d9gdp0es2m3r4pqflobis6bik5qki.apps.googleusercontent.com';
-      var API_KEY = 'AIzaSyAiCirEGguR6HWVVpUQRNDGCVELzro2Vt8';
+      /* exported gapiLoaded */
+      /* exported gisLoaded */
+      /* exported handleAuthClick */
+      /* exported handleSignoutClick */
+      
+      // TODO(developer): Set to client ID and API key from the Developer Console
+      const CLIENT_ID = '<YOUR_CLIENT_ID>';
+      const API_KEY = '<YOUR_API_KEY>';
 
-      // Array of API discovery doc URLs for APIs used by the quickstart
-      var DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
+      // Discovery doc URL for APIs used by the quickstart
+      const  DISCOVERY_DOCS = [
+          "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest",
+          "https://sheets.googleapis.com/$discovery/rest?version=v4",
+      ];
 
       // Authorization scopes required by the API; multiple scopes can be
       // included, separated by spaces.
-      var SCOPES = "https://www.googleapis.com/auth/spreadsheets";
+      const SCOPES = [
+        "https://www.googleapis.com/auth/drive",
+        "https://www.googleapis.com/auth/spreadsheets"
+      ];
 
-      var authorizeButton = document.getElementById('authorize_button');
-      var signoutButton = document.getElementById('signout_button');
+      let tokenClient;
+      let gapiInited = false;
+      let gisInited = false;
+
+      document.getElementById('authorize_button').style.visibility = 'hidden';
+      document.getElementById('signout_button').style.visibility = 'hidden';
+      let assert = chai.assert;
+      mocha.setup('bdd');
 
       /**
-       *  On load, called to load the auth2 library and API client library.
+       * Callback after api.js is loaded.
        */
-      function handleClientLoad() {
-        gapi.load('client:auth2', initClient);
-      }
+      function gapiLoaded() {
+        gapi.load('client', intializeGapiClient);
+       }
 
       /**
-       *  Initializes the API client library and sets up sign-in state
-       *  listeners.
+       * Callback after the API client is loaded. Loads the
+       * discovery doc to initialize the API.
        */
-      function initClient() {
-        gapi.client.init({
+      async function intializeGapiClient() {
+        await gapi.client.init({
           apiKey: API_KEY,
-          clientId: CLIENT_ID,
           discoveryDocs: DISCOVERY_DOCS,
-          scope: SCOPES
-        }).then(function () {
-          // Listen for sign-in state changes.
-          gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
-
-          // Handle the initial sign-in state.
-          updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-          authorizeButton.onclick = handleAuthClick;
-          signoutButton.onclick = handleSignoutClick;
-        }, function(error) {
-          appendPre(JSON.stringify(error, null, 2));
         });
+        gapiInited = true;
+        maybeEnableButtons();
       }
 
       /**
-       *  Called when the signed in status changes, to update the UI
-       *  appropriately. After a sign-in, the API is called.
+       * Callback after Google Identity Services are loaded.
        */
-      function updateSigninStatus(isSignedIn) {
-        if (isSignedIn) {
-          authorizeButton.style.display = 'none';
-          signoutButton.style.display = 'block';
-          /*pass title  as a parameter for calling create function
-          create("myJS");*/
+      function gisLoaded() {
+        tokenClient = google.accounts.oauth2.initTokenClient({
+          client_id: CLIENT_ID,
+          scope: SCOPES.join(' '),
+          callback: '', // defined later
+        });
+       gisInited = true;
+       maybeEnableButtons();
+      }
 
-          /*pass spreadsheetId, title, find, replacement parameter for processing batchupdate
-          function*/
-          batchUpdate("1eaI4xAqR2SpC3Ysf7ExOE0JBtXUkZ5YMIYUZ3sPx9_w","myfirst","HCL","Google");
-
-          /*pass spreadsheetId and  range parameter for procsessing getValues*/
-          getValues("1eaI4xAqR2SpC3Ysf7ExOE0JBtXUkZ5YMIYUZ3sPx9_w", "A1:C2",);
-
-          /*Pass spreadsheetId and ranges values for batchGetValues fucntion*/
-          batchGetValues("1eaI4xAqR2SpC3Ysf7ExOE0JBtXUkZ5YMIYUZ3sPx9_w", ['A1:A3', 'B1:C1']);
-
-          /*Pass spreadsheetId, range, valueInputOption and values parameter for processing updateValues*/
-          updateValues("1eaI4xAqR2SpC3Ysf7ExOE0JBtXUkZ5YMIYUZ3sPx9_w", "A1:B2", "USER_ENTERED",
-          [['HCL', 'Google'],['C', 'D']]);
-
-          /*Pass spreadsheetId, range, valueInputOption and values parameter for processing
-          batchUpdateValues*/
-          batchUpdateValues("1eaI4xAqR2SpC3Ysf7ExOE0JBtXUkZ5YMIYUZ3sPx9_w",'A1:B2',
-          'USER_ENTERED', [['india', 'USA'],['C', 'D']]);
-
-          /*Pass spreadsheetId, range, valueInputOption, values parameter for processing
-          appendValues function*/
-          appendValues("1eaI4xAqR2SpC3Ysf7ExOE0JBtXUkZ5YMIYUZ3sPx9_w", 'Sheet1', 'USER_ENTERED', [['A', 'B'],['C', 'D']])
-
-          mocha.run();
-        } else {
-          authorizeButton.style.display = 'block';
-          signoutButton.style.display = 'none';
+      /**
+       * Enables user interaction after all libraries are loaded.
+       */
+      function maybeEnableButtons() {
+        if (gapiInited && gisInited) {
+          document.getElementById('authorize_button').style.visibility = 'visible';
         }
       }
 
       /**
        *  Sign in the user upon button click.
        */
-      function handleAuthClick(event) {
-        gapi.auth2.getAuthInstance().signIn();
-      }
+      function handleAuthClick() {
+        tokenClient.callback = async (resp) => {
+          if (resp.error !== undefined) {
+            throw (resp);
+          }
+          document.getElementById('signout_button').style.visibility = 'visible';
+          document.getElementById('authorize_button').innerText = 'Refresh';
+        try
+        {
+         describe('Google Sheets API', function() {
+            this.timeout(10000);
+            it('should create a spreadsheet', testCreateSpreadsheet);
+            it('should batch update a spreadsheet', testBatchUpdateSpreadsheet);
+            it('should get spreadsheet values', testGetSpreadsheetValues);
+            it('should batch get spreadsheet values', testBatchGetSpreadsheetValues);
+            it('should update spreadsheet values', testUpdateSpreadsheetValues);
+            it('should batch update spreadsheet values', testBatchUpdateSpreadsheetValues);
+            it('should append values to a spreadsheet', testAppendSpreadsheetValues);
+            it('should create pivot tables', testCreatePivotTables);
+            it('should conditionally format', testConditionallyFormat);
+          });
+         }
+        catch(err)
+        {
+         document.getElementById('content').innerText = err.message;
+         return;
+        }
+          after(tearDown);
+          mocha.run();
+        };
+
+        if (gapi.client.getToken() === null) {
+          // Prompt the user to select a Google Account and ask for consent to share their data
+          // when establishing a new session.
+          tokenClient.requestAccessToken({prompt: 'consent'});
+        } else {
+          // Skip display of account chooser and consent dialog for an existing session.
+          tokenClient.requestAccessToken({prompt: ''});
+        }
+     }
 
       /**
        *  Sign out the user upon button click.
        */
-      function handleSignoutClick(event) {
-        gapi.auth2.getAuthInstance().signOut();
-      }
-
-      /**
-       * Append a pre element to the body containing the given message
-       * as its text node. Used to display the results of the API call.
-       *
-       * @param {string} message Text to be placed in pre element.
-       */
-      function appendPre(message) {
-        var pre = document.getElementById('content');
-        var textContent = document.createTextNode(message + '\n');
-        pre.appendChild(textContent);
-      }
-
-      /**
-       * Print the names and majors of students in a sample spreadsheet:
-       * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
-       */
-
+      function handleSignoutClick() {
+        const token = gapi.client.getToken();
+        if (token !== null) {
+          google.accounts.oauth2.revoke(token.access_token);
+          gapi.client.setToken('');
+          document.getElementById('content').innerText = '';
+          document.getElementById('authorize_button').innerText = 'Authorize';
+          document.getElementById('signout_button').style.visibility = 'hidden';
+        }
+     }
 
     </script>
-
-    <script async defer src="https://apis.google.com/js/api.js"
-      onload="this.onload=function(){};handleClientLoad()"
-      onreadystatechange="if (this.readyState === 'complete') this.onload()">
-    </script>
+    <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
+    <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
   </body>
 </html>
-<!-- [END sheets_quickstart] -->
+
