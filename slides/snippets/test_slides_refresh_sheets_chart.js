@@ -11,20 +11,16 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-function getValues(spreadsheetId, range, callback) {
-  // [START sheets_get_values]
-  gapi.client.sheets.spreadsheets.values.get({
-    spreadsheetId: spreadsheetId,
-    range: range
-  }).then((response) => {
-  try{
-    var result = response.result;
-    var numRows = result.values ? result.values.length : 0;
-    console.log(`${numRows} rows retrieved.`);
-    // [START_EXCLUDE silent]
-    if (callback) callback(response);
-     } catch(ex){console.log(ex.message)}
-    // [END_EXCLUDE]
+function testRefreshSheetsChart(done) {
+  createTestPresentation(function(presentationId) {
+    addSlides(presentationId, 1, 'BLANK', function(pageIds) {
+      var pageId = pageIds[0];
+      createTestSheetsChart(presentationId, pageId, DATA_SPREADSHEET_ID, CHART_ID, function(sheetChartId) {
+        refreshSheetsChart(presentationId, sheetChartId, function(response) {
+          assert.equal(1, response.replies.length);
+          done();
+        });
+      });
+    });
   });
-  // [END sheets_get_values]
 }
