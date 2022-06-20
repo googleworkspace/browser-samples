@@ -11,25 +11,28 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+// [START sheets_batch_get_values]
 function batchGetValues(spreadsheetId, _ranges, callback) {
-  // [START sheets_batch_get_values]
-  var ranges = [
+
+  let ranges = [
     // Range names ...
   ];
-  // [START_EXCLUDE silent]
   ranges = _ranges;
-  // [END_EXCLUDE]
   gapi.client.sheets.spreadsheets.values.batchGet({
      spreadsheetId: spreadsheetId,
      ranges: ranges
   }).then((response) => {
-  try{
-    var result = response.result;
+  try
+  {
+    let result = response.result;
     console.log(`${result.valueRanges.length} ranges retrieved.`);
-    // [START_EXCLUDE silent]
     if(callback) callback(response);
-    // [END_EXCLUDE]
-    } catch(ex){console.log(ex.message)}
+  }
+  catch(err)
+  {
+   document.getElementById('content').innerText = err.message;
+   return;
+  }
   });
   // [END sheets_batch_get_values]
 }

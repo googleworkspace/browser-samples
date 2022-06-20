@@ -11,11 +11,9 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+// [START sheets_batch_update]
 function batchUpdate(spreadsheetId, title, find, replacement, callback) {
-    try
-    {
-        // [START sheets_batch_update]
-        var requests = [];
+        let requests = [];
         // Change the spreadsheet's title.
         requests.push({
           updateSpreadsheetProperties: {
@@ -32,28 +30,24 @@ function batchUpdate(spreadsheetId, title, find, replacement, callback) {
             replacement: replacement,
             allSheets: true
           }
-
         });
         // Add additional requests (operations) ...
-
-        var batchUpdateRequest = {requests: requests}
-
+        let batchUpdateRequest = {requests: requests}
         gapi.client.sheets.spreadsheets.batchUpdate({
           spreadsheetId: spreadsheetId,
           resource: batchUpdateRequest
         }).then((response) => {
-        try{
-          var findReplaceResponse = response.result.replies[1].findReplace;
+        try
+        {
+          let findReplaceResponse = response.result.replies[1].findReplace;
           console.log(`${findReplaceResponse.occurrencesChanged} replacements made.`);
-          // [START_EXCLUDE silent]
           if (callback) callback(response);
-          // [END_EXCLUDE]
-          } catch(ex){console.log(ex.message)}
-        });
-     }
-     catch(err)
-     {
-     console.log("error occur")
-     }
+        }
+        catch(err)
+        {
+        document.getElementById('content').innerText = err.message;
+        return;
+        }
+       });
         // [END sheets_batch_update]
-      }
+    }
