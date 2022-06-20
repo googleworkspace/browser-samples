@@ -17,21 +17,18 @@ function copyPresentation(presentationId, copyTitle, callback) {
   let request = {
     name: copyTitle
   };
+  try {
   gapi.client.drive.files.copy({
     fileId: presentationId,
     resource: request
   }).then((driveResponse) => {
-  try
-  {
     let presentationCopyId = driveResponse.result.id;
     if(callback) callback(presentationCopyId);
     console.log("create copy_presentation with id",presentationCopyId);
-  }
-  catch(err)
-  {
-   document.getElementById('content').innerText = err.message;
-   return;
-  }
   });
+  } catch(err) {
+    document.getElementById('content').innerText = err.message;
+    return;
+  }
   // [END slides_copy_presentation]
 }

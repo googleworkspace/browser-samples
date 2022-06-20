@@ -18,6 +18,7 @@ function imageMerging(templatePresentationId, imageUrl, customerName, callback) 
 
   // Duplicate the template presentation using the Drive API.
   const copyTitle = customerName + ' presentation';
+  try {
   gapi.client.drive.files.copy({
     fileId: templatePresentationId,
     resource: {
@@ -52,8 +53,6 @@ function imageMerging(templatePresentationId, imageUrl, customerName, callback) 
       presentationId: presentationCopyId,
       requests: requests
     }).then((batchUpdateResponse) => {
-    try
-    {
       let numReplacements = 0;
       for (let i = 0; i < batchUpdateResponse.result.replies.length; ++i) {
         numReplacements += batchUpdateResponse.result.replies[i].replaceAllShapesWithImage.occurrencesChanged;
@@ -61,13 +60,11 @@ function imageMerging(templatePresentationId, imageUrl, customerName, callback) 
       console.log(`Created merged presentation with ID: ${presentationCopyId}`);
       console.log(`Replaced ${numReplacements} shapes with images.`);
       if(callback) callback(batchUpdateResponse.result);
-    }
-    catch(err)
-    {
-     document.getElementById('content').innerText = err.message;
-     return;
-    }
     });
   });
+  } catch(err) {
+    document.getElementById('content').innerText = err.message;
+    return;
+  }
   // [END slides_image_merging]
 }

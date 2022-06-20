@@ -17,6 +17,7 @@ function textMerging(templatePresentationId, dataSpreadsheetId, callback) {
   // Use the Sheets API to load data, one record per row.
   let responses = [];
   const dataRangeNotation = 'Customers!A2:M6';
+  try {
   gapi.client.sheets.spreadsheets.values.get({
     spreadsheetId: dataSpreadsheetId,
     range: dataRangeNotation
@@ -73,8 +74,6 @@ function textMerging(templatePresentationId, dataSpreadsheetId, callback) {
           presentationId: presentationCopyId,
           requests: requests
         }).then((batchUpdateResponse) => {
-        try
-        {
           let result = batchUpdateResponse.result;
           responses.push(result.replies);
           // Count the total number of replacements made.
@@ -87,15 +86,13 @@ function textMerging(templatePresentationId, dataSpreadsheetId, callback) {
           if (responses.length === values.length) { // callback for the last value
             if(callback) callback(responses);
           }
-        }
-        catch(err)
-        {
-          document.getElementById('content').innerText = err.message;
-          return;
-        }
         });
       });
     }
   });
+  } catch(err) {
+    document.getElementById('content').innerText = err.message;
+    return;
+  }
   // [END slides_text_merging]
 }

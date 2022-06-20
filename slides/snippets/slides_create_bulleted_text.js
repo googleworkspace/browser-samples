@@ -14,7 +14,6 @@
 
 // [START slides_create_bulleted_text]
 function createBulletedText(presentationId, shapeId, callback) {
-
   // Add arrow-diamond-disc bullets to all text in the shape.
   let requests = [{
     createParagraphBullets: {
@@ -27,21 +26,18 @@ function createBulletedText(presentationId, shapeId, callback) {
   }];
 
   // Execute the requests.
+  try {
   gapi.client.slides.presentations.batchUpdate({
     presentationId: presentationId,
     requests: requests
   }).then((batchUpdateResponse) => {
-  try
-  {
     console.log(`Added bullets to text in shape with ID: ${shapeId}`);
     if(callback) callback(batchUpdateResponse.result);
-  }
-  catch(err)
-  {
-   document.getElementById('content').innerText = err.message;
-   return;
-  }
   });
+  } catch(err) {
+    document.getElementById('content').innerText = err.message;
+    return;
+  }
   // [END slides_create_bulleted_text]
 
 }

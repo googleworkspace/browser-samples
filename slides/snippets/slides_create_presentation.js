@@ -13,19 +13,16 @@
 // limitations under the License.
 // [START slides_create_presentation]
 function createPresentation(title, callback) {
+  try {
   gapi.client.slides.presentations.create({
     title: title
   }).then((response) => {
-  try
-  {
     console.log(`Created presentation with ID: ${response.result.presentationId}`);
     if(callback) callback(response);
-  }
-  catch(err)
-  {
-   document.getElementById('content').innerText = err.message;
-   return;
-  }
   });
+  } catch(err) {
+    document.getElementById('content').innerText = err.message;
+    return;
+  }
   // [END slides_create_presentation]
 }

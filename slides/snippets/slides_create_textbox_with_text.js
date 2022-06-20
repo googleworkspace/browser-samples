@@ -51,21 +51,18 @@ function createTextboxWithText(presentationId, pageId, callback) {
   }];
 
   // Execute the request.
+  try {
   gapi.client.slides.presentations.batchUpdate({
     presentationId: presentationId,
     requests: requests
   }).then((createTextboxWithTextResponse) => {
-  try
-  {
     let createShapeResponse = createTextboxWithTextResponse.result.replies[0].createShape;
     console.log(`Created textbox with ID: ${createShapeResponse.objectId}`);
     if(callback) callback(createTextboxWithTextResponse.result);
-    }
-  catch(err)
-  {
-   document.getElementById('content').innerText = err.message;
-   return;
-  }
   });
+  } catch(err) {
+    document.getElementById('content').innerText = err.message;
+    return;
+  }
   // [END slides_create_textbox_with_text]
 }
