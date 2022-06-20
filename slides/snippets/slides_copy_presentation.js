@@ -11,20 +11,27 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-function getValues(spreadsheetId, range, callback) {
-  // [START sheets_get_values]
-  gapi.client.sheets.spreadsheets.values.get({
-    spreadsheetId: spreadsheetId,
-    range: range
-  }).then((response) => {
-  try{
-    var result = response.result;
-    var numRows = result.values ? result.values.length : 0;
-    console.log(`${numRows} rows retrieved.`);
-    // [START_EXCLUDE silent]
-    if (callback) callback(response);
-     } catch(ex){console.log(ex.message)}
-    // [END_EXCLUDE]
+// [START slides_copy_presentation]
+function copyPresentation(presentationId, copyTitle, callback) {
+
+  let request = {
+    name: copyTitle
+  };
+  gapi.client.drive.files.copy({
+    fileId: presentationId,
+    resource: request
+  }).then((driveResponse) => {
+  try
+  {
+    let presentationCopyId = driveResponse.result.id;
+    if(callback) callback(presentationCopyId);
+    console.log("create copy_presentation with id",presentationCopyId);
+  }
+  catch(err)
+  {
+   document.getElementById('content').innerText = err.message;
+   return;
+  }
   });
-  // [END sheets_get_values]
+  // [END slides_copy_presentation]
 }
