@@ -46,6 +46,5 @@ function batchUpdate(spreadsheetId, title, find, replacement, callback) {
          document.getElementById('content').innerText = err.message;
          return;
        }
-
-    }
+  }
 // [END sheets_batch_update]

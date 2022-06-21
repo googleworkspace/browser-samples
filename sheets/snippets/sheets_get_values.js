@@ -27,6 +27,5 @@ function getValues(spreadsheetId, range, callback) {
     document.getElementById('content').innerText = err.message;
     return;
   }
-
 }
 // [END sheets_get_values]

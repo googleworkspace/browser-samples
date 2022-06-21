@@ -44,6 +44,5 @@ function batchUpdateValues(spreadsheetId, range, valueInputOption, _values, call
     document.getElementById('content').innerText = err.message;
     return;
   }
-
 }
 // [END sheets_batch_update_values]
