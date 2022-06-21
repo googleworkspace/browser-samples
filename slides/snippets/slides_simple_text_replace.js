@@ -43,6 +43,5 @@ function simpleTextReplace(presentationId, shapeId, replacementText, callback) {
     document.getElementById('content').innerText = err.message;
     return;
   }
-
 }
 // [END slides_simple_text_replace]

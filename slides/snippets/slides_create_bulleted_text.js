@@ -39,4 +39,4 @@ function createBulletedText(presentationId, shapeId, callback) {
     return;
   }
 }
-// [END slides_create_bulleted_text]
+//[END slides_create_bulleted_text]

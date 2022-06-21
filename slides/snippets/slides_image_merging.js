@@ -66,6 +66,5 @@ function imageMerging(templatePresentationId, imageUrl, customerName, callback) 
     document.getElementById('content').innerText = err.message;
     return;
   }
-
 }
 // [END slides_image_merging]

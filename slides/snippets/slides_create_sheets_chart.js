@@ -59,4 +59,4 @@ function createSheetsChart(presentationId, pageId, shapeId, sheetChartId, callba
     return;
   }
 }
-// [END slides_create_sheets_chart]
+//[END slides_create_sheets_chart]

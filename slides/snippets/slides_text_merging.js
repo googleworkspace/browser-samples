@@ -95,4 +95,4 @@ function textMerging(templatePresentationId, dataSpreadsheetId, callback) {
     return;
   }
 }
-// [END slides_text_merging]
+//[END slides_text_merging]

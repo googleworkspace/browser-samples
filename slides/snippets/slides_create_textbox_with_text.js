@@ -64,6 +64,5 @@ function createTextboxWithText(presentationId, pageId, callback) {
     document.getElementById('content').innerText = err.message;
     return;
   }
-
 }
 // [END slides_create_textbox_with_text]

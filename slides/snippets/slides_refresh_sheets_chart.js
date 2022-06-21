@@ -34,6 +34,5 @@ function refreshSheetsChart(presentationId, presentationChartId, callback) {
     document.getElementById('content').innerText = err.message;
     return;
   }
-
 }
 // [END slides_refresh_sheets_chart]
