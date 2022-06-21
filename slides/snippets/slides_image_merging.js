@@ -47,7 +47,6 @@ function imageMerging(templatePresentationId, imageUrl, customerName, callback) 
         }
       }
     }];
-
     // Execute the requests for this presentation.
     gapi.client.slides.presentations.batchUpdate({
       presentationId: presentationCopyId,

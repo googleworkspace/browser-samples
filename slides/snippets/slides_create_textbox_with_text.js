@@ -13,7 +13,6 @@
 // limitations under the License.
 // [START slides_create_textbox_with_text]
 function createTextboxWithText(presentationId, pageId, callback) {
-
   // Create a new square textbox, using the supplied element ID.
   const elementId = 'MyTextBox_01';
   let pt350 = {
@@ -49,7 +48,6 @@ function createTextboxWithText(presentationId, pageId, callback) {
       text: 'New Box Text Inserted!'
     }
   }];
-
   // Execute the request.
   try {
   gapi.client.slides.presentations.batchUpdate({

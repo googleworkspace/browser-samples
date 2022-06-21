@@ -14,13 +14,11 @@
 
 // [START slides_refresh_sheets_chart]
 function refreshSheetsChart(presentationId, presentationChartId, callback) {
-
   let requests = [{
     refreshSheetsChart: {
       objectId: presentationChartId
     }
   }];
-
   // Execute the request.
   try {
   gapi.client.slides.presentations.batchUpdate({

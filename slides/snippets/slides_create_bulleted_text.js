@@ -24,7 +24,6 @@ function createBulletedText(presentationId, shapeId, callback) {
       bulletPreset: 'BULLET_ARROW_DIAMOND_DISC'
     }
   }];
-
   // Execute the requests.
   try {
   gapi.client.slides.presentations.batchUpdate({

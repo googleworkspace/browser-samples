@@ -14,7 +14,6 @@
 
 // [START slides_text_style_update]
 function textStyleUpdate(presentationId, shapeId, callback) {
-
   // Update the text style so that the first 5 characters are bolded
   // and italicized, the next 5 are displayed in blue 14 pt Times
   // New Roman font, and the next 5 are hyperlinked.
@@ -74,7 +73,6 @@ function textStyleUpdate(presentationId, shapeId, callback) {
       fields: 'link'
     }
   }];
-
   // Execute the requests.
   try {
   gapi.client.slides.presentations.batchUpdate({

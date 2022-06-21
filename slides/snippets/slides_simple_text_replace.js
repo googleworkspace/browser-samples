@@ -13,7 +13,6 @@
 // limitations under the License.
 // [START slides_simple_text_replace]
 function simpleTextReplace(presentationId, shapeId, replacementText, callback) {
-
   // Remove existing text in the shape, then insert new text.
   let requests = [{
     deleteText: {
@@ -29,7 +28,6 @@ function simpleTextReplace(presentationId, shapeId, replacementText, callback) {
       text: replacementText
     }
   }];
-
   // Execute the requests.
   try {
   gapi.client.slides.presentations.batchUpdate({

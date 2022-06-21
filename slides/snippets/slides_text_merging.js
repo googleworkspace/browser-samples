@@ -13,7 +13,6 @@
 // limitations under the License.
 // [START slides_text_merging]
 function textMerging(templatePresentationId, dataSpreadsheetId, callback) {
-
   // Use the Sheets API to load data, one record per row.
   let responses = [];
   const dataRangeNotation = 'Customers!A2:M6';
@@ -23,7 +22,6 @@ function textMerging(templatePresentationId, dataSpreadsheetId, callback) {
     range: dataRangeNotation
   }).then((sheetsResponse) => {
     let values = sheetsResponse.result.values;
-
     // For each record, create a new merged presentation.
     for (let i = 0; i < values.length; ++i) {
       let row = values[i];

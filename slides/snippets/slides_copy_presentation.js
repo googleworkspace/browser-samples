@@ -13,7 +13,6 @@
 // limitations under the License.
 // [START slides_copy_presentation]
 function copyPresentation(presentationId, copyTitle, callback) {
-
   let request = {
     name: copyTitle
   };

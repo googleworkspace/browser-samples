@@ -13,7 +13,6 @@
 // limitations under the License.
 // [START slides_create_sheets_chart]
 function createSheetsChart(presentationId, pageId, shapeId, sheetChartId, callback) {
-
   // Embed a Sheets chart (indicated by the spreadsheetId and sheetChartId) onto
   // a page in the presentation. Setting the linking mode as "LINKED" allows the
   // chart to be refreshed if the Sheets version is updated.
@@ -44,7 +43,6 @@ function createSheetsChart(presentationId, pageId, shapeId, sheetChartId, callba
       }
     }
   }];
-
   // Execute the request.
   try {
   gapi.client.slides.presentations.batchUpdate({

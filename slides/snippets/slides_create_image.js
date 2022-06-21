@@ -13,7 +13,6 @@
 // limitations under the License.
 // [START slides_create_image]
 function createImage(presentationId, pageId, IMAGE_URL,callback) {
-
   let imageUrl = IMAGE_URL;
   // Create a new image, using the supplied object ID, with content downloaded from imageUrl.
   let requests = [];
@@ -42,7 +41,6 @@ function createImage(presentationId, pageId, IMAGE_URL,callback) {
       }
     }
   });
-
   // Execute the request.
   try {
   gapi.client.slides.presentations.batchUpdate({
