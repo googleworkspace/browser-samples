@@ -26,5 +26,6 @@ function create(title, callback) {
     document.getElementById('content').innerText = err.message;
     return;
   }
-  // [END sheets_create]
+
 }
+// [END sheets_create]

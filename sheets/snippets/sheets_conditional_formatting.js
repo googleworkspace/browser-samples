@@ -70,5 +70,6 @@ function conditionalFormatting(spreadsheetId, callback) {
     document.getElementById('content').innerText = err.message;
     return;
   }
-  // [END sheets_conditional_formatting]
+
 }
+// [END sheets_conditional_formatting]

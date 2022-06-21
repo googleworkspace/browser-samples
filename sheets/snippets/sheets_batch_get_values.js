@@ -30,5 +30,6 @@ function batchGetValues(spreadsheetId, _ranges, callback) {
     document.getElementById('content').innerText = err.message;
     return;
   }
-  // [END sheets_batch_get_values]
+
 }
+// [END sheets_batch_get_values]

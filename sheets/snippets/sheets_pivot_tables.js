@@ -84,3 +84,4 @@ function pivotTable(spreadsheetId, callback) {
     return;
   }
 }
+// [END sheets_pivot_tables]

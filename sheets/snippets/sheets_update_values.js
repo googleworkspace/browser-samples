@@ -38,5 +38,6 @@ function updateValues(spreadsheetId, range, valueInputOption, _values, callback)
     document.getElementById('content').innerText = err.message;
     return;
   }
-  // [END sheets_update_values]
+
 }
+// [END sheets_update_values]
