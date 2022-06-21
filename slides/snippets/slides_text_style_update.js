@@ -88,5 +88,5 @@ function textStyleUpdate(presentationId, shapeId, callback) {
     document.getElementById('content').innerText = err.message;
     return;
   }
-  // [END slides_text_style_update]
 }
+// [END slides_text_style_update]

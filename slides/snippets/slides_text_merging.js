@@ -94,5 +94,5 @@ function textMerging(templatePresentationId, dataSpreadsheetId, callback) {
     document.getElementById('content').innerText = err.message;
     return;
   }
-  // [END slides_text_merging]
 }
+// [END slides_text_merging]

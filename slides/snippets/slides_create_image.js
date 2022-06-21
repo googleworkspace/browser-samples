@@ -57,5 +57,6 @@ function createImage(presentationId, pageId, IMAGE_URL,callback) {
     document.getElementById('content').innerText = err.message;
     return;
   }
-  // [END slides_create_image]
+
 }
+// [END slides_create_image]

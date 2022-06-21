@@ -30,5 +30,6 @@ function copyPresentation(presentationId, copyTitle, callback) {
     document.getElementById('content').innerText = err.message;
     return;
   }
-  // [END slides_copy_presentation]
+
 }
+// [END slides_copy_presentation]

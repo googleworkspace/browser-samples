@@ -37,5 +37,6 @@ function createSlide(presentationId, pageId, callback) {
     document.getElementById('content').innerText = err.message;
     return;
   }
-  // [END slides_create_slide]
+
 }
+// [END slides_create_slide]

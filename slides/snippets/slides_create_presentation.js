@@ -24,5 +24,6 @@ function createPresentation(title, callback) {
     document.getElementById('content').innerText = err.message;
     return;
   }
-  // [END slides_create_presentation]
+
 }
+// [END slides_create_presentation]

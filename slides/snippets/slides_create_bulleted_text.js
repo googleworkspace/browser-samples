@@ -38,6 +38,5 @@ function createBulletedText(presentationId, shapeId, callback) {
     document.getElementById('content').innerText = err.message;
     return;
   }
-  // [END slides_create_bulleted_text]
-
 }
+// [END slides_create_bulleted_text]
