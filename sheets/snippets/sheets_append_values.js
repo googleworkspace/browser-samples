@@ -25,16 +25,16 @@ function appendValues(spreadsheetId, range, valueInputOption, _values, callback)
     values: values
   };
   try {
-  gapi.client.sheets.spreadsheets.values.append({
-     spreadsheetId: spreadsheetId,
-     range: range,
-     valueInputOption: valueInputOption,
-     resource: body
-  }).then((response) => {
-    const result = response.result;
-    console.log(`${result.updates.updatedCells} cells appended.`)
-    if (callback) callback(response);
-  });
+      gapi.client.sheets.spreadsheets.values.append({
+         spreadsheetId: spreadsheetId,
+         range: range,
+         valueInputOption: valueInputOption,
+         resource: body
+      }).then((response) => {
+        const result = response.result;
+        console.log(`${result.updates.updatedCells} cells appended.`)
+        if (callback) callback(response);
+      });
   } catch(err) {
     document.getElementById('content').innerText = err.message;
     return;
