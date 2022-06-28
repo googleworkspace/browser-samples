@@ -30,13 +30,13 @@ function simpleTextReplace(presentationId, shapeId, replacementText, callback) {
   }];
   // Execute the requests.
   try {
-  gapi.client.slides.presentations.batchUpdate({
-    presentationId: presentationId,
-    requests: requests
-  }).then((batchUpdateResponse) => {
-    console.log(`Replaced text in shape with ID: ${shapeId}`)
-    if (callback) callback(batchUpdateResponse.result);
-  });
+      gapi.client.slides.presentations.batchUpdate({
+        presentationId: presentationId,
+        requests: requests
+      }).then((batchUpdateResponse) => {
+        console.log(`Replaced text in shape with ID: ${shapeId}`)
+        if (callback) callback(batchUpdateResponse.result);
+      });
   } catch(err) {
     document.getElementById('content').innerText = err.message;
     return;

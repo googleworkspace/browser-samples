@@ -21,13 +21,13 @@ function refreshSheetsChart(presentationId, presentationChartId, callback) {
   }];
   // Execute the request.
   try {
-  gapi.client.slides.presentations.batchUpdate({
-    presentationId: presentationId,
-    requests: requests
-  }).then((batchUpdateResponse) => {
-    console.log(`Refreshed a linked Sheets chart with ID: ${presentationChartId}`);
-    if (callback) callback(batchUpdateResponse.result);
-  });
+      gapi.client.slides.presentations.batchUpdate({
+        presentationId: presentationId,
+        requests: requests
+      }).then((batchUpdateResponse) => {
+        console.log(`Refreshed a linked Sheets chart with ID: ${presentationChartId}`);
+        if (callback) callback(batchUpdateResponse.result);
+      });
   } catch(err) {
     document.getElementById('content').innerText = err.message;
     return;

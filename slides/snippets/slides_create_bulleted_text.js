@@ -26,13 +26,13 @@ function createBulletedText(presentationId, shapeId, callback) {
   }];
   // Execute the requests.
   try {
-  gapi.client.slides.presentations.batchUpdate({
-    presentationId: presentationId,
-    requests: requests
-  }).then((batchUpdateResponse) => {
-    console.log(`Added bullets to text in shape with ID: ${shapeId}`);
-    if(callback) callback(batchUpdateResponse.result);
-  });
+      gapi.client.slides.presentations.batchUpdate({
+        presentationId: presentationId,
+        requests: requests
+      }).then((batchUpdateResponse) => {
+        console.log(`Added bullets to text in shape with ID: ${shapeId}`);
+        if(callback) callback(batchUpdateResponse.result);
+      });
   } catch(err) {
     document.getElementById('content').innerText = err.message;
     return;
