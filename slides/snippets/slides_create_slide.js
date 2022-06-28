@@ -26,13 +26,13 @@ function createSlide(presentationId, pageId, callback) {
   // using the pageId.
   // Execute the request.
   try {
-  gapi.client.slides.presentations.batchUpdate({
-    presentationId: presentationId,
-    requests: requests
-  }).then((createSlideResponse) => {
-    console.log(`Created slide with ID: ${createSlideResponse.result.replies[0].createSlide.objectId}`);
-    if(callback) callback(createSlideResponse);
-  });
+      gapi.client.slides.presentations.batchUpdate({
+        presentationId: presentationId,
+        requests: requests
+      }).then((createSlideResponse) => {
+        console.log(`Created slide with ID: ${createSlideResponse.result.replies[0].createSlide.objectId}`);
+        if(callback) callback(createSlideResponse);
+      });
   } catch(err) {
     document.getElementById('content').innerText = err.message;
     return;

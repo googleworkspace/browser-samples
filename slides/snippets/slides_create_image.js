@@ -43,14 +43,14 @@ function createImage(presentationId, pageId, IMAGE_URL,callback) {
   });
   // Execute the request.
   try {
-  gapi.client.slides.presentations.batchUpdate({
-    presentationId: presentationId,
-    requests: requests
-  }).then((response) => {
-    let createImageResponse = response.result.replies;
-    console.log(`Created image with ID: ${createImageResponse[0].createImage.objectId}`);
-    if(callback) callback(createImageResponse);
-  });
+      gapi.client.slides.presentations.batchUpdate({
+        presentationId: presentationId,
+        requests: requests
+      }).then((response) => {
+        let createImageResponse = response.result.replies;
+        console.log(`Created image with ID: ${createImageResponse[0].createImage.objectId}`);
+        if(callback) callback(createImageResponse);
+      });
   } catch(err) {
     document.getElementById('content').innerText = err.message;
     return;

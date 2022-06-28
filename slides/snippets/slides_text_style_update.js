@@ -75,13 +75,13 @@ function textStyleUpdate(presentationId, shapeId, callback) {
   }];
   // Execute the requests.
   try {
-  gapi.client.slides.presentations.batchUpdate({
-    presentationId: presentationId,
-    requests: requests
-  }).then((batchUpdateResponse) => {
-    console.log(`Updated the text style for shape with ID: ${shapeId}`);
-    if(callback) callback(batchUpdateResponse.result);
-  });
+      gapi.client.slides.presentations.batchUpdate({
+        presentationId: presentationId,
+        requests: requests
+      }).then((batchUpdateResponse) => {
+        console.log(`Updated the text style for shape with ID: ${shapeId}`);
+        if(callback) callback(batchUpdateResponse.result);
+      });
   } catch(err) {
     document.getElementById('content').innerText = err.message;
     return;

@@ -14,12 +14,12 @@
 // [START slides_create_presentation]
 function createPresentation(title, callback) {
   try {
-  gapi.client.slides.presentations.create({
-    title: title
-  }).then((response) => {
-    console.log(`Created presentation with ID: ${response.result.presentationId}`);
-    if(callback) callback(response);
-  });
+      gapi.client.slides.presentations.create({
+        title: title
+      }).then((response) => {
+        console.log(`Created presentation with ID: ${response.result.presentationId}`);
+        if(callback) callback(response);
+      });
   } catch(err) {
     document.getElementById('content').innerText = err.message;
     return;
