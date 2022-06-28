@@ -71,4 +71,4 @@ function conditionalFormatting(spreadsheetId, callback) {
     return;
   }
 }
-// [END sheets_conditional_formatting]
+//  [END sheets_conditional_formatting]

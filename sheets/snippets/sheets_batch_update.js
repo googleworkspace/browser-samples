@@ -47,4 +47,4 @@ function batchUpdate(spreadsheetId, title, find, replacement, callback) {
          return;
        }
   }
-// [END sheets_batch_update]
+//  [END sheets_batch_update]
