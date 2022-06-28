@@ -58,17 +58,17 @@ function conditionalFormatting(spreadsheetId, callback) {
     requests
   };
   try {
-  gapi.client.sheets.spreadsheets.batchUpdate({
-    spreadsheetId: spreadsheetId,
-    resource: body
-  }).then((response) => {
-    let result = response.result;
-    console.log(`${result.replies.length} cells updated.`);
-    if(callback) callback(response);
-  });
+      gapi.client.sheets.spreadsheets.batchUpdate({
+        spreadsheetId: spreadsheetId,
+        resource: body
+      }).then((response) => {
+        let result = response.result;
+        console.log(`${result.replies.length} cells updated.`);
+        if(callback) callback(response);
+      });
   } catch(err) {
     document.getElementById('content').innerText = err.message;
     return;
   }
 }
-// [END sheets_conditional_formatting]
+//  [END sheets_conditional_formatting]

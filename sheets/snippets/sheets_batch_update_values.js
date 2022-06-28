@@ -32,17 +32,17 @@ function batchUpdateValues(spreadsheetId, range, valueInputOption, _values, call
     valueInputOption: valueInputOption
   };
   try {
-  gapi.client.sheets.spreadsheets.values.batchUpdate({
-     spreadsheetId: spreadsheetId,
-     resource: body
-  }).then((response) => {
-    let result = response.result;
-    console.log(`${result.totalUpdatedCells} cells updated.`);
-    if(callback) callback(response);
-  });
+      gapi.client.sheets.spreadsheets.values.batchUpdate({
+         spreadsheetId: spreadsheetId,
+         resource: body
+      }).then((response) => {
+        let result = response.result;
+        console.log(`${result.totalUpdatedCells} cells updated.`);
+        if(callback) callback(response);
+      });
   } catch(err) {
     document.getElementById('content').innerText = err.message;
     return;
   }
 }
-// [END sheets_batch_update_values]
+//  [END sheets_batch_update_values]

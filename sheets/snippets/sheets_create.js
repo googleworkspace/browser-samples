@@ -14,17 +14,17 @@
 // [START sheets_create]
 function create(title, callback) {
   try {
-  gapi.client.sheets.spreadsheets.create({
-    properties: {
-      title: title
-    }
-  }).then((response) => {
-    if (callback) callback(response);
-    console.log('Spreadsheet ID: ' + response.result.spreadsheetId);
-  });
+      gapi.client.sheets.spreadsheets.create({
+        properties: {
+          title: title
+        }
+      }).then((response) => {
+        if (callback) callback(response);
+        console.log('Spreadsheet ID: ' + response.result.spreadsheetId);
+      });
   } catch(err) {
     document.getElementById('content').innerText = err.message;
     return;
   }
 }
-// [END sheets_create]
+//  [END sheets_create]
