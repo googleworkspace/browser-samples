@@ -11,6 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 function testImageMerging(done) {
     const TEMPLATE_PRESENTATION_ID = '1TWayqVbNxZ0ZjmfBg5nVhBDWSnQi7lgeglDDfIe41Sw';
     const IMAGE_URL = 'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png';
@@ -24,7 +25,6 @@ function testImageMerging(done) {
     for (let i = 0; i < response.replies.length; ++i) {
       numReplacements += response.replies[i].replaceAllShapesWithImage.occurrencesChanged;
     }
-
     done();
   });
 }

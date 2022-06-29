@@ -16,7 +16,7 @@ function testCopyPresentation(done) {
     copyPresentation(presentationId, 'My Duplicate Presentation', function(copyId) {
       assert.isNotNull(copyId);
       done();
-      // deleteFileOnCleanup(copyId);
+      //deleteFileOnCleanup(copyId);
     });
   });
 }

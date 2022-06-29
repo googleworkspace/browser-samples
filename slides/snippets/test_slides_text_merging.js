@@ -11,6 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 function testTextMerging(done) {
   const TEMPLATE_PRESENTATION_ID = '1dsYAXBA6ms6eOK-fe3ai95Wa6vUR8mMrPT4Jb0B9Wfk';
   const DATA_SPREADSHEET_ID = '1eaI4xAqR2SpC3Ysf7ExOE0JBtXUkZ5YMIYUZ3sPx9_w';
@@ -21,7 +22,6 @@ function testTextMerging(done) {
       for (var i = 0; i < response.length; ++i) {
         numReplacements += response[i].replaceAllText.occurrencesChanged;
       }
-
     });
     done();
   });
