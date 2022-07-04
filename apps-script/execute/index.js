@@ -74,8 +74,8 @@ function callScriptFunction() {
         }
       });
   } catch (err) {
-          document.getElementById('content').innerText = err.message;
-          return;
+    document.getElementById('content').innerText = err.message;
+    return;
   }
 }
 
