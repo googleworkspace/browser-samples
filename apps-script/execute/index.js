@@ -76,7 +76,7 @@ function callScriptFunction() {
   } catch (err) {
           document.getElementById('content').innerText = err.message;
           return;
-        }
+  }
 }
 
 // [END apps_script_api_execute]
