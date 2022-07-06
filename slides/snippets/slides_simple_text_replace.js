@@ -14,30 +14,30 @@
 // [START slides_simple_text_replace]
 function simpleTextReplace(presentationId, shapeId, replacementText, callback) {
   // Remove existing text in the shape, then insert new text.
-  let requests = [{
+  const requests = [{
     deleteText: {
       objectId: shapeId,
       textRange: {
-        type: 'ALL'
-      }
-    }
+        type: 'ALL',
+      },
+    },
   }, {
     insertText: {
       objectId: shapeId,
       insertionIndex: 0,
-      text: replacementText
-    }
+      text: replacementText,
+    },
   }];
   // Execute the requests.
   try {
-      gapi.client.slides.presentations.batchUpdate({
-        presentationId: presentationId,
-        requests: requests
-      }).then((batchUpdateResponse) => {
-        console.log(`Replaced text in shape with ID: ${shapeId}`)
-        if (callback) callback(batchUpdateResponse.result);
-      });
-  } catch(err) {
+    gapi.client.slides.presentations.batchUpdate({
+      presentationId: presentationId,
+      requests: requests,
+    }).then((batchUpdateResponse) => {
+      console.log(`Replaced text in shape with ID: ${shapeId}`);
+      if (callback) callback(batchUpdateResponse.result);
+    });
+  } catch (err) {
     document.getElementById('content').innerText = err.message;
     return;
   }

@@ -16,7 +16,7 @@ function testGetSpreadsheetValues(done) {
   createTestSpreadsheet(function(spreadsheetId) {
     populateValues(spreadsheetId, function(spreadsheetId) {
       getValues(spreadsheetId, 'A1:C2', function(response) {
-        let values = response.result.values;
+        const values = response.result.values;
         assert.isNotNull(values);
         assert.equal(values[0].length, 3);
         done();

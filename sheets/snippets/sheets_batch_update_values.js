@@ -20,27 +20,27 @@ function batchUpdateValues(spreadsheetId, range, valueInputOption, _values, call
     // Additional rows ...
   ];
   values = _values;
-  let data = [];
+  const data = [];
   data.push({
     range: range,
-    values: values
+    values: values,
   });
   // Additional ranges to update.
 
-  let body = {
+  const body = {
     data: data,
-    valueInputOption: valueInputOption
+    valueInputOption: valueInputOption,
   };
   try {
-      gapi.client.sheets.spreadsheets.values.batchUpdate({
-         spreadsheetId: spreadsheetId,
-         resource: body
-      }).then((response) => {
-        let result = response.result;
-        console.log(`${result.totalUpdatedCells} cells updated.`);
-        if(callback) callback(response);
-      });
-  } catch(err) {
+    gapi.client.sheets.spreadsheets.values.batchUpdate({
+      spreadsheetId: spreadsheetId,
+      resource: body,
+    }).then((response) => {
+      const result = response.result;
+      console.log(`${result.totalUpdatedCells} cells updated.`);
+      if (callback) callback(response);
+    });
+  } catch (err) {
     document.getElementById('content').innerText = err.message;
     return;
   }

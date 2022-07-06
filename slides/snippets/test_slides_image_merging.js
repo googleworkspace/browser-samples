@@ -13,11 +13,11 @@
 // limitations under the License.
 
 function testImageMerging(done) {
-    const TEMPLATE_PRESENTATION_ID = '1TWayqVbNxZ0ZjmfBg5nVhBDWSnQi7lgeglDDfIe41Sw';
-    const IMAGE_URL = 'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png';
-    const CUSTOMER_NAME = 'Fake Customer';
+  const TEMPLATE_PRESENTATION_ID = '1TWayqVbNxZ0ZjmfBg5nVhBDWSnQi7lgeglDDfIe41Sw';
+  const IMAGE_URL = 'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png';
+  const CUSTOMER_NAME = 'Fake Customer';
   imageMerging(TEMPLATE_PRESENTATION_ID, IMAGE_URL, CUSTOMER_NAME, function(response) {
-    let presentationId = response.presentationId;
+    const presentationId = response.presentationId;
     assert.isNotNull(presentationId);
 
     assert.equal(2, response.replies.length);

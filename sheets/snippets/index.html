@@ -62,17 +62,17 @@
       const API_KEY = '<YOUR_API_KEY>';
 
       // Discovery doc URL for APIs used by the quickstart
-      const  DISCOVERY_DOCS = [
-          "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest",
-          "https://sheets.googleapis.com/$discovery/rest?version=v4",
+      const DISCOVERY_DOCS = [
+        'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest',
+        'https://sheets.googleapis.com/$discovery/rest?version=v4',
       ];
 
       // Authorization scopes required by the API; multiple scopes can be
       // included, separated by spaces.
       const SCOPES = [
-        "https://www.googleapis.com/auth/drive",
-        "https://www.googleapis.com/auth/spreadsheets"
-      ];
+        'https://www.googleapis.com/auth/drive',
+        'https://www.googleapis.com/auth/spreadsheets',
+];
 
       let tokenClient;
       let gapiInited = false;
@@ -80,7 +80,7 @@
 
       document.getElementById('authorize_button').style.visibility = 'hidden';
       document.getElementById('signout_button').style.visibility = 'hidden';
-      let assert = chai.assert;
+      const assert = chai.assert;
       mocha.setup('bdd');
 
       /**
@@ -88,7 +88,7 @@
        */
       function gapiLoaded() {
         gapi.load('client', intializeGapiClient);
-       }
+      }
 
       /**
        * Callback after the API client is loaded. Loads the
@@ -112,8 +112,8 @@
           scope: SCOPES.join(' '),
           callback: '', // defined later
         });
-       gisInited = true;
-       maybeEnableButtons();
+        gisInited = true;
+        maybeEnableButtons();
       }
 
       /**
@@ -135,24 +135,23 @@
           }
           document.getElementById('signout_button').style.visibility = 'visible';
           document.getElementById('authorize_button').innerText = 'Refresh';
-        try
-        {
-         describe('Google Sheets API', function() {
-            this.timeout(10000);
-            it('should create a spreadsheet', testCreateSpreadsheet);
-            it('should batch update a spreadsheet', testBatchUpdateSpreadsheet);
-            it('should get spreadsheet values', testGetSpreadsheetValues);
-            it('should batch get spreadsheet values', testBatchGetSpreadsheetValues);
-            it('should update spreadsheet values', testUpdateSpreadsheetValues);
-            it('should batch update spreadsheet values', testBatchUpdateSpreadsheetValues);
-            it('should append values to a spreadsheet', testAppendSpreadsheetValues);
-            it('should create pivot tables', testCreatePivotTables);
-            it('should conditionally format', testConditionallyFormat);
-          });
-         } catch(err) {
-         document.getElementById('content').innerText = err.message;
-         return;
-        }
+          try {
+            describe('Google Sheets API', function() {
+              this.timeout(10000);
+              it('should create a spreadsheet', testCreateSpreadsheet);
+              it('should batch update a spreadsheet', testBatchUpdateSpreadsheet);
+              it('should get spreadsheet values', testGetSpreadsheetValues);
+              it('should batch get spreadsheet values', testBatchGetSpreadsheetValues);
+              it('should update spreadsheet values', testUpdateSpreadsheetValues);
+              it('should batch update spreadsheet values', testBatchUpdateSpreadsheetValues);
+              it('should append values to a spreadsheet', testAppendSpreadsheetValues);
+              it('should create pivot tables', testCreatePivotTables);
+              it('should conditionally format', testConditionallyFormat);
+            });
+          } catch (err) {
+            document.getElementById('content').innerText = err.message;
+            return;
+          }
           after(tearDown);
           mocha.run();
         };
@@ -165,7 +164,7 @@
           // Skip display of account chooser and consent dialog for an existing session.
           tokenClient.requestAccessToken({prompt: ''});
         }
-     }
+}
 
       /**
        *  Sign out the user upon button click.
@@ -179,7 +178,7 @@
           document.getElementById('authorize_button').innerText = 'Authorize';
           document.getElementById('signout_button').style.visibility = 'hidden';
         }
-     }
+}
 
     </script>
     <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>

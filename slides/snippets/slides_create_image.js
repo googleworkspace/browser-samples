@@ -12,14 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // [START slides_create_image]
-function createImage(presentationId, pageId, IMAGE_URL,callback) {
-  let imageUrl = IMAGE_URL;
+function createImage(presentationId, pageId, IMAGE_URL, callback) {
+  const imageUrl = IMAGE_URL;
   // Create a new image, using the supplied object ID, with content downloaded from imageUrl.
-  let requests = [];
+  const requests = [];
   const imageId = 'MyImage_02';
-  let emu4M = {
+  const emu4M = {
     magnitude: 4000000,
-    unit: 'EMU'
+    unit: 'EMU',
   };
   requests.push({
     createImage: {
@@ -29,29 +29,29 @@ function createImage(presentationId, pageId, IMAGE_URL,callback) {
         pageObjectId: pageId,
         size: {
           height: emu4M,
-          width: emu4M
+          width: emu4M,
         },
         transform: {
           scaleX: 1,
           scaleY: 1,
           translateX: 100000,
           translateY: 100000,
-          unit: 'EMU'
-        }
-      }
-    }
+          unit: 'EMU',
+        },
+      },
+    },
   });
   // Execute the request.
   try {
-      gapi.client.slides.presentations.batchUpdate({
-        presentationId: presentationId,
-        requests: requests
-      }).then((response) => {
-        let createImageResponse = response.result.replies;
-        console.log(`Created image with ID: ${createImageResponse[0].createImage.objectId}`);
-        if(callback) callback(createImageResponse);
-      });
-  } catch(err) {
+    gapi.client.slides.presentations.batchUpdate({
+      presentationId: presentationId,
+      requests: requests,
+    }).then((response) => {
+      const createImageResponse = response.result.replies;
+      console.log(`Created image with ID: ${createImageResponse[0].createImage.objectId}`);
+      if (callback) callback(createImageResponse);
+    });
+  } catch (err) {
     document.getElementById('content').innerText = err.message;
     return;
   }

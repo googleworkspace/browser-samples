@@ -13,12 +13,12 @@
 // limitations under the License.
 
 var DISCOVERY_DOCS = [
-    "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest",
-    "https://sheets.googleapis.com/$discovery/rest?version=v4",
+  'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest',
+  'https://sheets.googleapis.com/$discovery/rest?version=v4',
 ];
 var SCOPES = [
-    "https://www.googleapis.com/auth/drive",
-    "https://www.googleapis.com/auth/spreadsheets"
+  'https://www.googleapis.com/auth/drive',
+  'https://www.googleapis.com/auth/spreadsheets',
 ];
 
 // DOM
@@ -77,9 +77,9 @@ function testBatchUpdateSpreadsheet(done) {
   createTestSpreadsheet(function(spreadsheetId) {
     populateValues(spreadsheetId, function(spreadsheetId) {
       batchUpdate(spreadsheetId, 'New Title', 'Hello', 'Goodbye', function(response) {
-        var replies = response.result.replies;
+        const replies = response.result.replies;
         assert.equal(replies.length, 2);
-        var findReplaceResponse = replies[1].findReplace;
+        const findReplaceResponse = replies[1].findReplace;
         assert.equal(findReplaceResponse.occurrencesChanged, 100);
         done();
       });
@@ -90,7 +90,7 @@ function testGetSpreadsheetValues(done) {
   createTestSpreadsheet(function(spreadsheetId) {
     populateValues(spreadsheetId, function(spreadsheetId) {
       getValues(spreadsheetId, 'A1:C2', function(response) {
-        var values = response.result.values;
+        const values = response.result.values;
         assert.isNotNull(values);
         assert.equal(values[0].length, 3);
         done();
@@ -102,9 +102,9 @@ function testBatchGetSpreadsheetValues(done) {
   createTestSpreadsheet(function(spreadsheetId) {
     populateValues(spreadsheetId, function(spreadsheetId) {
       batchGetValues(spreadsheetId, ['A1:A3', 'B1:C1'], function(response) {
-        var valueRanges = response.result.valueRanges;
+        const valueRanges = response.result.valueRanges;
         assert.equal(valueRanges.length, 2);
-        var values = valueRanges[0].values;
+        const values = valueRanges[0].values;
         assert.equal(values.length, 3);
         done();
       });
@@ -114,10 +114,10 @@ function testBatchGetSpreadsheetValues(done) {
 function testUpdateSpreadsheetValues(done) {
   createTestSpreadsheet(function(spreadsheetId) {
     updateValues(spreadsheetId, 'A1:B2', 'USER_ENTERED', [
-     ['A', 'B'],
-     ['C', 'D']
+      ['A', 'B'],
+      ['C', 'D'],
     ], function(response) {
-      var result = response.result;
+      const result = response.result;
       assert.equal(result.updatedRows, 2);
       assert.equal(result.updatedColumns, 2);
       assert.equal(result.updatedCells, 4);
@@ -128,27 +128,26 @@ function testUpdateSpreadsheetValues(done) {
 function testBatchUpdateSpreadsheetValues(done) {
   createTestSpreadsheet(function(spreadsheetId) {
     batchUpdateValues(spreadsheetId, 'A1:B2', 'USER_ENTERED', [
-     ['A', 'B'],
-     ['C', 'D']
+      ['A', 'B'],
+      ['C', 'D'],
     ], function(responses) {
-      var response = responses.result.responses[0];
+      const response = responses.result.responses[0];
       assert.equal(response.updatedRows, 2);
       assert.equal(response.updatedColumns, 2);
       assert.equal(response.updatedCells, 4);
       done();
     });
   });
-
 }
 function testAppendSpreadsheetValues(done) {
   createTestSpreadsheet(function(spreadsheetId) {
     populateValues(spreadsheetId, function(spreadsheetId) {
       appendValues(spreadsheetId, 'Sheet1', 'USER_ENTERED', [
         ['A', 'B'],
-        ['C', 'D']
+        ['C', 'D'],
       ], function(response) {
         assert.equal(response.result.tableRange, 'Sheet1!A1:J10');
-        var updates = response.result.updates;
+        const updates = response.result.updates;
         assert.equal(updates.updatedRows, 2);
         assert.equal(updates.updatedColumns, 2);
         assert.equal(updates.updatedCells, 4);

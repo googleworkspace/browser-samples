@@ -13,14 +13,14 @@
 // limitations under the License.
 
 var DISCOVERY_DOCS = [
-    "https://slides.googleapis.com/$discovery/rest?version=v1",
-    "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest",
-    "https://sheets.googleapis.com/$discovery/rest?version=v4",
+  'https://slides.googleapis.com/$discovery/rest?version=v1',
+  'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest',
+  'https://sheets.googleapis.com/$discovery/rest?version=v4',
 ];
 var SCOPES = [
-    "https://www.googleapis.com/auth/drive",
-    "https://www.googleapis.com/auth/presentations",
-    "https://www.googleapis.com/auth/spreadsheets"
+  'https://www.googleapis.com/auth/drive',
+  'https://www.googleapis.com/auth/presentations',
+  'https://www.googleapis.com/auth/spreadsheets',
 ];
 
 // Constants
@@ -94,9 +94,9 @@ function testCopyPresentation(done) {
 function testCreateSlide(done) {
   createTestPresentation(function(presentationId) {
     addSlides(presentationId, 3, 'TITLE_AND_TWO_COLUMNS', function(ids) {
-      var pageId = 'my_page_id';
+      const pageId = 'my_page_id';
       createSlide(presentationId, pageId, function(response) {
-        assert.equal(pageId, response.result.replies[0].createSlide.objectId)
+        assert.equal(pageId, response.result.replies[0].createSlide.objectId);
         done();
       });
     });
@@ -105,23 +105,23 @@ function testCreateSlide(done) {
 function testCreateTextboxWithText(done) {
   createTestPresentation(function(presentationId) {
     addSlides(presentationId, 1, 'BLANK', function(ids) {
-      var pageId = ids[0];
+      const pageId = ids[0];
       createTextboxWithText(presentationId, pageId, function(response) {
         assert.equal(2, response.replies.length);
-        var boxId = response.replies[0].createShape.objectId;
+        const boxId = response.replies[0].createShape.objectId;
         assert.isNotNull(boxId);
         done();
       });
-    })
+    });
   });
 }
 function testCreateImage(done) {
   createTestPresentation(function(presentationId) {
     addSlides(presentationId, 1, 'BLANK', function(ids) {
-      var pageId = ids[0];
+      const pageId = ids[0];
       createImage(presentationId, pageId, function(response) {
         assert.equal(1, response.length);
-        var imageId = response[0].createImage.objectId;
+        const imageId = response[0].createImage.objectId;
         assert.isNotNull(imageId);
         done();
       });
@@ -132,8 +132,8 @@ function testTextMerging(done) {
   textMerging(TEMPLATE_PRESENTATION_ID, DATA_SPREADSHEET_ID, function(responses) {
     assert.equal(5, responses.length);
     responses.forEach(function(response) {
-      var numReplacements = 0;
-      for (var i = 0; i < response.length; ++i) {
+      let numReplacements = 0;
+      for (let i = 0; i < response.length; ++i) {
         numReplacements += response[i].replaceAllText.occurrencesChanged;
       }
       assert.equal(4, numReplacements);
@@ -143,11 +143,11 @@ function testTextMerging(done) {
 }
 function testImageMerging(done) {
   imageMerging(TEMPLATE_PRESENTATION_ID, IMAGE_URL, CUSTOMER_NAME, function(response) {
-    var presentationId = response.presentationId;
+    const presentationId = response.presentationId;
     assert.isNotNull(presentationId);
     assert.equal(2, response.replies.length);
-    var numReplacements = 0;
-    for (var i = 0; i < response.replies.length; ++i) {
+    let numReplacements = 0;
+    for (let i = 0; i < response.replies.length; ++i) {
       numReplacements += response.replies[i].replaceAllShapesWithImage.occurrencesChanged;
     }
     assert.equal(2, numReplacements);
@@ -157,49 +157,49 @@ function testImageMerging(done) {
 function testSimpleTextReplace(done) {
   createTestPresentation(function(presentationId) {
     addSlides(presentationId, 1, 'BLANK', function(pageIds) {
-      var pageId = pageIds[0];
+      const pageId = pageIds[0];
       createTestTextbox(presentationId, pageId, function(boxId) {
         simpleTextReplace(presentationId, boxId, 'MY NEW TEXT', function(response) {
           assert.equal(2, response.replies.length);
           done();
         });
-      })
-    })
+      });
+    });
   });
 }
 function testTextStyleUpdate(done) {
   createTestPresentation(function(presentationId) {
     addSlides(presentationId, 1, 'BLANK', function(pageIds) {
-      var pageId = pageIds[0];
+      const pageId = pageIds[0];
       createTestTextbox(presentationId, pageId, function(boxId) {
         textStyleUpdate(presentationId, boxId, function(response) {
           assert.equal(3, response.replies.length);
           done();
         });
       });
-    })
+    });
   });
 }
 function testCreateBulletedText(done) {
   createTestPresentation(function(presentationId) {
     addSlides(presentationId, 1, 'BLANK', function(pageIds) {
-      var pageId = pageIds[0];
+      const pageId = pageIds[0];
       createTestTextbox(presentationId, pageId, function(boxId) {
         createBulletedText(presentationId, boxId, function(response) {
           assert.equal(1, response.replies.length);
           done();
         });
       });
-    })
+    });
   });
 }
 function testCreateSheetsChart(done) {
   createTestPresentation(function(presentationId) {
     addSlides(presentationId, 1, 'BLANK', function(pageIds) {
-      var pageId = pageIds[0];
+      const pageId = pageIds[0];
       createSheetsChart(presentationId, pageId, DATA_SPREADSHEET_ID, CHART_ID, function(response) {
         assert.equal(1, response.replies.length);
-        var chartId = response.replies[0].createSheetsChart.objectId;
+        const chartId = response.replies[0].createSheetsChart.objectId;
         assert.isNotNull(chartId);
         done();
       });
@@ -209,7 +209,7 @@ function testCreateSheetsChart(done) {
 function testRefreshSheetsChart(done) {
   createTestPresentation(function(presentationId) {
     addSlides(presentationId, 1, 'BLANK', function(pageIds) {
-      var pageId = pageIds[0];
+      const pageId = pageIds[0];
       createTestSheetsChart(presentationId, pageId, DATA_SPREADSHEET_ID, CHART_ID, function(sheetChartId) {
         refreshSheetsChart(presentationId, sheetChartId, function(response) {
           assert.equal(1, response.replies.length);

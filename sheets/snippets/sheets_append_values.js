@@ -22,22 +22,22 @@ function appendValues(spreadsheetId, range, valueInputOption, _values, callback)
   ];
   values = _values;
   const body = {
-    values: values
+    values: values,
   };
   try {
-      gapi.client.sheets.spreadsheets.values.append({
-         spreadsheetId: spreadsheetId,
-         range: range,
-         valueInputOption: valueInputOption,
-         resource: body
-      }).then((response) => {
-        const result = response.result;
-        console.log(`${result.updates.updatedCells} cells appended.`)
-        if (callback) callback(response);
-      });
-  } catch(err) {
+    gapi.client.sheets.spreadsheets.values.append({
+      spreadsheetId: spreadsheetId,
+      range: range,
+      valueInputOption: valueInputOption,
+      resource: body,
+    }).then((response) => {
+      const result = response.result;
+      console.log(`${result.updates.updatedCells} cells appended.`);
+      if (callback) callback(response);
+    });
+  } catch (err) {
     document.getElementById('content').innerText = err.message;
     return;
   }
- }
+}
 // [END sheets_append_values]

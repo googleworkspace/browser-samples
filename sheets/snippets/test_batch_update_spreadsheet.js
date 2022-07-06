@@ -16,9 +16,9 @@ function testBatchUpdateSpreadsheet(done) {
   createTestSpreadsheet(function(spreadsheetId) {
     populateValues(spreadsheetId, function(spreadsheetId) {
       batchUpdate(spreadsheetId, 'New Title', 'Hello', 'Goodbye', function(response) {
-        let replies = response.result.replies;
+        const replies = response.result.replies;
         assert.equal(replies.length, 2);
-        let findReplaceResponse = replies[1].findReplace;
+        const findReplaceResponse = replies[1].findReplace;
         assert.equal(findReplaceResponse.occurrencesChanged, 100);
         done();
       });

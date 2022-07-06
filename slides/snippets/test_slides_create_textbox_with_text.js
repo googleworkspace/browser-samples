@@ -18,10 +18,10 @@ function testCreateTextboxWithText(done) {
       const pageId = ids[0];
       createTextboxWithText(presentationId, pageId, function(response) {
         assert.equal(2, response.replies.length);
-        let boxId = response.replies[0].createShape.objectId;
+        const boxId = response.replies[0].createShape.objectId;
         assert.isNotNull(boxId);
         done();
       });
-    })
+    });
   });
 }

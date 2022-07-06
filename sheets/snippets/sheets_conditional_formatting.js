@@ -13,60 +13,60 @@
 // limitations under the License.
 // [START sheets_conditional_formatting]
 function conditionalFormatting(spreadsheetId, callback) {
-  let myRange = {
+  const myRange = {
     sheetId: 0,
     startRowIndex: 1,
     endRowIndex: 11,
     startColumnIndex: 0,
     endColumnIndex: 4,
   };
-  let requests = [{
+  const requests = [{
     addConditionalFormatRule: {
       rule: {
-        ranges: [ myRange ],
+        ranges: [myRange],
         booleanRule: {
           condition: {
             type: 'CUSTOM_FORMULA',
-            values: [ { userEnteredValue: '=GT($D2,median($D$2:$D$11))' } ]
+            values: [{userEnteredValue: '=GT($D2,median($D$2:$D$11))'}],
           },
           format: {
-            textFormat: { foregroundColor: { red: 0.8 } }
-          }
-        }
+            textFormat: {foregroundColor: {red: 0.8}},
+          },
+        },
       },
-      index: 0
-    }
+      index: 0,
+    },
   }, {
     addConditionalFormatRule: {
       rule: {
-        ranges: [ myRange ],
+        ranges: [myRange],
         booleanRule: {
           condition: {
             type: 'CUSTOM_FORMULA',
-            values: [ { userEnteredValue: '=LT($D2,median($D$2:$D$11))' } ]
+            values: [{userEnteredValue: '=LT($D2,median($D$2:$D$11))'}],
           },
           format: {
-            backgroundColor: { red: 1, green: 0.4, blue: 0.4 }
-          }
-        }
+            backgroundColor: {red: 1, green: 0.4, blue: 0.4},
+          },
+        },
       },
-      index: 0
-    }
+      index: 0,
+    },
   }];
 
-  let body = {
-    requests
+  const body = {
+    requests,
   };
   try {
-      gapi.client.sheets.spreadsheets.batchUpdate({
-        spreadsheetId: spreadsheetId,
-        resource: body
-      }).then((response) => {
-        let result = response.result;
-        console.log(`${result.replies.length} cells updated.`);
-        if(callback) callback(response);
-      });
-  } catch(err) {
+    gapi.client.sheets.spreadsheets.batchUpdate({
+      spreadsheetId: spreadsheetId,
+      resource: body,
+    }).then((response) => {
+      const result = response.result;
+      console.log(`${result.replies.length} cells updated.`);
+      if (callback) callback(response);
+    });
+  } catch (err) {
     document.getElementById('content').innerText = err.message;
     return;
   }

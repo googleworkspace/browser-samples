@@ -15,71 +15,71 @@
 // [START sheets_pivot_tables]
 function pivotTable(spreadsheetId, callback) {
   // Create two sheets for our pivot table
-  let requests = [{
-    addSheet: {}
+  const requests = [{
+    addSheet: {},
   }, {
-    addSheet: {}
+    addSheet: {},
   }];
-  let batchUpdateRequest = {requests: requests};
+  const batchUpdateRequest = {requests: requests};
   try {
+    gapi.client.sheets.spreadsheets.batchUpdate({
+      spreadsheetId: spreadsheetId,
+      resource: batchUpdateRequest,
+    }).then((response) => {
+      const sourceSheetId = response.result.replies[0].addSheet.properties.sheetId;
+      const targetSheetId = response.result.replies[1].addSheet.properties.sheetId;
+
+      const requests = [{
+        updateCells: {
+          rows: {
+            values: [{
+              pivotTable: {
+                source: {
+                  sheetId: sourceSheetId,
+                  startRowIndex: 0,
+                  startColumnIndex: 0,
+                  endRowIndex: 20,
+                  endColumnIndex: 7,
+                },
+                rows: [{
+                  sourceColumnOffset: 1,
+                  showTotals: true,
+                  sortOrder: 'ASCENDING',
+                }],
+                columns: [{
+                  sourceColumnOffset: 4,
+                  sortOrder: 'ASCENDING',
+                  showTotals: true,
+                }],
+                values: [{
+                  summarizeFunction: 'COUNTA',
+                  sourceColumnOffset: 4,
+                }],
+                valueLayout: 'HORIZONTAL',
+              },
+            },
+            ],
+          },
+          start: {
+            sheetId: targetSheetId,
+            rowIndex: 0,
+            columnIndex: 0,
+          },
+          fields: 'pivotTable',
+        },
+      }];
+
+      const body = {
+        requests,
+      };
       gapi.client.sheets.spreadsheets.batchUpdate({
         spreadsheetId: spreadsheetId,
-        resource: batchUpdateRequest
+        resource: body,
       }).then((response) => {
-        const sourceSheetId = response.result.replies[0].addSheet.properties.sheetId;
-        const targetSheetId = response.result.replies[1].addSheet.properties.sheetId;
-
-        let requests = [{
-          updateCells: {
-            rows: {
-               values: [{
-                  pivotTable: {
-                    source: {
-                      sheetId: sourceSheetId,
-                      startRowIndex: 0,
-                      startColumnIndex: 0,
-                      endRowIndex: 20,
-                      endColumnIndex: 7
-                    },
-                    rows: [{
-                      sourceColumnOffset: 1,
-                      showTotals: true,
-                      sortOrder: 'ASCENDING',
-                    }],
-                    columns: [{
-                      sourceColumnOffset: 4,
-                      sortOrder: 'ASCENDING',
-                      showTotals: true,
-                    }],
-                    values: [{
-                      summarizeFunction: 'COUNTA',
-                      sourceColumnOffset: 4
-                    }],
-                    valueLayout: 'HORIZONTAL'
-                  }
-                }
-              ]
-            },
-            start: {
-              sheetId: targetSheetId,
-              rowIndex: 0,
-              columnIndex: 0
-            },
-            fields: 'pivotTable'
-          }
-        }];
-
-        let body = {
-          requests
-        };
-        gapi.client.sheets.spreadsheets.batchUpdate({
-          spreadsheetId: spreadsheetId,
-          resource: body
-        }).then((response) => {
-          if(callback) callback(response);
-        });
+        if (callback) callback(response);
       });
-  } catch(err) {
+    });
+  } catch (err) {
     document.getElementById('content').innerText = err.message;
     return;
   }

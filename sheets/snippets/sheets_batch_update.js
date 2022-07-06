@@ -13,38 +13,38 @@
 // limitations under the License.
 // [START sheets_batch_update]
 function batchUpdate(spreadsheetId, title, find, replacement, callback) {
-        let requests = [];
-        // Change the spreadsheet's title.
-        requests.push({
-          updateSpreadsheetProperties: {
-            properties: {
-              title: title
-            },
-            fields: 'title'
-          }
-        });
-        // Find and replace text.
-        requests.push({
-          findReplace: {
-            find: find,
-            replacement: replacement,
-            allSheets: true
-          }
-        });
-        try {
-        // Add additional requests (operations) ...
-            let batchUpdateRequest = {requests: requests}
-            gapi.client.sheets.spreadsheets.batchUpdate({
-              spreadsheetId: spreadsheetId,
-              resource: batchUpdateRequest
-            }).then((response) => {
-              let findReplaceResponse = response.result.replies[1].findReplace;
-              console.log(`${findReplaceResponse.occurrencesChanged} replacements made.`);
-              if (callback) callback(response);
-           });
-       } catch(err) {
-         document.getElementById('content').innerText = err.message;
-         return;
-       }
+  const requests = [];
+  // Change the spreadsheet's title.
+  requests.push({
+    updateSpreadsheetProperties: {
+      properties: {
+        title: title,
+      },
+      fields: 'title',
+    },
+  });
+  // Find and replace text.
+  requests.push({
+    findReplace: {
+      find: find,
+      replacement: replacement,
+      allSheets: true,
+    },
+  });
+  try {
+    // Add additional requests (operations) ...
+    const batchUpdateRequest = {requests: requests};
+    gapi.client.sheets.spreadsheets.batchUpdate({
+      spreadsheetId: spreadsheetId,
+      resource: batchUpdateRequest,
+    }).then((response) => {
+      const findReplaceResponse = response.result.replies[1].findReplace;
+      console.log(`${findReplaceResponse.occurrencesChanged} replacements made.`);
+      if (callback) callback(response);
+    });
+  } catch (err) {
+    document.getElementById('content').innerText = err.message;
+    return;
   }
+}
 //  [END sheets_batch_update]

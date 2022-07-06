@@ -15,13 +15,13 @@
 function testSimpleTextReplace(done) {
   createTestPresentation(function(presentationId) {
     addSlides(presentationId, 1, 'BLANK', function(pageIds) {
-      let pageId = pageIds[0];
+      const pageId = pageIds[0];
       createTestTextbox(presentationId, pageId, function(boxId) {
         simpleTextReplace(presentationId, boxId, 'MY NEW TEXT', function(response) {
           assert.equal(2, response.replies.length);
           done();
         });
-      })
-    })
+      });
+    });
   });
 }

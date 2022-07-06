@@ -31,17 +31,17 @@ limitations under the License.
     <script>
       // The API key obtained from the Google API Console.
       // Replace with your own API key, or your own key.
-      var API_KEY = "<YOUR_API_KEY>";
+      var API_KEY = '<YOUR_API_KEY>';
 
       // The Client ID obtained from the Google API Console. Replace with your own Client ID.
-      var CLIENT_ID = "<YOUR_CLIENT_ID>";
+      var CLIENT_ID = '<YOUR_CLIENT_ID>';
 
       // The APP ID obtained from the Google API Console. Replace with your own APP ID and
       // keep in sync with API_KEY and CLIENT_ID.
-      var APP_ID = "<YOUR_APP_ID>";
+      var APP_ID = '<YOUR_APP_ID>';
 
       // API discovery doc URL for APIs used by this example
-      var DISCOVERY_DOCS = "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest";
+      var DISCOVERY_DOCS = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
 
       // Authorization scopes required by the API; multiple scopes can be
       // included, separated by spaces.
@@ -67,8 +67,8 @@ limitations under the License.
         gapi.client.init({
           client_id: CLIENT_ID,
           discoveryDocs: [DISCOVERY_DOCS],
-          scope: SCOPES
-        }).then(function () {
+          scope: SCOPES,
+  }).then(function() {
           GoogleAuth = gapi.auth2.getAuthInstance();
           GoogleUser = GoogleAuth.currentUser.get();
           pickFileButton.style.display = 'block';
@@ -83,8 +83,8 @@ limitations under the License.
       function handlePickFileButtonClick() {
         if (!GoogleUser.hasGrantedScopes(SCOPES)) {
           GoogleUser.grant({
-            scope: SCOPES
-          }).then(displayPicker, function(err) {
+            scope: SCOPES,
+    }).then(displayPicker, function(err) {
             // Handle error/declined auth...
           });
         } else {
@@ -99,17 +99,17 @@ limitations under the License.
        */
       function displayPicker() {
         // Fetch current token
-        let authResponse = GoogleUser.getAuthResponse(true);
+        const authResponse = GoogleUser.getAuthResponse(true);
 
-        var view = new google.picker.View(google.picker.ViewId.DOCS);
-        var picker = new google.picker.PickerBuilder()
-          .enableFeature(google.picker.Feature.SUPPORT_DRIVES)
-          .setAppId(APP_ID)
-          .setOAuthToken(authResponse.access_token)
-          .addView(view)
-          .setDeveloperKey(API_KEY)
-          .setCallback(pickerCallback)
-          .build();
+        const view = new google.picker.View(google.picker.ViewId.DOCS);
+        const picker = new google.picker.PickerBuilder()
+      .enableFeature(google.picker.Feature.SUPPORT_DRIVES)
+      .setAppId(APP_ID)
+      .setOAuthToken(authResponse.access_token)
+      .addView(view)
+      .setDeveloperKey(API_KEY)
+      .setCallback(pickerCallback)
+      .build();
         picker.setVisible(true);
       }
 
@@ -118,14 +118,14 @@ limitations under the License.
        * the picked documents and from calling get on the fileId.
        */
       function pickerCallback(data) {
-        var document = data[google.picker.Response.DOCUMENTS][0];
+        const document = data[google.picker.Response.DOCUMENTS][0];
         // The following information is passed to the callback, while other has to be
         // retrieved by calling files.get() on a file (below)
-        var fileName = document[google.picker.Document.NAME];
-        var URL = document[google.picker.Document.URL];
-        var lastModifiedDate = document[google.picker.Document.LAST_EDITED_UTC];
-        var date = new Date(lastModifiedDate);
-        var fileId = document[google.picker.Document.ID];
+        const fileName = document[google.picker.Document.NAME];
+        const URL = document[google.picker.Document.URL];
+        const lastModifiedDate = document[google.picker.Document.LAST_EDITED_UTC];
+        const date = new Date(lastModifiedDate);
+        const fileId = document[google.picker.Document.ID];
 
         appendPre('Filename: ' + fileName);
         appendPre('URL: ' + URL);
@@ -134,9 +134,9 @@ limitations under the License.
         // Called to get the lastModifyingUser
         gapi.client.drive.files.get({
           'fileId': fileId,
-          'fields': 'lastModifyingUser'
-        }).then(function(response) {
-          appendPre('Last Modified User: '  + response.result.lastModifyingUser.displayName);
+          'fields': 'lastModifyingUser',
+  }).then(function(response) {
+          appendPre('Last Modified User: ' + response.result.lastModifyingUser.displayName);
         }, function(err) {
           // Handle error...
         });
@@ -146,8 +146,8 @@ limitations under the License.
        * Helper method to display content to the screen.
        */
       function appendPre(message) {
-        var pre = document.getElementById('content');
-        var textContent = document.createTextNode(message + '\n');
+        const pre = document.getElementById('content');
+        const textContent = document.createTextNode(message + '\n');
         pre.appendChild(textContent);
       }
 

@@ -17,7 +17,7 @@ function testCreateImage(done) {
     addSlides(presentationId, 1, 'BLANK', function(ids) {
       const pageId = ids[0];
       const IMAGE_URL = 'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png';
-      createImage(presentationId, pageId,IMAGE_URL, function(response) {
+      createImage(presentationId, pageId, IMAGE_URL, function(response) {
         assert.equal(1, response.length);
         const imageId = response[0].createImage.objectId;
         assert.isNotNull(imageId);

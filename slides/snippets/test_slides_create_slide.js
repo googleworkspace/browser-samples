@@ -17,7 +17,7 @@ function testCreateSlide(done) {
     addSlides(presentationId, 3, 'TITLE_AND_TWO_COLUMNS', function(ids) {
       const pageId = 'my_page_id';
       createSlide(presentationId, pageId, function(response) {
-        assert.equal(pageId, response.result.replies[0].createSlide.objectId)
+        assert.equal(pageId, response.result.replies[0].createSlide.objectId);
         done();
       });
     });

@@ -15,13 +15,13 @@
 function testCreateBulletedText(done) {
   createTestPresentation(function(presentationId) {
     addSlides(presentationId, 1, 'BLANK', function(pageIds) {
-      var pageId = pageIds[0];
+      const pageId = pageIds[0];
       createTestTextbox(presentationId, pageId, function(boxId) {
         createBulletedText(presentationId, boxId, function(response) {
           assert.equal(1, response.replies.length);
           done();
         });
       });
-    })
+    });
   });
 }

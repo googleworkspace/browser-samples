@@ -15,15 +15,14 @@
 function testBatchUpdateSpreadsheetValues(done) {
   createTestSpreadsheet(function(spreadsheetId) {
     batchUpdateValues(spreadsheetId, 'A1:B2', 'USER_ENTERED', [
-     ['A', 'B'],
-     ['C', 'D']
+      ['A', 'B'],
+      ['C', 'D'],
     ], function(responses) {
-      let response = responses.result.responses[0];
+      const response = responses.result.responses[0];
       assert.equal(response.updatedRows, 2);
       assert.equal(response.updatedColumns, 2);
       assert.equal(response.updatedCells, 4);
       done();
     });
   });
-
 }

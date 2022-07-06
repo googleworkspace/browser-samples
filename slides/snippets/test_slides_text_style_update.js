@@ -15,13 +15,13 @@
 function testTextStyleUpdate(done) {
   createTestPresentation(function(presentationId) {
     addSlides(presentationId, 1, 'BLANK', function(pageIds) {
-      var pageId = pageIds[0];
+      const pageId = pageIds[0];
       createTestTextbox(presentationId, pageId, function(boxId) {
         textStyleUpdate(presentationId, boxId, function(response) {
           assert.equal(3, response.replies.length);
           done();
         });
       });
-    })
+    });
   });
 }

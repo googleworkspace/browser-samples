@@ -15,10 +15,10 @@
 function testUpdateSpreadsheetValues(done) {
   createTestSpreadsheet(function(spreadsheetId) {
     updateValues(spreadsheetId, 'A1:B2', 'USER_ENTERED', [
-     ['A', 'B'],
-     ['C', 'D']
+      ['A', 'B'],
+      ['C', 'D'],
     ], function(response) {
-      let result = response.result;
+      const result = response.result;
       assert.equal(result.updatedRows, 2);
       assert.equal(result.updatedColumns, 2);
       assert.equal(result.updatedCells, 4);

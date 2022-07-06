@@ -20,21 +20,21 @@ function updateValues(spreadsheetId, range, valueInputOption, _values, callback)
     // Additional rows ...
   ];
   values = _values;
-  let body = {
-    values: values
+  const body = {
+    values: values,
   };
   try {
-      gapi.client.sheets.spreadsheets.values.update({
-         spreadsheetId: spreadsheetId,
-         range: range,
-         valueInputOption: valueInputOption,
-         resource: body
-      }).then((response) => {
-        let result = response.result;
-        console.log(`${result.updatedCells} cells updated.`);
-        if(callback) callback(response);
-      });
-  } catch(err) {
+    gapi.client.sheets.spreadsheets.values.update({
+      spreadsheetId: spreadsheetId,
+      range: range,
+      valueInputOption: valueInputOption,
+      resource: body,
+    }).then((response) => {
+      const result = response.result;
+      console.log(`${result.updatedCells} cells updated.`);
+      if (callback) callback(response);
+    });
+  } catch (err) {
     document.getElementById('content').innerText = err.message;
     return;
   }

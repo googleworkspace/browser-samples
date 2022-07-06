@@ -17,10 +17,10 @@ function testAppendSpreadsheetValues(done) {
     populateValues(spreadsheetId, function(spreadsheetId) {
       appendValues(spreadsheetId, 'Sheet1', 'USER_ENTERED', [
         ['A', 'B'],
-        ['C', 'D']
+        ['C', 'D'],
       ], function(response) {
         assert.equal(response.result.tableRange, 'Sheet1!A1:J10');
-        let updates = response.result.updates;
+        const updates = response.result.updates;
         assert.equal(updates.updatedRows, 2);
         assert.equal(updates.updatedColumns, 2);
         assert.equal(updates.updatedCells, 4);

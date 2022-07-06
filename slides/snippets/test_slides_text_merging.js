@@ -19,7 +19,7 @@ function testTextMerging(done) {
     assert.equal(5, responses.length);
     responses.forEach(function(response) {
       let numReplacements = 0;
-      for (var i = 0; i < response.length; ++i) {
+      for (let i = 0; i < response.length; ++i) {
         numReplacements += response[i].replaceAllText.occurrencesChanged;
       }
     });

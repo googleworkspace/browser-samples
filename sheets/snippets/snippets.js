@@ -16,8 +16,8 @@ function create(title, callback) {
   // [START sheets_create]
   gapi.client.sheets.spreadsheets.create({
     properties: {
-      title: title
-    }
+      title: title,
+    },
   }).then((response) => {
     // [START_EXCLUDE silent]
     callback(response);
@@ -29,33 +29,33 @@ function create(title, callback) {
 
 function batchUpdate(spreadsheetId, title, find, replacement, callback) {
   // [START sheets_batch_update]
-  var requests = [];
+  const requests = [];
   // Change the spreadsheet's title.
   requests.push({
     updateSpreadsheetProperties: {
       properties: {
-        title: title
+        title: title,
       },
-      fields: 'title'
-    }
+      fields: 'title',
+    },
   });
   // Find and replace text.
   requests.push({
     findReplace: {
       find: find,
       replacement: replacement,
-      allSheets: true
-    }
+      allSheets: true,
+    },
   });
   // Add additional requests (operations) ...
 
-  var batchUpdateRequest = {requests: requests}
+  const batchUpdateRequest = {requests: requests};
 
   gapi.client.sheets.spreadsheets.batchUpdate({
     spreadsheetId: spreadsheetId,
-    resource: batchUpdateRequest
+    resource: batchUpdateRequest,
   }).then((response) => {
-    var findReplaceResponse = response.result.replies[1].findReplace;
+    const findReplaceResponse = response.result.replies[1].findReplace;
     console.log(`${findReplaceResponse.occurrencesChanged} replacements made.`);
     // [START_EXCLUDE silent]
     callback(response);
@@ -68,10 +68,10 @@ function getValues(spreadsheetId, range, callback) {
   // [START sheets_get_values]
   gapi.client.sheets.spreadsheets.values.get({
     spreadsheetId: spreadsheetId,
-    range: range
+    range: range,
   }).then((response) => {
-    var result = response.result;
-    var numRows = result.values ? result.values.length : 0;
+    const result = response.result;
+    const numRows = result.values ? result.values.length : 0;
     console.log(`${numRows} rows retrieved.`);
     // [START_EXCLUDE silent]
     callback(response);
@@ -82,17 +82,17 @@ function getValues(spreadsheetId, range, callback) {
 
 function batchGetValues(spreadsheetId, _ranges, callback) {
   // [START sheets_batch_get_values]
-  var ranges = [
+  let ranges = [
     // Range names ...
   ];
   // [START_EXCLUDE silent]
   ranges = _ranges;
   // [END_EXCLUDE]
   gapi.client.sheets.spreadsheets.values.batchGet({
-     spreadsheetId: spreadsheetId,
-     ranges: ranges
+    spreadsheetId: spreadsheetId,
+    ranges: ranges,
   }).then((response) => {
-    var result = response.result;
+    const result = response.result;
     console.log(`${result.valueRanges.length} ranges retrieved.`);
     // [START_EXCLUDE silent]
     callback(response);
@@ -103,7 +103,7 @@ function batchGetValues(spreadsheetId, _ranges, callback) {
 
 function updateValues(spreadsheetId, range, valueInputOption, _values, callback) {
   // [START sheets_update_values]
-  var values = [
+  let values = [
     [
       // Cell values ...
     ],
@@ -112,16 +112,16 @@ function updateValues(spreadsheetId, range, valueInputOption, _values, callback)
   // [START_EXCLUDE silent]
   values = _values;
   // [END_EXCLUDE]
-  var body = {
-    values: values
+  const body = {
+    values: values,
   };
   gapi.client.sheets.spreadsheets.values.update({
-     spreadsheetId: spreadsheetId,
-     range: range,
-     valueInputOption: valueInputOption,
-     resource: body
+    spreadsheetId: spreadsheetId,
+    range: range,
+    valueInputOption: valueInputOption,
+    resource: body,
   }).then((response) => {
-    var result = response.result;
+    const result = response.result;
     console.log(`${result.updatedCells} cells updated.`);
     // [START_EXCLUDE silent]
     callback(response);
@@ -132,7 +132,7 @@ function updateValues(spreadsheetId, range, valueInputOption, _values, callback)
 
 function batchUpdateValues(spreadsheetId, range, valueInputOption, _values, callback) {
   // [START sheets_batch_update_values]
-  var values = [
+  let values = [
     [
       // Cell values ...
     ],
@@ -141,22 +141,22 @@ function batchUpdateValues(spreadsheetId, range, valueInputOption, _values, call
   // [START_EXCLUDE silent]
   values = _values;
   // [END_EXCLUDE]
-  var data = [];
+  const data = [];
   data.push({
     range: range,
-    values: values
+    values: values,
   });
   // Additional ranges to update.
 
-  var body = {
+  const body = {
     data: data,
-    valueInputOption: valueInputOption
+    valueInputOption: valueInputOption,
   };
   gapi.client.sheets.spreadsheets.values.batchUpdate({
-     spreadsheetId: spreadsheetId,
-     resource: body
+    spreadsheetId: spreadsheetId,
+    resource: body,
   }).then((response) => {
-    var result = response.result;
+    const result = response.result;
     console.log(`${result.totalUpdatedCells} cells updated.`);
     // [START_EXCLUDE silent]
     callback(response);
@@ -167,7 +167,7 @@ function batchUpdateValues(spreadsheetId, range, valueInputOption, _values, call
 
 function appendValues(spreadsheetId, range, valueInputOption, _values, callback) {
   // [START sheets_append_values]
-  var values = [
+  let values = [
     [
       // Cell values ...
     ],
@@ -176,17 +176,17 @@ function appendValues(spreadsheetId, range, valueInputOption, _values, callback)
   // [START_EXCLUDE silent]
   values = _values;
   // [END_EXCLUDE]
-  var body = {
-    values: values
+  const body = {
+    values: values,
   };
   gapi.client.sheets.spreadsheets.values.append({
-     spreadsheetId: spreadsheetId,
-     range: range,
-     valueInputOption: valueInputOption,
-     resource: body
+    spreadsheetId: spreadsheetId,
+    range: range,
+    valueInputOption: valueInputOption,
+    resource: body,
   }).then((response) => {
-    var result = response.result;
-    console.log(`${result.updates.updatedCells} cells appended.`)
+    const result = response.result;
+    console.log(`${result.updates.updatedCells} cells appended.`);
     // [START_EXCLUDE silent]
     callback(response);
     // [END_EXCLUDE]
@@ -197,65 +197,65 @@ function appendValues(spreadsheetId, range, valueInputOption, _values, callback)
 
 function pivotTable(spreadsheetId, callback) {
   // Create two sheets for our pivot table
-  var requests = [{
-    addSheet: {}
+  const requests = [{
+    addSheet: {},
   }, {
-    addSheet: {}
+    addSheet: {},
   }];
-  var batchUpdateRequest = {requests: requests};
+  const batchUpdateRequest = {requests: requests};
   gapi.client.sheets.spreadsheets.batchUpdate({
     spreadsheetId: spreadsheetId,
-    resource: batchUpdateRequest
+    resource: batchUpdateRequest,
   }).then((response) => {
-    var sourceSheetId = response.result.replies[0].addSheet.properties.sheetId;
-    var targetSheetId = response.result.replies[1].addSheet.properties.sheetId;
+    const sourceSheetId = response.result.replies[0].addSheet.properties.sheetId;
+    const targetSheetId = response.result.replies[1].addSheet.properties.sheetId;
     // [START sheets_pivot_tables]
-    var requests = [{
+    const requests = [{
       updateCells: {
         rows: {
-           values: [{
-              pivotTable: {
-                source: {
-                  sheetId: sourceSheetId,
-                  startRowIndex: 0,
-                  startColumnIndex: 0,
-                  endRowIndex: 20,
-                  endColumnIndex: 7
-                },
-                rows: [{
-                  sourceColumnOffset: 1,
-                  showTotals: true,
-                  sortOrder: 'ASCENDING',
-                }],
-                columns: [{
-                  sourceColumnOffset: 4,
-                  sortOrder: 'ASCENDING',
-                  showTotals: true,
-                }],
-                values: [{
-                  summarizeFunction: 'COUNTA',
-                  sourceColumnOffset: 4
-                }],
-                valueLayout: 'HORIZONTAL'
-              }
-            }
-          ]
+          values: [{
+            pivotTable: {
+              source: {
+                sheetId: sourceSheetId,
+                startRowIndex: 0,
+                startColumnIndex: 0,
+                endRowIndex: 20,
+                endColumnIndex: 7,
+              },
+              rows: [{
+                sourceColumnOffset: 1,
+                showTotals: true,
+                sortOrder: 'ASCENDING',
+              }],
+              columns: [{
+                sourceColumnOffset: 4,
+                sortOrder: 'ASCENDING',
+                showTotals: true,
+              }],
+              values: [{
+                summarizeFunction: 'COUNTA',
+                sourceColumnOffset: 4,
+              }],
+              valueLayout: 'HORIZONTAL',
+            },
+          },
+          ],
         },
         start: {
           sheetId: targetSheetId,
           rowIndex: 0,
-          columnIndex: 0
+          columnIndex: 0,
         },
-        fields: 'pivotTable'
-      }
+        fields: 'pivotTable',
+      },
     }];
 
-    var body = {
-      requests
+    const body = {
+      requests,
     };
     gapi.client.sheets.spreadsheets.batchUpdate({
       spreadsheetId: spreadsheetId,
-      resource: body
+      resource: body,
     }).then((response) => {
       // [START_EXCLUDE silent]
       callback(response);
@@ -267,55 +267,55 @@ function pivotTable(spreadsheetId, callback) {
 
 function conditionalFormatting(spreadsheetId, callback) {
   // [START sheets_conditional_formatting]
-  var myRange = {
+  const myRange = {
     sheetId: 0,
     startRowIndex: 1,
     endRowIndex: 11,
     startColumnIndex: 0,
     endColumnIndex: 4,
   };
-  var requests = [{
+  const requests = [{
     addConditionalFormatRule: {
       rule: {
-        ranges: [ myRange ],
+        ranges: [myRange],
         booleanRule: {
           condition: {
             type: 'CUSTOM_FORMULA',
-            values: [ { userEnteredValue: '=GT($D2,median($D$2:$D$11))' } ]
+            values: [{userEnteredValue: '=GT($D2,median($D$2:$D$11))'}],
           },
           format: {
-            textFormat: { foregroundColor: { red: 0.8 } }
-          }
-        }
+            textFormat: {foregroundColor: {red: 0.8}},
+          },
+        },
       },
-      index: 0
-    }
+      index: 0,
+    },
   }, {
     addConditionalFormatRule: {
       rule: {
-        ranges: [ myRange ],
+        ranges: [myRange],
         booleanRule: {
           condition: {
             type: 'CUSTOM_FORMULA',
-            values: [ { userEnteredValue: '=LT($D2,median($D$2:$D$11))' } ]
+            values: [{userEnteredValue: '=LT($D2,median($D$2:$D$11))'}],
           },
           format: {
-            backgroundColor: { red: 1, green: 0.4, blue: 0.4 }
-          }
-        }
+            backgroundColor: {red: 1, green: 0.4, blue: 0.4},
+          },
+        },
       },
-      index: 0
-    }
+      index: 0,
+    },
   }];
 
-  var body = {
-    requests
+  const body = {
+    requests,
   };
   gapi.client.sheets.spreadsheets.batchUpdate({
     spreadsheetId: spreadsheetId,
-    resource: body
+    resource: body,
   }).then((response) => {
-    var result = response.result;
+    const result = response.result;
     console.log(`${result.replies.length} cells updated.`);
     // [START_EXCLUDE silent]
     callback(response);

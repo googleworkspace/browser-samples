@@ -15,11 +15,11 @@
 function createTextboxWithText(presentationId, pageId, callback) {
   // Create a new square textbox, using the supplied element ID.
   const elementId = 'MyTextBox_01';
-  let pt350 = {
+  const pt350 = {
     magnitude: 350,
-    unit: 'PT'
+    unit: 'PT',
   };
-  let requests = [{
+  const requests = [{
     createShape: {
       objectId: elementId,
       shapeType: 'TEXT_BOX',
@@ -27,17 +27,17 @@ function createTextboxWithText(presentationId, pageId, callback) {
         pageObjectId: pageId,
         size: {
           height: pt350,
-          width: pt350
+          width: pt350,
         },
         transform: {
           scaleX: 1,
           scaleY: 1,
           translateX: 350,
           translateY: 100,
-          unit: 'PT'
-        }
-      }
-    }
+          unit: 'PT',
+        },
+      },
+    },
   },
 
   // Insert text into the box, using the supplied element ID.
@@ -45,20 +45,20 @@ function createTextboxWithText(presentationId, pageId, callback) {
     insertText: {
       objectId: elementId,
       insertionIndex: 0,
-      text: 'New Box Text Inserted!'
-    }
+      text: 'New Box Text Inserted!',
+    },
   }];
   // Execute the request.
   try {
-      gapi.client.slides.presentations.batchUpdate({
-        presentationId: presentationId,
-        requests: requests
-      }).then((createTextboxWithTextResponse) => {
-        let createShapeResponse = createTextboxWithTextResponse.result.replies[0].createShape;
-        console.log(`Created textbox with ID: ${createShapeResponse.objectId}`);
-        if(callback) callback(createTextboxWithTextResponse.result);
-      });
-  } catch(err) {
+    gapi.client.slides.presentations.batchUpdate({
+      presentationId: presentationId,
+      requests: requests,
+    }).then((createTextboxWithTextResponse) => {
+      const createShapeResponse = createTextboxWithTextResponse.result.replies[0].createShape;
+      console.log(`Created textbox with ID: ${createShapeResponse.objectId}`);
+      if (callback) callback(createTextboxWithTextResponse.result);
+    });
+  } catch (err) {
     document.getElementById('content').innerText = err.message;
     return;
   }

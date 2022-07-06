@@ -15,10 +15,10 @@
 function testCreateSheetsChart(done) {
   createTestPresentation(function(presentationId) {
     addSlides(presentationId, 1, 'BLANK', function(pageIds) {
-      let pageId = pageIds[0];
+      const pageId = pageIds[0];
       createSheetsChart(presentationId, pageId, DATA_SPREADSHEET_ID, CHART_ID, function(response) {
         assert.equal(1, response.replies.length);
-        let chartId = response.replies[0].createSheetsChart.objectId;
+        const chartId = response.replies[0].createSheetsChart.objectId;
         assert.isNotNull(chartId);
         done();
       });

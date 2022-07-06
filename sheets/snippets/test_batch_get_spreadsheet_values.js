@@ -16,9 +16,9 @@ function testBatchGetSpreadsheetValues(done) {
   createTestSpreadsheet(function(spreadsheetId) {
     populateValues(spreadsheetId, function(spreadsheetId) {
       batchGetValues(spreadsheetId, ['A1:A3', 'B1:C1'], function(response) {
-        let valueRanges = response.result.valueRanges;
+        const valueRanges = response.result.valueRanges;
         assert.equal(valueRanges.length, 2);
-        let values = valueRanges[0].values;
+        const values = valueRanges[0].values;
         assert.equal(values.length, 3);
         done();
       });

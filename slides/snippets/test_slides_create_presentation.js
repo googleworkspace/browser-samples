@@ -16,6 +16,6 @@ function testCreatePresentation(done) {
   createPresentation('Title', function(presentation) {
     assert.isNotNull(presentation);
     done();
-    //deleteFileOnCleanup(presentation.presentationId)
+    // deleteFileOnCleanup(presentation.presentationId)
   });
 }
