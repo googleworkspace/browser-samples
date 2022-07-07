@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-var filesToDelete = [];
+let filesToDelete = [];
 function deleteFileOnCleanup(fileId) {
   filesToDelete.push(fileId);
 }
@@ -25,13 +25,6 @@ function tearDown() {
     });
   }
 }
-
-function cleanup() {
-  return this.driveService.then((drive) => {
-    const deleteFile = Promise.denodeify(drive.files.delete).bind(drive.files);
-    return this.filesToDelete.map((id) => deleteFile({fileId: id}));
-  });
-};
 
 function createTestSpreadsheet(callback) {
   gapi.client.sheets.spreadsheets.create({
