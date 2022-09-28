@@ -59,14 +59,15 @@ limitations under the License.
    * Callback after api.js is loaded.
    */
   function gapiLoaded() {
-    gapi.load('picker', intializePicker);
+    gapi.load('client:picker', intializePicker);
   }
 
   /**
    * Callback after the API client is loaded. Loads the
    * discovery doc to initialize the API.
    */
-  function intializePicker() {
+  async function intializePicker() {
+    await gapi.client.load('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest');
     pickerInited = true;
     maybeEnableButtons();
   }
@@ -153,9 +154,18 @@ limitations under the License.
    * Displays the file details of the user's selection.
    * @param {object} data - Containers the user selection from the picker
    */
-  function pickerCallback(data) {
+  async function pickerCallback(data) {
     if (data.action === google.picker.Action.PICKED) {
-      document.getElementById('content').innerText = JSON.stringify(data, null, 2);
+      let text = `Picker response: \n${JSON.stringify(data, null, 2)}\n`;
+      const document = data[google.picker.Response.DOCUMENTS][0];
+      const fileId = document[google.picker.Document.ID];
+      console.log(fileId);
+      const res = await gapi.client.drive.files.get({
+          'fileId': fileId,
+          'fields': '*',
+      });
+      text += `Drive API response for first document: \n${JSON.stringify(res.result, null, 2)}\n`;
+      window.document.getElementById('content').innerText = text;
     }
   }
 </script>
