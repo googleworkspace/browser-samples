@@ -58,14 +58,14 @@ limitations under the License.
        * Callback after api.js is loaded.
        */
       function gapiLoaded() {
-        gapi.load('client', intializeGapiClient);
+        gapi.load('client', initializeGapiClient);
       }
 
       /**
        * Callback after the API client is loaded. Loads the
        * discovery doc to initialize the API.
        */
-      async function intializeGapiClient() {
+      async function initializeGapiClient() {
         await gapi.client.init({
           apiKey: API_KEY,
           discoveryDocs: [DISCOVERY_DOC],
