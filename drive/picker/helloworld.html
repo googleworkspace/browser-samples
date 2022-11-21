@@ -161,8 +161,8 @@ limitations under the License.
       const fileId = document[google.picker.Document.ID];
       console.log(fileId);
       const res = await gapi.client.drive.files.get({
-          'fileId': fileId,
-          'fields': '*',
+        'fileId': fileId,
+        'fields': '*',
       });
       text += `Drive API response for first document: \n${JSON.stringify(res.result, null, 2)}\n`;
       window.document.getElementById('content').innerText = text;

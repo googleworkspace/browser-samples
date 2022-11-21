@@ -16,12 +16,18 @@ function testRefreshSheetsChart(done) {
   createTestPresentation(function(presentationId) {
     addSlides(presentationId, 1, 'BLANK', function(pageIds) {
       const pageId = pageIds[0];
-      createTestSheetsChart(presentationId, pageId, DATA_SPREADSHEET_ID, CHART_ID, function(sheetChartId) {
-        refreshSheetsChart(presentationId, sheetChartId, function(response) {
-          assert.equal(1, response.replies.length);
-          done();
-        });
-      });
+      createTestSheetsChart(
+          presentationId,
+          pageId,
+          DATA_SPREADSHEET_ID,
+          CHART_ID,
+          function(sheetChartId) {
+            refreshSheetsChart(presentationId, sheetChartId, function(response) {
+              assert.equal(1, response.replies.length);
+              done();
+            });
+          },
+      );
     });
   });
 }
