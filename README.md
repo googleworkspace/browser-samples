@@ -1,4 +1,6 @@
-Browser samples for [Google Workspace APIs](https://developers.google.com/gsuite/) docs.
+# browser-samples
+
+Browser samples for [Google Workspace APIs](https://developers.google.com/workspace/) docs.
 
 ## APIs
 

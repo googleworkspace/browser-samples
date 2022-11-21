@@ -13,18 +13,26 @@
 // limitations under the License.
 
 function testImageMerging(done) {
-  const TEMPLATE_PRESENTATION_ID = '1TWayqVbNxZ0ZjmfBg5nVhBDWSnQi7lgeglDDfIe41Sw';
-  const IMAGE_URL = 'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png';
+  const TEMPLATE_PRESENTATION_ID =
+    '1TWayqVbNxZ0ZjmfBg5nVhBDWSnQi7lgeglDDfIe41Sw';
+  const IMAGE_URL =
+    'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png';
   const CUSTOMER_NAME = 'Fake Customer';
-  imageMerging(TEMPLATE_PRESENTATION_ID, IMAGE_URL, CUSTOMER_NAME, function(response) {
-    const presentationId = response.presentationId;
-    assert.isNotNull(presentationId);
+  imageMerging(
+      TEMPLATE_PRESENTATION_ID,
+      IMAGE_URL,
+      CUSTOMER_NAME,
+      function(response) {
+        const presentationId = response.presentationId;
+        assert.isNotNull(presentationId);
 
-    assert.equal(2, response.replies.length);
-    let numReplacements = 0;
-    for (let i = 0; i < response.replies.length; ++i) {
-      numReplacements += response.replies[i].replaceAllShapesWithImage.occurrencesChanged;
-    }
-    done();
-  });
+        assert.equal(2, response.replies.length);
+        let numReplacements = 0;
+        for (let i = 0; i < response.replies.length; ++i) {
+          numReplacements +=
+          response.replies[i].replaceAllShapesWithImage.occurrencesChanged;
+        }
+        done();
+      },
+  );
 }

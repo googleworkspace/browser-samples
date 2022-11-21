@@ -34,5 +34,6 @@ module.exports = {
       'ignoreImports': true,
       'allow': ['client_id', 'access_type', 'redirect_uris'],
     }],
+    'no-unused-vars': 'off',
   },
 };
