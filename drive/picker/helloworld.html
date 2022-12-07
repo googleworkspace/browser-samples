@@ -59,14 +59,14 @@ limitations under the License.
    * Callback after api.js is loaded.
    */
   function gapiLoaded() {
-    gapi.load('client:picker', intializePicker);
+    gapi.load('client:picker', initializePicker);
   }
 
   /**
    * Callback after the API client is loaded. Loads the
    * discovery doc to initialize the API.
    */
-  async function intializePicker() {
+  async function initializePicker() {
     await gapi.client.load('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest');
     pickerInited = true;
     maybeEnableButtons();
