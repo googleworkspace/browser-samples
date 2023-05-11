@@ -1,7 +1,7 @@
 # Google Sheets API Browser Quickstart
 
 Complete the steps described in the [quickstart instructions](
-https://developers.google.com/sheets/api/quickstart/javascript), and in about
+https://developers.google.com/sheets/api/quickstart/js), and in about
 five minutes you'll have a simple browser application that makes requests to the
 Google Sheets API.
 
