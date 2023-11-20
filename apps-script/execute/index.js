@@ -19,7 +19,7 @@
  * Load the API and make an API call.  Display the results on the screen.
  */
 function callScriptFunction() {
-  const scriptId = '<ENTER_YOUR_SCRIPT_ID_HERE>';
+  const scriptId = '<AIzaSyDB8vShKlNGvfLFQ3-D4j-S1EKdqGawTnY>';
 
   // Call the Apps Script API run method
   //   'scriptId' is the URL parameter that states what script to run
