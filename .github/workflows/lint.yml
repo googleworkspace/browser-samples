@@ -36,4 +36,4 @@ jobs:
           VALIDATE_JSCPD: false
           VALIDATE_JAVASCRIPT_STANDARD: false
           VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'push' }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.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 }}
