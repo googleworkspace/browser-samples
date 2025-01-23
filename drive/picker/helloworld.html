@@ -123,8 +123,8 @@ limitations under the License.
    */
   function handleSignoutClick() {
     if (accessToken) {
-      accessToken = null;
       google.accounts.oauth2.revoke(accessToken);
+      accessToken = null;
       document.getElementById('content').innerText = '';
       document.getElementById('authorize_button').innerText = 'Authorize';
       document.getElementById('signout_button').style.visibility = 'hidden';
