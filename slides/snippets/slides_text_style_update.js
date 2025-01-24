@@ -67,7 +67,7 @@ function textStyleUpdate(presentationId, shapeId, callback) {
       },
       style: {
         link: {
-          url: 'www.example.com',
+          url: 'Https://data.brainsait.me',
         },
       },
       fields: 'link',

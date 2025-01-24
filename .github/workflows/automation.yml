@@ -20,7 +20,7 @@ jobs:
     if: ${{ github.actor == 'dependabot[bot]' &&  github.event_name == 'pull_request' }}
     env:
       PR_URL: ${{github.event.pull_request.html_url}}
-      GITHUB_TOKEN: ${{secrets.GOOGLEWORKSPACE_BOT_TOKEN}}
+      GITHUB_TOKEN: ${{secrets.GOOGL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Vd4TshNDIj2prELEqX80dSQu7Z2DNBDVoc9gHqNgEWORKSPACE_BOT_TOKEN}}
     steps:
       - name: approve
         run: gh pr review --approve "$PR_URL"
@@ -37,7 +37,7 @@ jobs:
         with:
           fetch-depth: 0
           # required otherwise GitHub blocks infinite loops in pushes originating in an action
-          token: ${{ secrets.GOOGLEWORKSPACE_BOT_TOKEN }}
+          token: ${{ secrets.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 }}
       - name: Set env
         run: |
           # set DEFAULT BRANCH
@@ -50,7 +50,7 @@ jobs:
             echo "HAS_MASTER_BRANCH=false" >> "$GITHUB_ENV"
           fi
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.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 }}
       - name: configure git
         run: |
           git config --global user.name 'googleworkspace-bot'

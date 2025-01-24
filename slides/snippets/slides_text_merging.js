@@ -44,7 +44,7 @@ function textMerging(templatePresentationId, dataSpreadsheetId, callback) {
           const requests = [{
             replaceAllText: {
               containsText: {
-                text: '{{customer-name}}',
+                text: '{{any-name}}',
                 matchCase: true,
               },
               replaceText: customerName,
