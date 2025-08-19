@@ -17,13 +17,13 @@ limitations under the License.
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Picker API Quickstart</title>
+  <title>Google Picker API Quickstart</title>
   <meta charset="utf-8" />
 </head>
 <body>
-<p>Picker API API Quickstart</p>
+<p>Google Picker API Quickstart</p>
 
-<!--Add buttons to initiate auth sequence and sign out-->
+<!--Add buttons to initiate auth sequence and sign out.-->
 <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
 <button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
 
@@ -39,18 +39,17 @@ limitations under the License.
   // included, separated by spaces.
   const SCOPES = 'https://www.googleapis.com/auth/drive.metadata.readonly';
 
-  // TODO(developer): Set to client ID and API key from the Developer Console
+  // TODO(developer): Replace with your client ID and API key from https://console.cloud.google.com/.
   const CLIENT_ID = '<YOUR_CLIENT_ID>';
   const API_KEY = '<YOUR_API_KEY>';
 
-  // TODO(developer): Replace with your own project number from console.developers.google.com.
+  // TODO(developer): Replace with your project number from https://console.cloud.google.com/.
   const APP_ID = '<YOUR_APP_ID>';
 
   let tokenClient;
   let accessToken = null;
   let pickerInited = false;
   let gisInited = false;
-
 
   document.getElementById('authorize_button').style.visibility = 'hidden';
   document.getElementById('signout_button').style.visibility = 'hidden';
@@ -132,7 +131,7 @@ limitations under the License.
   }
 
   /**
-   *  Create and render a Picker object for searching images.
+   *  Create and render a Google Picker object for searching images.
    */
   function createPicker() {
     const view = new google.picker.View(google.picker.ViewId.DOCS);
@@ -152,11 +151,11 @@ limitations under the License.
 
   /**
    * Displays the file details of the user's selection.
-   * @param {object} data - Containers the user selection from the picker
+   * @param {object} data - Contains the user selection from the Google Picker.
    */
   async function pickerCallback(data) {
     if (data.action === google.picker.Action.PICKED) {
-      let text = `Picker response: \n${JSON.stringify(data, null, 2)}\n`;
+      let text = `Google Picker response: \n${JSON.stringify(data, null, 2)}\n`;
       const document = data[google.picker.Response.DOCUMENTS][0];
       const fileId = document[google.picker.Document.ID];
       console.log(fileId);
