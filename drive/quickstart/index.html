@@ -35,9 +35,8 @@ limitations under the License.
       /* exported handleAuthClick */
       /* exported handleSignoutClick */
 
-      // TODO(developer): Set to client ID and API key from the Developer Console
+      // TODO(developer): Set to client ID from the Developer Console
       const CLIENT_ID = '<YOUR_CLIENT_ID>';
-      const API_KEY = '<YOUR_API_KEY>';
 
       // Discovery doc URL for APIs used by the quickstart
       const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
@@ -66,7 +65,6 @@ limitations under the License.
        */
       async function initializeGapiClient() {
         await gapi.client.init({
-          apiKey: API_KEY,
           discoveryDocs: [DISCOVERY_DOC],
         });
         gapiInited = true;
