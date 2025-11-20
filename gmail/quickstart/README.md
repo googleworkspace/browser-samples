@@ -9,8 +9,16 @@ Gmail API.
 
 After following the quickstart instructions, run the sample:
 
+In your working directory, install the [http-server](https://www.npmjs.com/package/http-server) package:
+
 ```shell
-python3 -m http.server 8000
+npm install http-server
+```
+
+In your working directory, start a web server:
+
+```shell
+npx http-server -p 8000
 ```
 
 And opening the web page:
